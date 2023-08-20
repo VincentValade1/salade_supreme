@@ -1,0 +1,26 @@
+[
+    {
+        "imageUrl": "/images/serigraphie.jpg",
+        "alt": "presse de sérigraphie"
+    },
+    {
+        "imageUrl": "/images/illuCranes.jpg",
+        "alt": "Dessin de crânes"
+    },
+    {
+        "imageUrl": "/images/photoGroupe.jpg",
+        "alt": "photo de membres du collectif"
+    },
+    {
+        "imageUrl": "/images/sceno.jpg",
+        "alt": "scénographie d'un salon années soixante dix"
+    },
+    {
+        "imageUrl": "/images/Skatepark.jpg",
+        "alt": "vue aérienne d'un skatepark repaint"
+    },
+    {
+        "imageUrl": "/images/poseExt.jpg",
+        "alt": "pose d'un membre du collectif en extérieur"
+    }
+  ]

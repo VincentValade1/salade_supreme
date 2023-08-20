@@ -1,0 +1,27 @@
+header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    height: 80px;
+    padding-left: 142.8px;
+    padding-right: 147px;
+}
+
+header nav {
+    height: 27px;
+    display: flex;
+}
+
+header nav a {
+    margin-left: 45px;
+    height: 100%;
+    font-size: 18px;
+    padding-inline: 7px;
+    text-decoration: none;
+    color: #28338A;
+    /* box-shadow: 0 -10px #F8C7CD inset; */
+}
+
+header nav a.active, header nav a:hover {
+    box-shadow: 0 -10px #F8C7CD inset;
+}

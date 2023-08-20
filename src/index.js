@@ -1,6 +1,8 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
 import './index.css';
+import './fonts/black-mango-black.ttf';
+import './fonts/gotham-book.otf';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
 

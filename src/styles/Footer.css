@@ -1,0 +1,43 @@
+footer {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding-top: 41px;
+    padding-bottom: 48px;
+    height: 291px;
+    width: 100%;
+    background-color: #28338A;
+    color: #FFFFFF;
+}
+
+footer nav {
+    margin-bottom: 36.5px;
+    height: 29px;
+}
+
+footer nav a {
+    color: #FFFFFF;
+    margin-inline: 43.5px;
+    font-size: 18px;
+
+}
+
+footer span {
+    height: 27px;
+}
+
+.footer-social-div {
+    height: 25px;
+    display: flex;
+    margin-top: 32px;
+}
+
+.footer-social-div a {
+    color: #FFFFFF;
+    margin-inline: 7.62px;
+    /* font-size: 25px; */
+    /* height: 25px;
+     */
+    
+}
+

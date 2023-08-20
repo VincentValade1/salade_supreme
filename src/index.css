@@ -1,3 +1,20 @@
+:root {
+  -main-blue: #28338A;
+  -pink: #F8C7CD;
+  -dark-blue: #1F2254;
+  -white: #FFFFFF;
+}
+
+@font-face {
+  font-family: "Mango-Black";
+  src: local("black-mango-black"), url("./fonts/black-mango-black.ttf") format("truetype");
+}
+
+@font-face {
+  font-family: "Gotham-HTF-Book";
+  src: local("gotham-htf-book"), url("./fonts/gotham-htf-book.ttf") format("truetype");
+}
+
 body {
   margin: 0;
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
@@ -10,4 +27,23 @@ body {
 code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+p, span {
+  color: #FFFFFF;
+  font-family: "Gotham-HTF-Book";
+  font-size: 16px;
+}
+
+a {
+  font-family: "Mango-Black";
+  text-decoration: none;
+}
+
+img {
+  object-fit: cover;
 }
