@@ -6,6 +6,7 @@ import React, { useState, useEffect } from 'react';
 import carousselPictures from '../datas/carousselPictures.json';
 import { NavLink } from 'react-router-dom';
 // import logoGif from '../assets/logo.gif';
+import logoSalade from '../assets/logoCaroussel.png';
 
 function  Caroussel() {
     const [pictures, setPictures] = useState([]);
@@ -72,7 +73,9 @@ function  Caroussel() {
             <div className='overlay-caroussel-div'>
                 {/* <img src={logoGif} alt="gif animé du logo" /> */}
                 {/* <img src="#" alt="#" className='logo-caroussel'/> */}
-                <div className="logo-caroussel"></div>
+                <div className="logo-caroussel">
+                    <img src={logoSalade} alt="logo de salade suprême"/>
+                </div>
                 <h1>Design Global</h1>
                 <NavLink activeclassname='active' to='/projets' className='carousel-link'>Voir nos projets</NavLink>
             </div>

@@ -62,10 +62,16 @@
 }
 
 .logo-caroussel {
-    width: 200px;
-    height: 200px;
+    width: 268px;
+    height: 204px;
     margin-top: 410px;
+    margin-bottom: 16px;
     /* border: 3px solid rgb(53, 127, 39); */
+}
+
+.logo-caroussel img {
+    height: 100%;
+    width: 100%;
 }
 
 .accueil-main-div h1 {
@@ -73,13 +79,15 @@
     font-family: "Gotham-HTF-Book";
     font-size: 20px;
     font-weight: 100;
+    margin: 0;
+    margin-bottom: 255px;
 }
 
 .carousel-link {
     /* position: absolute;
     left: 50%;
     transform: translateX(-50%); */
-    margin-top: 266px;
+    /* margin-top: 266px; */
     color: #28338A;
     text-decoration: none;
     font-size: 18px;
