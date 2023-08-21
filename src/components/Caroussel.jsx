@@ -76,7 +76,7 @@ function  Caroussel() {
                 <div className="logo-caroussel">
                     <img src={logoSalade} alt="logo de salade suprême"/>
                 </div>
-                <h1>Design Global</h1>
+                <h1 className='accueil-h1'>Design Global</h1>
                 <NavLink activeclassname='active' to='/projets' className='carousel-link'>Voir nos projets</NavLink>
             </div>
 

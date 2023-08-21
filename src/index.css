@@ -47,3 +47,32 @@ a {
 img {
   object-fit: cover;
 }
+
+/* main div */
+
+.pink-border-main-div {
+  border-top: 10px solid #F8C7CD;
+}
+
+.pink-titles {
+  box-shadow: 0 -18px #F8C7CD inset;
+  color: #28338A;
+  line-height: 40px;
+  font-family: "Mango-Black";
+  font-size: 32px;
+  padding-inline: 20px;
+  margin-inline: auto;
+  margin: 71px auto auto auto;
+  width: fit-content;
+}
+
+.social-div a {
+  /* margin-inline: 7.62px; */
+  height: 25px;
+  font-size: 25px;
+  display: flex;
+}
+
+.social-div {
+  display: flex;
+}

@@ -1,6 +1,8 @@
 import { HashRouter, Routes, Route } from "react-router-dom";
 import Accueil from "../pages/Accueil";
 import Projets from "../pages/Projets";
+import SupremeVitrines from "../pages/SupremeVitrines";
+import MisterFreeze from "../pages/MisterFreeze";
 import Membres from "../pages/Membres"
 import Services from "../pages/Services";
 import Contact from "../pages/Contact";
@@ -18,6 +20,8 @@ function Router() {
             <Routes>
                 <Route exact path='/' element={<Accueil />} />
                 <Route exact path='/projets' element={<Projets />} />
+                <Route exact path='/projets/supreme-vitrines' element={<SupremeVitrines />} />
+                <Route exact path='/projets/mister-freeze' element={<MisterFreeze />} />
                 <Route exact path='/membres' element={<Membres />} />
                 <Route exact path='/services' element={<Services />} />
                 <Route exact path='/contact' element={<Contact />} />

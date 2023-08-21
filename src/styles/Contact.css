@@ -1,0 +1,109 @@
+.contact-main-div {
+    display: flex;
+    flex-direction: column;
+}
+
+.contact-map-section {
+    display: flex;
+    margin-top: 85px;
+    margin-left: 12.5%;
+    margin-right: 15%;
+}
+
+.contact-div {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+}
+
+.tel-socialmedia-div {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: flex-end;
+    margin-bottom: 49.5px;
+}
+
+.contact-main-div span {
+    color: #1D1D1B;
+}
+
+.contact-main-div .social-div a {
+    color: #F8C7CD;
+    margin-left: 15px;
+}
+
+.form-header-div {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.form-header-div span {
+    color: #878787;
+}
+
+.contact-form {
+    display: flex;
+    justify-content: flex-start;
+    flex-direction: row;
+    flex-wrap: wrap;
+    gap: 20px;
+}
+
+.contact-form input {
+    display: flex;
+    flex-grow: 1;
+    height: 47px;
+}
+
+.contact-form textarea, .contact-form input {
+    font-size: 16px;
+    font-family: "Gotham-HTF-Book";
+    padding-left: 18px;
+    background-color: #F8C7CD;
+    border: none;
+}
+
+.contact-form textarea {
+    width: 100%;
+    height: 190px;
+}
+
+.btn-submit {
+    width: 208px;
+    height: 49px;
+    border-radius: 8px;
+    background-color: #28338A;
+    border: none;
+    font-family: "Mango-Black";
+    font-size: 18px;
+    color: #FFFFFF;
+    margin-left: 69%;
+}
+
+.contact-main-div h2 {
+    margin: 0;
+    font-family: "Mango-Black";
+    font-size: 24px;
+    line-height: 48px;
+    color: #28338A;
+}
+
+.map-div {
+    padding-left: 11%;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+}
+
+.map-div span {
+    margin-bottom: 6px;
+}
+
+.map {
+    width: 100%;
+    height: 424px;
+    border: 1px solid blue;
+    margin-top: 40px;
+}

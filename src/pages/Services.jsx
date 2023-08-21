@@ -1,6 +1,8 @@
 function Services() {
     return(
-        <div></div>
+        <main className="pink-border-main-div">
+
+        </main>
     )
 }
 

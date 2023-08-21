@@ -19,7 +19,6 @@ header nav a {
     padding-inline: 7px;
     text-decoration: none;
     color: #28338A;
-    /* box-shadow: 0 -10px #F8C7CD inset; */
 }
 
 header nav a.active, header nav a:hover {

@@ -1,26 +1,26 @@
 [
     {
-        "imageUrl": "/images/serigraphie.jpg",
+        "imageUrl": "/images/1_vitrine_montauban.png",
+        "alt": "vitrine de boutique décorée de dessins de noel"
+    },
+    {
+        "imageUrl": "/images/2_Skatepark_Montauban.png",
+        "alt": "vue aérienne d'un skatepark repeint"
+    },
+    {
+        "imageUrl": "/images/3_colocation_sceno.png",
+        "alt": "scénographie d'un salon type rétro"
+    },
+    {
+        "imageUrl": "/images/4_serigraphie.png",
         "alt": "presse de sérigraphie"
     },
     {
-        "imageUrl": "/images/illuCranes.jpg",
-        "alt": "Dessin de crânes"
+        "imageUrl": "/images/5_photo_de_classe.png",
+        "alt": "pose des membres du collectif"
     },
     {
-        "imageUrl": "/images/photoGroupe.jpg",
-        "alt": "photo de membres du collectif"
-    },
-    {
-        "imageUrl": "/images/sceno.jpg",
-        "alt": "scénographie d'un salon années soixante dix"
-    },
-    {
-        "imageUrl": "/images/Skatepark.jpg",
-        "alt": "vue aérienne d'un skatepark repaint"
-    },
-    {
-        "imageUrl": "/images/poseExt.jpg",
-        "alt": "pose d'un membre du collectif en extérieur"
+        "imageUrl": "/images/6_fuckYeah_Serigraphie.png",
+        "alt": "pose d'un membre du collectif avec un des tee shirt sérigraphié"
     }
   ]

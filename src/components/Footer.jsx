@@ -1,9 +1,6 @@
 import '../styles/Footer.css';
 import { NavLink } from 'react-router-dom';
-import facebookLogo from '../assets/facebookLogo.png';
-import linkedInLogo from '../assets/linkedInLogo.png';
-import logoTwitter from '../assets/logoTwitter.png';
-import logoInstagram from '../assets/logoInstagram.png'
+import { BsFacebook, BsLinkedin, BsTwitter, BsInstagram } from 'react-icons/bs';
 
 function Footer() {
     return(
@@ -17,11 +14,11 @@ function Footer() {
                 <span>©2023 SALADE SUPREME</span>
                 <span>96 bis rue du général Bourbaki</span>
                 <span>Toulouse 31200</span>
-                <div className='footer-social-div'>
-                    <a href="https://www.facebook.com/profile.php?id=100066533031615" target="_blank" rel="noreferrer noopener" ><img src={facebookLogo} alt="lien facebook" /></a>
-                    <a href="https://www.facebook.com/profile.php?id=100066533031615" target="_blank" rel="noreferrer noopener" ><img src={linkedInLogo} alt="lien linked in" /></a>
-                    <a href="https://www.facebook.com/profile.php?id=100066533031615" target="_blank" rel="noreferrer noopener" ><img src={logoTwitter} alt="lien twitter" /></a>
-                    <a href="https://www.instagram.com/saladesupreme/" target="_blank" rel="noreferrer noopener" ><img src={logoInstagram} alt="lien instagram" /></a>
+                <div className='social-div'>
+                    <a href="https://www.facebook.com/profile.php?id=100066533031615" target="_blank" rel="noreferrer noopener" ><BsFacebook /></a>
+                    <a href="https://www.facebook.com/profile.php?id=100066533031615" target="_blank" rel="noreferrer noopener" ><BsLinkedin /></a>
+                    <a href="https://www.facebook.com/profile.php?id=100066533031615" target="_blank" rel="noreferrer noopener" ><BsTwitter /></a>
+                    <a href="https://www.instagram.com/saladesupreme/" target="_blank" rel="noreferrer noopener" ><BsInstagram /></a>
                 </div>
         </footer>
     )
