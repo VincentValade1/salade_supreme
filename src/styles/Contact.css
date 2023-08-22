@@ -8,6 +8,7 @@
     margin-top: 85px;
     margin-left: 12.5%;
     margin-right: 15%;
+    margin-bottom: 89px;
 }
 
 .contact-div {
@@ -31,6 +32,12 @@
 .contact-main-div .social-div a {
     color: #F8C7CD;
     margin-left: 15px;
+}
+
+.contact-main-div p {
+    margin: 0 21.3% 0 21.3%;
+    height: 139px;
+    text-align: center;
 }
 
 .form-header-div {
@@ -68,6 +75,7 @@
 .contact-form textarea {
     width: 100%;
     height: 190px;
+    padding-top: 14px;
 }
 
 .btn-submit {

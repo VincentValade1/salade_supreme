@@ -1,0 +1,19 @@
+[
+    {
+        "h1": "Suprême vitrines",
+        "h2": "Illustration",
+        "description": "Depuis 2020, le collectif travaille en collaboration avec la ville de Montauban. Tous les ans, plusieurs artistes ornent les vitrines des commerces pour différentes occasions (Noël, DessIngres, les 400 coups, …)",
+
+        "bannerImg": "/images/vitrine_banner.jpg",
+        "altBannerImg": "femme dessinant sur une vitrine de boutique de café",
+   
+        "img1": "/images/vitrine_img1.jpg",
+        "alt1": "dessins sur une vitrine de restaurant",
+   
+        "img2": "/images/vitrine_img2.jpg",
+        "alt2": "femme vue à travers une vitrine dessinant au feutre sur la vitrine",
+   
+        "img3": "/images/vitrine_img3.jpg",
+        "alt3": "vitrine décorée de dessins festifs vert et blanc"
+    }
+]

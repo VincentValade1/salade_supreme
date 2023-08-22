@@ -1,3 +1,90 @@
-p {
+.projet-bannerImg {
+    max-height: 628px;
+    width: 100%;
+}
+
+.projet-content {
+    margin-inline: 140px;
+    display: flex;
+    flex-direction: column;
+    padding-bottom: 90px;
+}
+
+.projet-content h1 {
+    margin-left: 0;
+}
+
+.projet-content h2 {
+    position: relative;
+    font-family: "Gotham-HTF-Book";
+    font-size: 16px;
+    margin-top: 50px;
+    margin-bottom: 32px;
+
+}
+
+.projet-content h2::before {
+    content: "";
+    position: absolute;
+    width: 275px;
+    height: 2px;
+    background-color: #F8C7CD;
+    bottom: 35px;
+}
+
+.description-projet {
     color: black;
+    font-size: 20px;
+    width: 59%;
+    margin-bottom: 111px;
+}
+
+.projet-duo-images-div {
+    display: flex;
+    gap: 15px;
+    text-align: right;
+    max-height: 690px;
+    margin-bottom: 58px;
+}
+
+.projet-duo-images-div img {
+    max-height: 628px;
+}
+
+.projet-left-image-div img {
+    width: 100%;
+}
+
+.projet-left-image-div, .projet-right-image-div {
+    display: flex;
+    flex-direction: column;
+    position: relative;
+}
+
+.projet-left-image-div::after, .projet-right-image-div::after {
+    content: "";
+    position: absolute;
+    width: 29.5%;
+    height: 2px;
+    background-color: #F8C7CD;
+    bottom: 0;
+    right: 0;
+}
+
+.projet-right-image-div img {
+    width: 100%;
+}
+
+.projet-duo-images-div p {
+    margin-top: 32px;
+    margin-bottom: 16px;
+    padding-left: 20px;
+    width: 100%;
+    font-size: 16px;
+    color: black;
+}
+
+.projet-lastImg {
+    display: flex;
+    width: 100%;
 }
