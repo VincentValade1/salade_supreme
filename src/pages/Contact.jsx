@@ -11,6 +11,7 @@ function Contact() {
     const sendEmail = (e) => {
         e.preventDefault();
     
+        // connecter email services sur email.js avec Quentin, utiliser clé .env
         emailjs.sendForm('service_annz57k', 'template_qguk1x9', form.current, 'IO6vKSDtSLpBxHqQW')
           .then((result) => {
               console.log(result.text);

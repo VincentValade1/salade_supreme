@@ -1,0 +1,11 @@
+.extra-youtube-content {
+    display: flex;
+    width: 100%;
+    height: 628px;
+    margin-bottom: 80px;
+}
+
+.extra-youtube-content iframe {
+    width: 100%;
+    height: auto;
+}

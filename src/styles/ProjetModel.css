@@ -35,8 +35,9 @@
 .description-projet {
     color: black;
     font-size: 20px;
-    width: 59%;
+    width: 70%;
     margin-bottom: 111px;
+    margin-top: 0;
 }
 
 .projet-duo-images-div {
@@ -58,6 +59,7 @@
 .projet-left-image-div, .projet-right-image-div {
     display: flex;
     flex-direction: column;
+    justify-content: space-between;
     position: relative;
 }
 

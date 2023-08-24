@@ -3,7 +3,7 @@
     position: relative;
     z-index: 9;
     /* width: 100vw ; */
-    height: 1000px;
+    height: auto;
     overflow: hidden;
 }
 
@@ -44,38 +44,51 @@
     left: 50%;
     transform: translateX(-50%);
     height: 100%;
-    width: 50%;
+    width: 16%;
+    padding-top: 10%;
+    text-align: center;
 }
 
 .logo-caroussel {
-    width: 268px;
-    height: 204px;
-    margin-top: 410px;
+    /* width: 30%; */
+    height: 25%;
+    /* margin-top: 40%; */
     margin-bottom: 16px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    
 }
 
-.logo-caroussel img {
-    height: 100%;
+.overlay-caroussel-div img {
+    /* height: 100%; */
     width: 100%;
+    margin-top: 60%
 }
 
 .accueil-h1 {
     color: white;
     font-family: "Gotham-HTF-Book";
-    font-size: 20px;
+    /* font-size: 100%; */
+    /* text-align: center; */
     font-weight: 100;
-    margin: 0;
-    margin-bottom: 255px;
+    width: 100%;
+    /* margin-bottom: 85%; */
+    font-size: clamp(1rem, 20px, 20px); 
+    
 }
 
 .carousel-link {
+    position: absolute;
+    bottom: 49px;
+    /* bottom: 5%; */
     color: #28338A;
     text-decoration: none;
     font-size: 18px;
     height: 49px;
     width: 208px;
     background-color: #ffff;
-    text-align: center;
+    /* text-align: center; */
     align-items: center;
     padding-top: 10px;
     border-radius: 8px;

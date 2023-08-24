@@ -1,0 +1,135 @@
+[
+    {
+        "vitrines": {
+            "cover": "/images/vitrines_cover.jpg",
+            "altCover": "dessins sur une vitrine de restaurant",
+            "title": "Suprême vitrines",
+            "theme": "Illustration",
+            "description": "Depuis 2020, le collectif travaille en collaboration avec la ville de Montauban. Tous les ans, plusieurs artistes ornent les vitrines des commerces pour différentes occasions (Noël, DessIngres, les 400 coups, …)",
+
+            "bannerImg": "/images/vitrine_banner.jpg",
+            "altBannerImg": "femme dessinant sur une vitrine de boutique de café",
+
+            "img1": "/images/vitrine_img1.jpg",
+            "alt1": "dessins sur une vitrine de restaurant",
+
+            "img2": "/images/vitrine_img2.jpg",
+            "alt2": "femme vue à travers une vitrine dessinant au feutre sur la vitrine",
+
+            "img3": "/images/vitrine_img3.jpg",
+            "alt3": "vitrine décorée de dessins festifs vert et blanc"
+        },
+        "misterfreeze": {
+            "cover": "/images/mister_cover.jpg",
+            "altCover": "mise en scène avec une télévision rétro",
+            "title": "Mister Freeze",
+            "theme": "Scénographie / Exposition",
+            "description": "Création d'une mini scénographie sur le thème du cabinet de curiosité au Hall 82 à Montauban pour une exposition organisée par le collectif Mister Freeze. Ce fût l'occasion de présenter différents travaux personnels de nos artistes, mais aussi de ressortir notre charrette à sérigraphie afin de proposer des tatouages éphémères sérigraphiés sur peau.",
+
+            "bannerImg": "/images/mister_banner.jpg",
+            "altBannerImg": "mise scène rétro pour une show room d'artiste exposant",
+
+            "img1": "/images/mister_img1.jpg",
+            "alt1": "artiste travaillant sur un cadre photo dans show room",
+
+            "img2": "/images/mister_img2.jpg",
+            "alt2": "concert d'un groupe dans show room",
+
+            "img3": "/images/mister_img3.jpg",
+            "alt3": "photo de groupe du collectif dans show room"
+        },
+        "colocations": {
+            "cover": "/images/coloc_banner.jpg",
+            "altCover": "cuisine rétro design",
+            "title": "Colocation(s)",
+            "theme": "Scénographie / Exposition",
+            "description": "Création d'une scénographie d'exposition pour “Colocation(s) - Notre passé et son futur” en collaboration avec la MéMo (médiathèque de Montauban) et la ville de Montauban. Cette scénographie présente des répliques d'appartements typiques des années 1970 et 2020. Le but de cette expositions était de mettre en avant comment notre passé imprègne notre quotidien tout en évoluant avec de nouvelles technologies propres à notre époque.",
+
+            "bannerImg": "/images/coloc_banner.jpg",
+            "altBannerImg": "cuisine rétro design",
+
+            "img1": "/images/coloc_img1.jpg",
+            "alt1": "scénographie salon rétro avec deux gros fauteuils en cuir",
+
+            "img2": "/images/coloc_img2.jpg",
+            "alt2": "scénographie d'une femme passant l'aspirateur dans une cuisine rétro",
+
+            "img3": "/images/coloc_img3.jpg",
+            "alt3": "vue d'ensemble d'une scénographie d'un grand appartement rétro"
+        },
+        "identite": {
+            "cover": "/images/identite_cover.jpg",
+            "altCover": "logo salade supreme sur fond rose clair",
+            "title": "Identité visuelle Salade Suprême",
+            "theme": "Graphisme",
+            "description": "Commande d'une nouvelle identité pour le collectif Salade Suprême, réalisée par notre graphiste en chef Thomas Tavernier. Création de deux déclinaisons de logo, constitution d'une charte graphique et designs de différents supports de communications (cartes de visites, cartes de vœux, …)",
+
+            "bannerImg": "/images/identite_banner.jpg",
+            "altBannerImg": "logo salade supreme sur fond rose clair",
+
+            "img1": "/images/identite_img1.jpg",
+            "alt1": "visuel indiquant les codes couleurs principales et secondaires de l'identité salade supreme",
+
+            "img2": "/images/identite_img2.jpg",
+            "alt2": "visuel indiquant les typographies de l'identité de salade supreme",
+
+            "img3": "/images/identite_img3.jpg",
+            "alt3": "visuel montrant les déclinaisons du logo de salade supreme"
+        },
+        "alphabet": {
+            "cover": "/images/alphabet_cover.jpg",
+            "altCover": "mise scène salon design au couleurs pastel",
+            "title": "Alphabet",
+            "theme": "Design d'objet / Scénographie / Photographie",
+            "description": "Mobilier conçu par le designer Quentin Lhommeau. Set design réalisé par Léa Leblanc et photographie par Lisa Macian.",
+
+            "bannerImg": "/images/alphabet_banner.jpg",
+            "altBannerImg": "mise scène salon design au couleurs pastel",
+
+            "img1": "/images/alphabet_img1.jpg",
+            "alt1": "mise en scène objet décoration design au couleurs pastel ",
+
+            "img2": "/images/alphabet_img2.jpg",
+            "alt2": "meuble à étagères en bois design avec objets décor pastel",
+
+            "img3": "/images/alphabet_img3.jpg",
+            "alt3": "mise scène salon design au couleurs pastel"
+        },
+        "ateliers": {
+            "cover": "/images/ateliers_cover.jpg",
+            "altCover": "enfants peignant sur un mur",
+            "title": "Ateliers",
+            "theme": "Cinéma d'animation / Illustration / Street Art / Photographie",
+            "description": "Le collectif propose des ateliers d'initiations et de découverte de différentes pratiques artistiques. Par le biais d'associations, de CLAE ou encore en cours particuliers, vous pouvez nous contacter directement via notre messagerie ou par téléphone pour avoir plus de renseignements sur nos conditions et nos grilles tarifaires.",
+
+            "bannerImg": "/images/ateliers_banner.jpg",
+            "altBannerImg": "membre du collectif apprenant à dessiner à une enfant",
+
+            "img1": "/images/ateliers_img1.jpg",
+            "alt1": "atelier pour enfants d'arts plastiques",
+
+            "img2": "/images/ateliers_img2.jpg",
+            "alt2": "atelier de cirque miniature pour enfants",
+
+            "img3": "/images/ateliers_img3.jpg",
+            "alt3": "atelier de photographie d'objets"
+        },
+        "fancyfuzz": {
+            "cover": "/images/fancyfuzz_cover.jpg",
+            "altCover": "chanteuse d'un groupe de musique en live dans décor rétro avec bassiste en arrière plan",
+            "title": "Fancy Fuzz",
+            "theme": "Audiovisuel",
+            "description": "Captation live vidéo et son pour deux titres du groupe Fancy Fuzz tournés dans la partie années 70 de l'exposition “Colocation(s)”. Lumière/images par Elina Barbeau et son par Thomas Hymon.",
+
+            "bannerImg": "/images/fancyfuzz_banner.jpg",
+            "altBannerImg": "bassiste et guitariste d'un groupe en live dans décor rétro",
+
+            "img1": "/images/fancyfuzz_img1.jpg",
+            "alt1": "batteur d'un groupe en live dans décor rétro",
+
+            "img2": "/images/fancyfuzz_img2.jpg",
+            "alt2": "chanteuse d'un groupe de musique en live dans décor rétro avec bassiste en arrière plan"
+        }
+    }
+]
+
