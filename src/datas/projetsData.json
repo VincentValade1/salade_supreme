@@ -39,7 +39,7 @@
             "alt3": "photo de groupe du collectif dans show room"
         },
         "colocations": {
-            "cover": "/images/coloc_banner.jpg",
+            "cover": "/images/coloc_cover.jpg",
             "altCover": "cuisine rétro design",
             "title": "Colocation(s)",
             "theme": "Scénographie / Exposition",
@@ -129,6 +129,44 @@
 
             "img2": "/images/fancyfuzz_img2.jpg",
             "alt2": "chanteuse d'un groupe de musique en live dans décor rétro avec bassiste en arrière plan"
+        },
+        "serigraphies": {
+            "cover": "/images/serigraphie_cover.jpg",
+            "altCover": "machine de sérigraphie",
+            "title": "Sérigraphies",
+            "theme": "Graphisme / Impressions",
+            "description": "Diverse collaborations entre artistes illustrateur.ice.s ou graphistes et le collectif Salade suprême pour la partie impression en sérigraphie.",
+
+            "bannerImg": "/images/serigraphie_banner.jpg",
+            "altBannerImg": "machine de sérigraphie",
+
+            "img1": "/images/serigraphie_img1.jpg",
+            "alt1": "feuilles papiers sérigraphiées suspendues sur un fil",
+
+            "img2": "/images/serigraphie_img2.jpg",
+            "alt2": "deux personnes utilisant un outil pour appliquer la peinture sur une machine de sérigraphie",
+
+            "img3": "/images/serigraphie_img3.jpg",
+            "alt3": "feuilles argentées sérigraphiées suspendues sur un fil"
+        },
+        "biennale": {
+            "cover": "/images/serigraphie_cover.jpg",
+            "altCover": "machine de sérigraphie",
+            "title": "Biennale Design(s) Verts",
+            "theme": "Impressions / Exposition",
+            "description": "Rétrospective Hayao Miyazaki réalisée au cinéma la Muse à Bressols dans le cadre de la Biennale Design(s) verts, organisée par l'Institut supérieur Couleur, Image, Design. Atelier linogravure dirigé par le collectif.",
+
+            "bannerImg": "/images/biennale_banner.jpg",
+            "altBannerImg": "texte alt",
+
+            "img1": "/images/biennale_img1.jpg",
+            "alt1": "texte alt",
+
+            "img2": "/images/biennale_img2.jpg",
+            "alt2": "texte alt",
+
+            "img3": "/images/biennale_img3.jpg",
+            "alt3": "texte alt"
         }
     }
 ]

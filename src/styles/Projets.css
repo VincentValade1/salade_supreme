@@ -1,14 +1,107 @@
-.section-projets {
+.projets-section {
     display: flex;
     flex-direction: column;
     align-items: center;
+    margin-inline: 14.6%;
 }
 
-.section-projets p {
+.projets-section p {
     color: #1D1D1B;
     font-size: 16px;
-    width: 983px;
+    margin-inline: 18%;
     text-align: center;
     margin-top: 48px;
-    
+    margin-bottom: 48px;
+}
+
+.projets-top-duo-div {
+    display: flex;
+    gap: 32px;
+}
+
+.projets-scroll-div {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+    padding-top: 52px;
+    padding-bottom: 100px;
+}
+
+.projets-scroll-div span {
+    color: #1D1D1B;
+    font-size: 14px;
+}
+
+.scroll-icon {
+    transform: rotate(180deg);
+    color: #F8C7CD;
+    font-size: 24px;
+    margin-top: 10px;
+}
+
+.projet-card {
+    max-height: 584px;
+    position: relative;
+}
+
+.projet-card img {
+    height: 100%;
+    width: 100%;
+}
+
+.projet-card-infos {
+    display: flex;
+    flex-direction: column;
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+}
+
+.projet-top-card .projet-card-infos {
+    padding-left: 65px;
+    padding-bottom: 56px;
+}
+
+.projets-six-cards-div .projet-card-infos {
+    padding-left: 41px;
+    padding-bottom: 38px;
+    padding-right: 11%;
+}
+
+.projets-six-cards-div {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    margin-bottom: 75px;
+}
+
+.projets-six-cards-div .projet-card {
+    width: 29.65%;
+    margin-top: 80px;
+}
+
+
+.projet-card h2, .projet-card h3 {
+    color: #FFFFFF;
+}
+
+.projet-top-card .projet-card-infos h2 {
+    max-width: 300px;
+}
+
+.projet-card h2 {
+    font-size: 24px;
+    line-height: 36px;
+    padding-bottom: 13px;
+    margin: 0;
+    border-bottom: 2px solid #F8C7CD;
+}
+
+.projet-card h3 {
+    font-size: 16px;
+    line-height: 18px;
+    font-family: "Gotham-HTF-Book";
+    font-weight: 100;
+    margin: 25px 0 0 0;
 }

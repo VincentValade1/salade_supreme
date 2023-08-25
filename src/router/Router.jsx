@@ -16,6 +16,8 @@ import Identite from "../pages/Identite";
 import Alphabet from "../pages/Alphabet";
 import Ateliers from "../pages/Ateliers";
 import FancyFuzz from "../pages/FancyFuzz";
+import Serigraphies from "../pages/Serigraphies";
+import Biennale from "../pages/Biennale";
 
 
 
@@ -34,6 +36,9 @@ function Router() {
                 <Route exact path='/projets/alphabet' element={<Alphabet />} />
                 <Route exact path='/projets/ateliers' element={<Ateliers />} />
                 <Route exact path='/projets/fancy-fuzz' element={<FancyFuzz />} />
+                <Route exact path='/projets/serigraphies' element={<Serigraphies />} />
+                <Route exact path='/projets/biennale' element={<Biennale />} />
+                
 
                 <Route exact path='/membres' element={<Membres />} />
                 <Route exact path='/services' element={<Services />} />

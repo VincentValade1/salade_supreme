@@ -8,7 +8,7 @@ function ProjetModel ({ className, extraContent1, extraContent2, bannerImg, altB
             <section className="projet-content">
                 <h1 className='pink-titles'>{title}</h1>
                 <h2>{theme}</h2>
-                <p className='description-projet'>{description}</p>
+                <p className='projet-description'>{description}</p>
                 {extraContent1}
                 <div className="projet-duo-images-div">
                     <div className="projet-left-image-div">

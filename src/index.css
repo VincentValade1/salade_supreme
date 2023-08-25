@@ -76,3 +76,11 @@ img {
 .social-div {
   display: flex;
 }
+
+.projet-content h2::before {
+  content: "";
+  position: absolute;
+  width: 275px;
+  height: 2px;
+  background-color: #F8C7CD;
+}

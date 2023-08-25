@@ -24,15 +24,10 @@
 }
 
 .projet-content h2::before {
-    content: "";
-    position: absolute;
-    width: 275px;
-    height: 2px;
-    background-color: #F8C7CD;
     bottom: 35px;
 }
 
-.description-projet {
+.projet-description {
     color: black;
     font-size: 20px;
     width: 70%;
