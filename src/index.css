@@ -84,3 +84,19 @@ img {
   height: 2px;
   background-color: #F8C7CD;
 }
+
+.description-pages {
+    color: #1D1D1B;
+    font-size: 16px;
+    margin-inline: 18%;
+    text-align: center;
+    margin-top: 48px;
+    margin-bottom: 48px;
+}
+
+.projets-section ,.membres-section {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  /* margin-inline: 9.6%; */
+}

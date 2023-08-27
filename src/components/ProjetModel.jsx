@@ -20,8 +20,7 @@ function ProjetModel ({ className, extraContent1, extraContent2, bannerImg, altB
                         <p>{alt2}</p>
                     </div>
                 </div>
-                {extraContent2}
-                <img className='projet-lastImg' src={img3} alt={alt3} />
+                {extraContent2 ? extraContent2 : <img className='projet-lastImg' src={img3} alt={alt3} />}
             </section>
         </main>
 

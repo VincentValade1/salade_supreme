@@ -1,17 +1,5 @@
 .projets-section {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    margin-inline: 14.6%;
-}
-
-.projets-section p {
-    color: #1D1D1B;
-    font-size: 16px;
-    margin-inline: 18%;
-    text-align: center;
-    margin-top: 48px;
-    margin-bottom: 48px;
+  margin-inline: 9.6%;
 }
 
 .projets-top-duo-div {
