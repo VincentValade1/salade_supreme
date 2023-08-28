@@ -1,4 +1,5 @@
-import { HashRouter, Routes, Route } from "react-router-dom";
+import { BrowserRouter as Routing, Routes, Route } from "react-router-dom";
+import React from "react";
 import Accueil from "../pages/Accueil";
 import Projets from "../pages/Projets";
 import Membres from "../pages/Membres"
@@ -23,7 +24,7 @@ import Biennale from "../pages/Biennale";
 
 function Router() {
     return (
-        <HashRouter>
+        <Routing>
             <ScrollToTop />
             <Header />
             <Routes>
@@ -47,7 +48,7 @@ function Router() {
                 <Route exact path='/pageError404'element={<Erreur />} />
             </Routes>
             <Footer />
-        </HashRouter>
+        </Routing>
     )
 }
 

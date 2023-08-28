@@ -22,6 +22,10 @@
     position: relative;
 }
 
+.membre-card:hover {
+    cursor: pointer;
+}
+
 .membre-card img {
     width: 230px;
     height: 230px;

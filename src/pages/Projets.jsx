@@ -28,22 +28,9 @@ function Projets() {
                     <ProjetCard link='/projets/serigraphies' cover={projetsData[0].serigraphies.cover} altCover={projetsData[0].serigraphies.altCover} title={projetsData[0].serigraphies.title} theme={projetsData[0].serigraphies.theme} />
                     <ProjetCard link='/projets/biennale' cover={projetsData[0].biennale.cover} altCover={projetsData[0].biennale.altCover} title={projetsData[0].biennale.title} theme={projetsData[0].biennale.theme} />
                 </div>
-                
-                {/* <NavLink to='/projets/supreme-vitrines'>Vitrines</NavLink>
-                <NavLink to='/projets/mister-freeze'>MisterFreeze</NavLink>
-                <NavLink to='/projets/colocations'>Colocations</NavLink>
-                <NavLink to='/projets/identite'>Identite</NavLink>
-                <NavLink to='/projets/alphabet'>Alphabet</NavLink>
-                <NavLink to='/projets/ateliers'>Ateliers</NavLink>
-                <NavLink to='/projets/fancy-fuzz'>Fancy Fuzz</NavLink>
-                <NavLink to='/projets/serigraphies'>Sérigraphies</NavLink>
-                <NavLink to='/projets/biennale'>Biénnale</NavLink>
-                 */}
             </section>
         </main>
     )
 }
 
 export default Projets;
-
-// className, link, cover, altCover, title, theme
