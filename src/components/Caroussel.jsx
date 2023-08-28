@@ -1,28 +1,21 @@
 import '../styles/Caroussel.css';
 import { FaChevronLeft, FaChevronRight } from "react-icons/fa";
-// import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-// import { faXmark } from '@fortawesome/free-solid-svg-icons'
 import React, { useState, useEffect } from 'react';
 import carousselPictures from '../datas/carousselPictures.json';
 import { NavLink } from 'react-router-dom';
-// import logoGif from '../assets/logo.gif';
 import logoSalade from '../assets/logoCaroussel.png';
 
 function  Caroussel() {
     const [pictures, setPictures] = useState([]);
     const [currentIndex, setCurrentIndex] = useState(0);
-    // const [isPopupOpen, setIsPopupOpen] = useState(false);
-
+   
     useEffect(() => {
         setPictures(carousselPictures);
     }, []);
 
     useEffect(() => {
         const interval = setInterval(() => {
-            // si la fenetre popup n'est pas ouverte, on fait défiler les images
-            
                 setCurrentIndex(prevIndex => (prevIndex + 1) % pictures.length);
-            
         }, 3000);
 
         return () => clearInterval(interval);
@@ -38,56 +31,29 @@ function  Caroussel() {
 
     const firstIndicePicture = 0;
         
-    // variable représentant la position de la dernière image du slide
     const lastIndicePicture = slideLength -1;
     
     function nextSlide() {
         setCurrentIndex(currentIndex !== lastIndicePicture ? currentIndex +1 : firstIndicePicture);
     }
 
-    // fonction pour le clic sur précédant qui set le currentIndex à -1 mais à lastIndicePicture lorsqu'on arrive sur la première image pour revenir à la dernière
     function previousSlide() {
         setCurrentIndex(currentIndex !== firstIndicePicture ? currentIndex -1 : lastIndicePicture);
     }
 
-    // fonction de l'ouverture de la fenetre popup
-    // function openPopup(e) {
-    //     e.preventDefault();
-    //     setIsPopupOpen(true);
-    // };
-    
-    // function closePopup() {
-    //     setIsPopupOpen(false);
-    // };
-
     const { imageUrl, alt } = pictures[currentIndex];
-    //  {`logo-div ${ className ? 'logo-anim' : ""}`}
+
     return (
         <section className={`slideshow ${ currentIndex ? 'active' : ""}`}>
             <img src={process.env.PUBLIC_URL + imageUrl} alt={alt} />
-            <FaChevronLeft className="arrow left" onClick={previousSlide} />
-            <FaChevronRight className="arrow right" onClick={nextSlide} />
+            <FaChevronLeft tabindex="0" aria-roledescription="fleche image précendante du carrousel d'images" className="arrow left" onClick={previousSlide} />
+            <FaChevronRight tabindex="0" aria-roledescription="fleche image suivante du carrousel d'images" className="arrow right" onClick={nextSlide} />
             <span className='bulletpoint'>{activeImageBulletPoint}/{slideLength}</span>
-            {/* <a href={link} className='carousel-link' >Voir nos projets</a> */}
-
             <div className='overlay-caroussel-div'>
-                {/* <img src={logoGif} alt="gif animé du logo" /> */}
-                {/* <img src="#" alt="#" className='logo-caroussel'/> */}
-                {/* <div className="logo-caroussel"> */}
-                    <img src={logoSalade} alt="logo de salade suprême"/>
-                    <h1 className='accueil-h1'>Design Global</h1>
-                    <NavLink activeclassname='active' to='/projets' className='carousel-link'>Voir nos projets</NavLink>
-                {/* </div> */}
+                <img tabindex="0" src={logoSalade} alt="logo de salade suprême"/>
+                <h1 tabindex="0" className='accueil-h1'>Design Global</h1>
+                <NavLink tabindex="0" aria-label="lien vers page projets" activeclassname='active' to='/projets' className='carousel-link'>Voir nos projets</NavLink>
             </div>
-
-
-            {/* {isPopupOpen && (
-                <div className="carousel-link-popup-div">
-                    <FontAwesomeIcon icon={faXmark} className="cross-pop-up" onClick={closePopup} />
-                    <h2>Popup Content</h2>
-                    <a href={link} target="_blank" rel="noreferrer noopener">Découvrez ses réseaux ici</a>
-                </div>
-            )} */}
         </section>
     );
 };

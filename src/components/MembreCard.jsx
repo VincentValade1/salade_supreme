@@ -24,31 +24,31 @@ function MembreCard({membre}) {
 
     return(
         <>
-            <div key={membre.id} className="membre-card" onMouseEnter={handleHover} onMouseLeave={handleNoHover} onClick={handleCardClick} >
+            <div tabindex="0" id='trigger' role='button' aria-labelledby={`cliquer pour plus d'infos sur ${membre.name}`} aria-haspopup="true" aria-controls='popup' aria-expanded="false" key={membre.id} className="membre-card" onMouseEnter={handleHover} onMouseLeave={handleNoHover} onClick={handleCardClick} >
                 <img src={cover} alt={`illustration du membre ${membre.name}`} />
                 <h2>{membre.name}</h2>
             </div>
 
             {isCardOpen && (
-                <div className='membre-clicked-div' onClick={handleCardClose}>
+                <div tabindex="0" id='popup' role='region' aria-labelledby="fenetre d'infos sur le membre cliqué" aria-label="cliquez n'importe où pour fermer cette fenêtre d'informations sur le membre" className='membre-clicked-div' onClick={handleCardClose}>
                     <div className="membre-opened-card">
                         <RxCross2 className="closing-cross"/>
-                        <img src={membre.portrait} alt={`portrait du membre ${membre.name}`} />
+                        <img tabindex="0" src={membre.portrait} alt={`portrait du membre ${membre.name}`} />
                         <div className="membre-opened-card-text-div">
                             <div className="membre-top-infos">
-                                <h3>{membre.name}</h3>
-                                <p>{membre.bio1}</p>
+                                <h3 tabindex="0">{membre.name}</h3>
+                                <p tabindex="0">{membre.bio1}</p>
                                 {membre.bio2 !== "" ? (
-                                    <p><br/>{membre.bio2}</p>
+                                    <p tabindex="0"><br/>{membre.bio2}</p>
                                 ) : null}
-                                <span><br/>Spécialité(s)</span>
-                                <p>{membre.specialites}</p>
+                                <span tabindex="0"><br/>Spécialité(s)</span>
+                                <p tabindex="0">{membre.specialites}</p>
                             </div>
                             {membre.links.length > 0  ? ( 
                                 <ul className='membre-links-list'>
-                                    <span>Ses réseaux:</span>
+                                    <span tabindex="0">Ses réseaux:</span>
                                     {membre.links.map((link, index) => (
-                                        <li key={index}>{link}</li>
+                                        <li tabindex="0" key={index}>{link}</li>
                                     ))}
                                 </ul>
                             ) : null}

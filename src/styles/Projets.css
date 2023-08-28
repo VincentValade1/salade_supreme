@@ -31,6 +31,7 @@
 .projet-card {
     max-height: 584px;
     position: relative;
+    background-color: black;
 }
 
 .projet-card img {

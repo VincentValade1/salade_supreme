@@ -27,7 +27,7 @@
             "description": "Création d'une mini scénographie sur le thème du cabinet de curiosité au Hall 82 à Montauban pour une exposition organisée par le collectif Mister Freeze. Ce fût l'occasion de présenter différents travaux personnels de nos artistes, mais aussi de ressortir notre charrette à sérigraphie afin de proposer des tatouages éphémères sérigraphiés sur peau.",
 
             "bannerImg": "/images/mister_banner.jpg",
-            "altBannerImg": "mise scène rétro pour une show room d'artiste exposant",
+            "altBannerImg": "mise scène rétro pour une show room d'artistes exposant",
 
             "img1": "/images/mister_img1.jpg",
             "alt1": "artiste travaillant sur un cadre photo dans show room",
@@ -106,7 +106,7 @@
             "altBannerImg": "membre du collectif apprenant à dessiner à une enfant",
 
             "img1": "/images/ateliers_img1.jpg",
-            "alt1": "atelier pour enfants d'arts plastiques",
+            "alt1": "atelier d'arts plastiques  pour enfants ",
 
             "img2": "/images/ateliers_img2.jpg",
             "alt2": "atelier de cirque miniature pour enfants",
@@ -141,10 +141,10 @@
             "altBannerImg": "machine de sérigraphie",
 
             "img1": "/images/serigraphie_img1.jpg",
-            "alt1": "feuilles papiers sérigraphiées suspendues sur un fil",
+            "alt1": "feuilles papiers sérigraphiées, suspendues sur un fil",
 
             "img2": "/images/serigraphie_img2.jpg",
-            "alt2": "deux personnes utilisant un outil pour appliquer la peinture sur une machine de sérigraphie",
+            "alt2": "deux personnes utilisant un outil pour appliquer de la peinture sur une machine de sérigraphie",
 
             "img3": "/images/serigraphie_img3.jpg",
             "alt3": "feuilles argentées sérigraphiées suspendues sur un fil"

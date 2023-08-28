@@ -4,23 +4,23 @@ function ProjetModel ({ className, extraContent1, extraContent2, bannerImg, altB
     
     return(
         <main className={className}>
-            <img className='projet-bannerImg' src={bannerImg} alt={altBannerImg}/>
+            <img tabindex="0" className='projet-bannerImg' src={bannerImg} alt={altBannerImg}/>
             <section className="projet-content">
-                <h1 className='pink-titles'>{title}</h1>
-                <h2>{theme}</h2>
-                <p className='projet-description'>{description}</p>
+                <h1 tabindex="0" className='pink-titles'>{title}</h1>
+                <h2 tabindex="0">{theme}</h2>
+                <p tabindex="0" className='projet-description'>{description}</p>
                 {extraContent1}
                 <div className="projet-duo-images-div">
                     <div className="projet-left-image-div">
-                        <img src={img1} alt={alt1} />
-                        <p>{alt1}</p>
+                        <img tabindex="0" src={img1} alt={alt1} />
+                        <p tabindex="0" >{alt1}</p>
                     </div>
                     <div className="projet-right-image-div">
-                        <img src={img2} alt={alt2} />
-                        <p>{alt2}</p>
+                        <img tabindex="0" src={img2} alt={alt2} />
+                        <p tabindex="0" >{alt2}</p>
                     </div>
                 </div>
-                {extraContent2 ? extraContent2 : <img className='projet-lastImg' src={img3} alt={alt3} />}
+                {extraContent2 ? extraContent2 : <img tabindex="0" className='projet-lastImg' src={img3} alt={alt3} />}
             </section>
         </main>
 

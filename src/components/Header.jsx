@@ -5,14 +5,14 @@ import logo from '../assets/picto-logo.png';
 function Header() {
     return (
        <header>
-           <Link to='/'>
+           <Link tabindex="0" aria-label="lien vers page accueil" to='/'>
                 <img src={logo} alt='logo accueil' className='home-logo' />
             </Link>
             <nav>
-                <NavLink activeclassname='active' to='/projets'>Projets</NavLink>
-                <NavLink activeclassname='active' to='/membres'>Membres</NavLink>
-                <NavLink activeclassname='active' to='/services'>Services</NavLink>
-                <NavLink activeclassname='active' to='/contact'>Contact</NavLink>
+                <NavLink tabindex="0" aria-label="lien vers page projets" activeclassname='active' to='/projets'>Projets</NavLink>
+                <NavLink tabindex="0" aria-label="lien vers page membres" activeclassname='active' to='/membres'>Membres</NavLink>
+                <NavLink tabindex="0" aria-label="lien vers page services" activeclassname='active' to='/services'>Services</NavLink>
+                <NavLink tabindex="0" aria-label="lien vers page contact" activeclassname='active' to='/contact'>Contact</NavLink>
             </nav>
        </header> 
     )
