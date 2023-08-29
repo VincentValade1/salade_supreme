@@ -3,9 +3,10 @@ import { FaChevronLeft, FaChevronRight } from "react-icons/fa";
 import React, { useState, useEffect } from 'react';
 import carousselPictures from '../datas/carousselPictures.json';
 import { NavLink } from 'react-router-dom';
-import logoSalade from '../assets/logoCaroussel.png';
 
 function  Caroussel() {
+    const logoSalade = process.env.PUBLIC_URL + "/images/logoCaroussel.png";
+
     const [pictures, setPictures] = useState([]);
     const [currentIndex, setCurrentIndex] = useState(0);
    
@@ -46,13 +47,13 @@ function  Caroussel() {
     return (
         <section className={`slideshow ${ currentIndex ? 'active' : ""}`}>
             <img src={process.env.PUBLIC_URL + imageUrl} alt={alt} />
-            <FaChevronLeft tabindex="0" aria-roledescription="fleche image précendante du carrousel d'images" className="arrow left" onClick={previousSlide} />
-            <FaChevronRight tabindex="0" aria-roledescription="fleche image suivante du carrousel d'images" className="arrow right" onClick={nextSlide} />
+            <FaChevronLeft tabIndex="0" aria-roledescription="fleche image précendante du carrousel d'images" className="arrow left" onClick={previousSlide} />
+            <FaChevronRight tabIndex="0" aria-roledescription="fleche image suivante du carrousel d'images" className="arrow right" onClick={nextSlide} />
             <span className='bulletpoint'>{activeImageBulletPoint}/{slideLength}</span>
             <div className='overlay-caroussel-div'>
-                <img tabindex="0" src={logoSalade} alt="logo de salade suprême"/>
-                <h1 tabindex="0" className='accueil-h1'>Design Global</h1>
-                <NavLink tabindex="0" aria-label="lien vers page projets" activeclassname='active' to='/projets' className='carousel-link'>Voir nos projets</NavLink>
+                <h1><img tabIndex="0" src={logoSalade} alt="Salade Suprême"/></h1>
+                <h2 tabIndex="0" className='accueil-h2'>Design Global</h2>
+                <NavLink tabIndex="0" aria-label="lien vers page projets" activeclassname='active' to='/projets' className='carousel-link'>Voir nos projets</NavLink>
             </div>
         </section>
     );
