@@ -1,0 +1,33 @@
+.page-erreur {
+    margin-inline: 9.6%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+}
+
+.page-erreur span, .page-erreur p {
+    font-family: "Gotham-HTF-Book";
+    color: #28338A;
+}
+
+.page-erreur span {
+    font-size: 5em;
+    margin-top: 90px;
+}
+
+.page-erreur p {
+    font-size: 30px;
+}
+
+.bouton-erreur-accueil {
+    font-size: 20px;
+    margin-top: 3%;
+    color: white;
+    padding: 15px;
+    background-color: #28338A;
+    border-radius: 8px;
+    margin-bottom: 80px;
+
+}

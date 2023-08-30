@@ -17,6 +17,13 @@
     width: 100%;
 }
 
+.slideshow button {
+    background-color: transparent;
+    outline: none;
+    border: none;
+    width: auto;
+}
+
 .arrow {
     font-size: 30px;
     width: 30px;
@@ -96,6 +103,8 @@
     font-size: 20px;
     line-height: 20px;
 }
+
+
 
 /* Responsive Slideshow Tablette */
 /* @media only screen and (max-width: 1040px) {

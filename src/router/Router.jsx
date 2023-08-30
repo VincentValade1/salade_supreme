@@ -20,8 +20,6 @@ import FancyFuzz from "../pages/FancyFuzz";
 import Serigraphies from "../pages/Serigraphies";
 import Biennale from "../pages/Biennale";
 
-
-
 function Router() {
     return (
         <Routing>

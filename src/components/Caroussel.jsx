@@ -23,7 +23,7 @@ function  Caroussel() {
     }, [pictures]);
 
     if (pictures.length === 0) {
-        return <div>Loading...</div>;
+        return <div>Aucune image disponible</div>;
     }
 
     let slideLength = pictures.length;
@@ -47,8 +47,8 @@ function  Caroussel() {
     return (
         <section className={`slideshow ${ currentIndex ? 'active' : ""}`}>
             <img src={process.env.PUBLIC_URL + imageUrl} alt={alt} />
-            <FaChevronLeft tabIndex="0" aria-roledescription="fleche image précendante du carrousel d'images" className="arrow left" onClick={previousSlide} />
-            <FaChevronRight tabIndex="0" aria-roledescription="fleche image suivante du carrousel d'images" className="arrow right" onClick={nextSlide} />
+            <button id='image précédante' tabIndex="0" aria-label='image précédante' aria-roledescription="fleche image précendante du carrousel d'images" className="arrow left" onClick={previousSlide}><FaChevronLeft /></button>
+            <button id='image suivante' tabIndex="0" aria-label='image suivante' aria-roledescription="fleche image suivante du carrousel d'images"  className="arrow right" onClick={nextSlide}><FaChevronRight /></button>
             <span className='bulletpoint'>{activeImageBulletPoint}/{slideLength}</span>
             <div className='overlay-caroussel-div'>
                 <h1><img tabIndex="0" src={logoSalade} alt="Salade Suprême"/></h1>
