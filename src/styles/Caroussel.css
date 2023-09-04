@@ -5,10 +5,12 @@
     height: auto;
     overflow: hidden;
     background-color: black;
+    
 }
 
 .slideshow img {
     width: 100vw;
+    /* transition: transform 0.5s ease; */
 }
 
 .active {

@@ -114,6 +114,12 @@
 .map {
     width: 100%;
     height: 424px;
-    border: 1px solid blue;
+    border: 8px solid #F8C7CD;
     margin-top: 40px;
+}
+
+.map iframe {
+    width: 100%;
+    height: 100%;
+    border: none;
 }
