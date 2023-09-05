@@ -52,6 +52,7 @@ img {
 
 .pink-border-main-div {
   border-top: 10px solid #F8C7CD;
+  text-align: center; 
 }
 
 .pink-titles {
@@ -59,7 +60,9 @@ img {
   color: #28338A;
   line-height: 40px;
   font-family: "Mango-Black";
-  font-size: 32px;
+  font-size: clamp(22px, 4vw, 32px);
+
+  /* font-size: 32px; */
   padding-inline: 20px;
   margin-inline: auto;
   margin: 71px auto auto auto;
@@ -87,7 +90,9 @@ img {
 
 .description-pages {
     color: #1D1D1B;
-    font-size: 16px;
+    font-size: clamp(12px, 2vw, 16px);
+
+    /* font-size: 16px; */
     margin-inline: 18%;
     text-align: center;
     margin-top: 48px;
@@ -99,4 +104,9 @@ img {
   flex-direction: column;
   align-items: center;
   /* margin-inline: 9.6%; */
+}
+
+.active {
+  transition: none;
+  /* width: fit-content; */
 }

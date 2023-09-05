@@ -3,8 +3,8 @@ header {
     align-items: center;
     justify-content: space-between;
     height: 80px;
-    padding-left: 142.8px;
-    padding-right: 147px;
+    padding-left: 7.505%;
+    padding-right: 7.725%;
 }
 
 header nav {
@@ -23,4 +23,65 @@ header nav a {
 
 header nav a.active, header nav a:hover {
     box-shadow: 0 -10px #F8C7CD inset;
+}
+
+header .active {
+    width: auto;
+    transition: none;
+}
+
+.menu-toggle {
+    display: none;
+    border: none;
+    font-size: 35px;
+    background-color: white;
+    color: #28338A;
+    transform: rotate(180deg);
+    transition: transform 0.5s ease-in-out;
+}
+
+.menu-toggle:focus {
+    transform: rotate(360deg);
+}
+
+
+@media only screen and (max-width: 1024px) {
+    header nav a:hover {
+        box-shadow: none;
+    }
+
+    .menu-toggle {
+        display: flex;
+    }
+
+    header nav {
+        display: none;
+        /* border: 2px solid blue; */
+    }
+
+    header nav a {
+        height: auto;
+        margin-inline: auto;
+        margin-bottom: 50px;
+    }
+
+    header nav.active {
+        display: flex;
+        flex-direction: column;
+        text-align: center;
+        z-index: 10;
+        position: absolute;
+        top: 80px;
+        right: 0;
+        flex-direction: column;
+        width: 200px;
+        height: 300px;
+        background-color: white;
+    }
+
+    header nav a.active {
+        height: auto;
+        box-shadow: 0 -10px #F8C7CD inset;
+
+    }
 }

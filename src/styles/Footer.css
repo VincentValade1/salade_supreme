@@ -12,7 +12,10 @@ footer {
 
 footer nav {
     margin-bottom: 36.5px;
-    height: 29px;
+    /* height: 29px; */
+    display: flex;
+    justify-content: center;
+    text-align: center;
 }
 
 footer nav a {
@@ -29,4 +32,26 @@ footer .social-div a {
     color: #FFFFFF;
     margin-top: 32px;
     margin-inline: 7.62px;
+}
+
+@media only screen and (max-width: 768px) {
+    footer {
+        height: auto;
+    }
+
+    footer nav {
+        width: 100%;
+        flex-direction: column;
+        height: auto;
+    }
+
+    footer nav a {
+        margin-inline: 5%;
+        margin-bottom: 20px;
+    }
+
+    footer .active {
+        width: auto;
+        transition: none;
+    }
 }
