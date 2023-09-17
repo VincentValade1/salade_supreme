@@ -1,10 +1,10 @@
-function ServiceCard ({ service }) {
+function ServiceCard ({ className, cover, coverAlt, title, description }) {
     return(
-        <div className="service-card">
-            <img tabIndex="0" src={service.cover} alt={service.coverAlt} />
+        <div className={`service-card ${className ? className : ''}`}>
+            <img tabIndex="0" src={cover} alt={coverAlt} />
             <div className="service-card-text-div">
-                <h2 tabIndex="0">{service.title}</h2>
-                <p tabIndex="0">{service.description}</p>
+                <h2 tabIndex="0">{title}</h2>
+                <p tabIndex="0">{description}</p>
             </div>
         </div>
     )

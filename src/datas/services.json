@@ -1,44 +1,40 @@
 [
     {
-        "id": 1,
-        "cover": "/images/service_graphisme.jpg",
-        "coverAlt": "carte de visite design",
-        "title": "GRAPHISME",
-        "description": "Notre équipe gère tout type de commande : mise en page, création d'identité visuelle (logo, charte graphique…) et de supports imprimés (cartes de visites, flyers, goodies…) et web design."
-    },
-    {
-        "id": 2,
-        "cover": "/images/service_audiovisuel.jpg",
-        "coverAlt": "chanteuse en live",
-        "title": "AUDIOVISUEL",
-        "description": "Pour tout projet institutionnel ou artistique, nous proposons différentes compétences techniques dans le champ de l'audiovisuel : réalisation de clips (animé ou PVR) , captation live (image et son), motion design, animation 2D digitale ou traditionnelle (stop motion, direct sous caméra, …). Nous pouvons également concevoir des décors et accessoires spécifiques au projet sur demande."
-    },
-    {
-        "id": 3,
-        "cover": "/images/service_streetart.jpg",
-        "coverAlt": "dessin street art",
-        "title": "STREET ART",
-        "description": "Nos artistes peuvent répondre à des commandes de fresques murales intérieures et extérieures, mais aussi d'embellissement de commerces telles que des décorations de vitrines, des confections d'ardoises ou encore des devantures."
-    },
-    {
-        "id": 4,
-        "cover": "/images/service_design.jpg",
-        "coverAlt": "objet design dans décor couleurs pastel",
-        "title": "DESIGN D'OBJET",
-        "description": "Notre bureau d'étude propose des créations de produits et mobiliers sur-mesure pour particulier ou professionnel. De l'up-cycling à l'emploie d'éco-matériaux, elle dispose de fournisseurs et de savoir-faire pour maitriser au mieux la production à petite et moyenne série."
-    },
-    {
-        "id": 5,
-        "cover": "/images/service_sceno.jpg",
-        "coverAlt": "scénographie d'un appartement rétro",
-        "title": "SCENOGRAPHIE",
-        "description": "Nous proposons de créer et aménager des espaces pour des expositions, des événements mais aussi pour des prestations scéniques ou audiovisuelles."
-    },
-    {
-        "id": 6,
-        "cover": "/images/service_atelier.jpg",
-        "coverAlt": "membre du collectif enseignant l'art plastique à une enfant",
-        "title": "ATELIERS PEDAGOGIQUES",
-        "description": "Animation d'ateliers d'initiation et de sensibilisation à différentes pratiques artistiques. Nous proposons des ateliers de découverte du cinéma d'animation, de l'illustration, de la photographie et du street art. Nos ateliers conviennent et peuvent être adaptés à toutes les tranches d'âges à partir de 6 ans."
+        "graphisme": {
+            "cover": "/images/service_graphisme.jpg",
+            "coverAlt": "carte de visite design",
+            "title": "GRAPHISME",
+            "description": "Notre équipe gère tout type de commande : mise en page, création d'identité visuelle (logo, charte graphique…) et de supports imprimés (cartes de visites, flyers, goodies…) et web design."
+        },
+        "audiovisuel": {
+            "cover": "/images/service_audiovisuel.jpg",
+            "coverAlt": "chanteuse en live",
+            "title": "AUDIOVISUEL",
+            "description": "Pour tout projet institutionnel ou artistique, nous proposons différentes compétences techniques dans le champ de l'audiovisuel : réalisation de clips (animé ou PVR) , captation live (image et son), motion design, animation 2D digitale ou traditionnelle (stop motion, direct sous caméra, …). Nous pouvons également concevoir des décors et accessoires spécifiques au projet sur demande."
+        },
+        "streetart": {
+            "cover": "/images/service_streetart.jpg",
+            "coverAlt": "dessin street art",
+            "title": "STREET ART",
+            "description": "Nos artistes peuvent répondre à des commandes de fresques murales intérieures et extérieures, mais aussi d'embellissement de commerces telles que des décorations de vitrines, des confections d'ardoises ou encore des devantures."
+        },
+        "design": {
+            "cover": "/images/service_design.jpg",
+            "coverAlt": "objet design dans décor couleurs pastel",
+            "title": "DESIGN D'OBJET",
+            "description": "Notre bureau d'étude propose des créations de produits et mobiliers sur-mesure pour particulier ou professionnel. De l'up-cycling à l'emploie d'éco-matériaux, elle dispose de fournisseurs et de savoir-faire pour maitriser au mieux la production à petite et moyenne série."
+        },
+        "scenographie": {
+            "cover": "/images/service_sceno.jpg",
+            "coverAlt": "scénographie d'un appartement rétro",
+            "title": "SCENOGRAPHIE",
+            "description": "Nous proposons de créer et aménager des espaces pour des expositions, des événements mais aussi pour des prestations scéniques ou audiovisuelles."
+        },
+        "ateliers": {
+            "cover": "/images/service_atelier.jpg",
+            "coverAlt": "membre du collectif enseignant l'art plastique à une enfant",
+            "title": "ATELIERS PEDAGOGIQUES",
+            "description": "Animation d'ateliers d'initiation et de sensibilisation à différentes pratiques artistiques. Nous proposons des ateliers de découverte du cinéma d'animation, de l'illustration, de la photographie et du street art. Nos ateliers conviennent et peuvent être adaptés à toutes les tranches d'âges à partir de 6 ans."
+        }  
     }
 ]

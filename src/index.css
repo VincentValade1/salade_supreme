@@ -24,6 +24,10 @@ body {
   -moz-osx-font-smoothing: grayscale;
 }
 
+main {
+  padding-top: 70px;
+}
+
 code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
@@ -50,9 +54,13 @@ img {
 
 /* main div */
 
-.pink-border-main-div {
-  border-top: 10px solid #F8C7CD;
-  text-align: center; 
+.pink-border-main-div::before {
+  content: "";
+  position: fixed;
+  z-index: 25;
+  height: 10px;
+  width: 100vw;
+  background-color: #F8C7CD;
 }
 
 .pink-titles {
@@ -61,16 +69,12 @@ img {
   line-height: 40px;
   font-family: "Mango-Black";
   font-size: clamp(22px, 4vw, 32px);
-
-  /* font-size: 32px; */
   padding-inline: 20px;
-  margin-inline: auto;
   margin: 71px auto auto auto;
   width: fit-content;
 }
 
 .social-div a {
-  /* margin-inline: 7.62px; */
   height: 25px;
   font-size: 25px;
   display: flex;
@@ -91,8 +95,6 @@ img {
 .description-pages {
     color: #1D1D1B;
     font-size: clamp(12px, 2vw, 16px);
-
-    /* font-size: 16px; */
     margin-inline: 18%;
     text-align: center;
     margin-top: 48px;
@@ -102,11 +104,18 @@ img {
 .projets-section ,.membres-section {
   display: flex;
   flex-direction: column;
-  align-items: center;
-  /* margin-inline: 9.6%; */
 }
 
 .active {
   transition: none;
-  /* width: fit-content; */
+}
+
+@media only screen and (max-width: 768px) {
+  .description-pages {
+    margin-inline: 5%;
+  }
+
+  .pink-titles {
+    margin-top: 40px;
+  }
 }

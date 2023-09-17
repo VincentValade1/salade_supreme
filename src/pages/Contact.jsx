@@ -12,7 +12,7 @@ function Contact() {
         e.preventDefault();
     
         // connecter email services sur email.js avec Quentin, utiliser clé .env
-        emailjs.sendForm('service_annz57k', 'template_qguk1x9', form.current, 'IO6vKSDtSLpBxHqQW')
+        emailjs.sendForm('service_z849imd', 'template_6zs4w09', form.current, '9_VmHf0637H0rqZ24')
           .then((result) => {
               console.log(result.text);
           }, (error) => {

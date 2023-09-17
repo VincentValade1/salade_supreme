@@ -7,7 +7,7 @@ function Identite() {
         <>
             {projetsData.map(( data ) =>
                 (
-                    <ProjetModel key={data.identite.title} bannerImg={data.identite.bannerImg} altBannerImg={data.identite.altBannerImg} title={data.identite.title} theme={data.identite.theme} description={data.identite.description} img1={data.identite.img1} alt1={data.identite.alt1} img2={data.identite.img2} alt2={data.identite.alt2} />
+                    <ProjetModel key={data.identite.title} bannerImg={data.identite.bannerImg} altBannerImg={data.identite.altBannerImg} title={data.identite.title} theme={data.identite.theme} description={data.identite.description} img1={data.identite.img1} alt1={data.identite.alt1} img2={data.identite.img2} alt2={data.identite.alt2} img3={data.identite.img3} alt3={data.identite.alt3}/>
                 )
             )}
         </>

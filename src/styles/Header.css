@@ -1,10 +1,16 @@
 header {
     display: flex;
+    position: fixed;
+    top: 0;
     align-items: center;
+    z-index: 20;
+    background-color: white;
+    width: 100vw;
     justify-content: space-between;
-    height: 80px;
+    height: 70px;
     padding-left: 7.505%;
     padding-right: 7.725%;
+    /* border-bottom: 10px solid #F8C7CD; */
 }
 
 header nav {
@@ -21,13 +27,22 @@ header nav a {
     color: #28338A;
 }
 
-header nav a.active, header nav a:hover {
+.logo-accueil {
+    width: 50px;
+    height: 50.1px;
+}
+
+.logo-accueil img {
+    width: 100%;
+}
+
+header nav a.active-toggle-menu {
     box-shadow: 0 -10px #F8C7CD inset;
 }
 
-header .active {
+header .active-toggle-menu {
     width: auto;
-    transition: none;
+    transition: all 0.5s;
 }
 
 .menu-toggle {
@@ -65,21 +80,19 @@ header .active {
         margin-bottom: 50px;
     }
 
-    header nav.active {
+    header nav.active-toggle-menu {
         display: flex;
         flex-direction: column;
         text-align: center;
-        z-index: 10;
+        z-index: 20;
         position: absolute;
         top: 80px;
-        right: 0;
-        flex-direction: column;
-        width: 200px;
-        height: 300px;
+        width: 100vw;
+        height: 100vh;
         background-color: white;
     }
 
-    header nav a.active {
+    header nav a.active-toggle-menu {
         height: auto;
         box-shadow: 0 -10px #F8C7CD inset;
 
