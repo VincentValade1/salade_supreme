@@ -27,6 +27,15 @@ header nav a {
     color: #28338A;
 }
 
+header nav a:hover {
+    box-shadow: 0 -10px #F8C7CD inset;
+    transition: 0.2s ease;
+}
+
+header nav a.active {
+    box-shadow: 0 -10px #F8C7CD inset;
+}
+
 .logo-accueil {
     width: 50px;
     height: 50.1px;
@@ -34,15 +43,6 @@ header nav a {
 
 .logo-accueil img {
     width: 100%;
-}
-
-header nav a.active-toggle-menu {
-    box-shadow: 0 -10px #F8C7CD inset;
-}
-
-header .active-toggle-menu {
-    width: auto;
-    transition: all 0.5s;
 }
 
 .menu-toggle {
@@ -59,42 +59,85 @@ header .active-toggle-menu {
     transform: rotate(360deg);
 }
 
-
 @media only screen and (max-width: 1024px) {
     header nav a:hover {
         box-shadow: none;
     }
 
+    header nav a.active {
+        transition: none;
+    }
+}
+
+@media only screen and (max-width: 768px) {
+    .logo-accueil {
+        width: 35px;
+        height: 35.06px;
+    }
+    
     .menu-toggle {
         display: flex;
     }
 
+    .menu-toggle-link:hover {
+        box-shadow: 0 -15px #F8C7CD inset;
+    }
     header nav {
         display: none;
-        /* border: 2px solid blue; */
     }
 
-    header nav a {
-        height: auto;
+    .menu-toggle-link {
+        font-size: 24px;
         margin-inline: auto;
         margin-bottom: 50px;
+        box-shadow: 0 -15px #F8C7CD inset;
+        height: 36px;
+    }
+
+    .menu-toggle-link.active {
+        box-shadow: 0 -15px #F8C7CD inset;
+        width: auto;
     }
 
     header nav.active-toggle-menu {
         display: flex;
         flex-direction: column;
+        justify-content: space-between;
         text-align: center;
         z-index: 20;
         position: absolute;
-        top: 80px;
-        width: 100vw;
-        height: 100vh;
+        top: 70px;
+        left: 0;
+        width: 100%;
+        height: calc(100vh - 70px) ;
         background-color: white;
+        /* padding-top: 155px; */
     }
 
-    header nav a.active-toggle-menu {
+    .active-toggle-menu-links-div {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        height: 100%;
+    }
+
+    header .social-div {
+        display: flex;
+        width: 100%;
+        box-shadow: none;
+        justify-content: space-between;
+        margin-bottom: 60px;
+    }
+
+    header .social-div a {
+        margin-inline: auto;
+        font-size: 35px;
+        height: fit-content;
+    }
+
+    /* header nav a.active-toggle-menu {
         height: auto;
         box-shadow: 0 -10px #F8C7CD inset;
 
-    }
+    } */
 }

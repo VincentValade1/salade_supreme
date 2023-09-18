@@ -123,3 +123,55 @@
     height: 100%;
     border: none;
 }
+
+@media only screen and (max-width: 1024px) {
+    .contact-map-section {
+        margin-inline: 25px;
+    }
+}
+
+@media only screen and (max-width: 768px) {
+    .contact-map-section {
+        flex-direction: column;
+        text-align: center;
+        margin-top: 61px;
+        margin-bottom: 40px;
+        margin-inline: 0;
+    }
+
+    .contact-map-div {
+        padding-inline: 0;
+    }
+
+    .contact-div {
+        padding-inline: 14px;
+    }
+
+    .tel-socialmedia-div {
+        justify-content: center;
+    }
+
+    .social-div {
+        display: none;
+    }
+
+    .form-header-div {
+        flex-direction: column;
+        margin-bottom: 25px;
+    }
+
+    .btn-submit {
+        height: 62px;
+        width: 100%;
+        margin-inline: 0;
+    }
+
+    .map-div {
+        padding-inline: 0;
+        margin-top: 64px;
+    }
+
+    .contact-main-div p {
+        margin-inline: 14px;
+    }
+}

@@ -68,7 +68,7 @@ img {
   color: #28338A;
   line-height: 40px;
   font-family: "Mango-Black";
-  font-size: clamp(22px, 4vw, 32px);
+  font-size: clamp(24px, 4vw, 32px);
   padding-inline: 20px;
   margin: 71px auto auto auto;
   width: fit-content;

@@ -36,7 +36,14 @@ footer .social-div a {
 
 @media only screen and (max-width: 768px) {
     footer {
-        height: auto;
+        height: 122px;
+        padding: 24px;
+        justify-content: space-between;
+    }
+
+    footer span {
+        font-size: 12px;
+        line-height: 27px;
     }
 
     footer nav {

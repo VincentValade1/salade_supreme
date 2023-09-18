@@ -61,7 +61,7 @@ function Contact() {
                             <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2888.2615338336454!2d1.430782176112962!3d43.62191527110366!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x12aebb4e2f75bc53%3A0x1b386c29d4bababb!2s96%20bis%20Rue%20du%20G%C3%A9n%C3%A9ral%20Bourbaki%2C%2031200%20Toulouse!5e0!3m2!1sfr!2sfr!4v1693846165464!5m2!1sfr!2sfr" 
                                 title="salade supreme adresse"
                                 loading="chargement" 
-                                referrerpolicy="no-referrer-when-downgrade">
+                                referrerPolicy="no-referrer-when-downgrade">
                             </iframe>
                         </div>
                     </div>
