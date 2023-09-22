@@ -1,15 +1,20 @@
 .services-section {
     padding-inline: 7.6%;
     padding-bottom: 75px;
+
+    @media only screen and (max-width: 768px) {
+        padding-inline: 0;
+        padding-bottom: 0;
+    }
 }
 
 .all-services-card-div {
     display: flex;
     gap: 25px;
-    /* @media (max-width: 1024px) {
-        flex-direction: column-reverse;
-        
-    } */
+    @media only screen and (max-width: 768px) {
+        flex-direction: column;
+        gap: 0;
+    }
 }
 
 .services-column-left, .services-column-right {
@@ -18,31 +23,28 @@
     flex: 1;
 }
 
-
-
-/* .all-services-card-div:last-child .services-column .service-card:nth-of-type(2) {
-    flex-direction: row-reverse;
-} */
-
 .service-card {
     display: flex;
     height: auto;
     min-height: 400px;
-    /* width: 100%; */
+    width: 100%;
     margin-bottom: 22px;
     text-align: center; 
 
-    /* flex: 1; */
-    /* @media (max-width: 768px) {
-        flex-direction: column-reverse;
-        
-    } */
+    @media only screen and (max-width: 768px) {
+        flex-direction: column;
+        margin-bottom: 24px;
+    }
 }
 
-.service-second-card {
+.service-card-2, .service-card-5 {
     flex-direction: row-reverse;
+    
+    @media only screen and (max-width: 768px) {
+        flex-direction: column;
+        
+    }
 }
-
 
 .service-card-text-div {
     display: flex;
@@ -54,122 +56,63 @@
     width: 50%;
     height: auto;
     padding: 10px 5.5% 10px 5.5%;
+
+    @media only screen and (max-width: 768px) {
+        width: 100%;
+        aspect-ratio: 1/1;
+    }
 }
 
 .service-card img {
     width: 50%;
-    /* height: auto; */
+   
+    @media only screen and (max-width: 768px) {
+        width: 100%;
+        aspect-ratio: 1/1;
+    }
 }
 
 .service-card h2, .service-card p {
     color: #FFFFFF;
-    /* text-align: center; */
 }
 
 .service-card h2 {
     font-family: "Mango-Black";
     font-size: clamp(18px, 2vw, 24px);
-    /* font-size: 24px; */
     width: 100%;
     padding-bottom: 15px;
     border-bottom: 2px solid #F8C7CD;
     margin-bottom: 25px;
     margin-top: 0;
+
+    @media only screen and (max-width: 768px) {
+        font-size: 24px;
+    }
 }
 
 .service-card p {
     font-size: clamp(14px, 1vw, 16px);
-
-    /* font-size: 14px; */
     margin: 0;
+
+    @media only screen and (max-width: 768px) {
+        font-size: 16px;
+    }
 }
 
 /* faire mediaquerries sous 1224px */
 /* faire mediaquerries sous 1024px tablette*/
 /* faire mediaquerries sous 768px mobile*/ 
 
-@media all and (min-width:769px) and (max-width:1024px) {
+@media only screen and  (min-width:769px) and (max-width: 1024px) {
     .all-services-card-div {
         flex-direction: column;
     }
 
-    
-    /* .services-column-left .service-card:nth-of-type(even) {
-        flex-direction: row-reverse;
-    } */
-    /* .services-column-right .service-card:nth-child(1) {
-        flex-direction: row-reverse;
-    } 
-
-     .services-column-left .service-card:nth-child(1) {
+    .service-card-4, .service-card-6 {
         flex-direction: row-reverse;
     }
 
-    .services-column-left .service-card:nth-child(1) {
+    .service-card-5 {
         flex-direction: row;
-    } */
-
-    /* .services-section {
-        padding-inline: 20px;
-    } */
-};
-
-@media all and (min-width:0px) and (max-width:768px) {
-    
-    .service-card  {
-        flex-direction: column-reverse;
-        width: 100%;
-        height: 550px;
-        margin-bottom: 40px;
     }
-
-    
-    
-    
-    /* .services-section {
-        padding-inline: 0;
-        padding-bottom: 40px;
-    } */
-
-   
-
-    /* .services-column-left .service-card:nth-of-type() {
-        flex-direction: row-reverse;
-    } */
-
-    /* .service-card:nth-of-type() {
-        flex-direction: column-reverse;
-        width: 100%;
-        height: 550px;
-        margin-bottom: 40px;
-    } */
-
-    .all-services-card-div {
-        flex-direction: column;
-    }
-
-    .service-card img {
-        height: 50%;
-        width: 100%;
-    }
-
-    .service-card-text-div {
-        width: 100%;
-        height: 50%;
-    }
-
-    /* .all-services-card-div {
-        flex-direction: column;
-    } */
-
-    /* .services-column .service-card:nth-child(2) {
-        flex-direction: column-reverse;
-    } */
-
-    /* .services-column-left .service-card:nth-child(2), .services-column-right .service-card:nth-child(2) {
-        flex-direction: column-reverse;
-    } */
-
-    
-    
 };

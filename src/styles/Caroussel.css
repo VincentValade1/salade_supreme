@@ -115,6 +115,25 @@
     line-height: 20px;
 }
 
+@media only screen and (max-width: 768px) {
+    .overlay-caroussel-div img {
+        width: 200px;
+    }
+
+    .carousel-link {
+        /* margin-inline: 24px; */
+        width: 85vw;
+    }
+
+    .carousel-link:hover {
+        transform: none;
+    }
+
+    .confiance-mobile-section .pink-titles {
+        font-size: 20px;
+        margin-top: 16px;
+    }
+}
 
 
 /* Responsive Slideshow Tablette */

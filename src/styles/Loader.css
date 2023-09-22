@@ -3,14 +3,14 @@
       opacity: 0;
       visibility: hidden;
     }
-  }
+}
 
 @keyframes loader_closing {
     100% {
       opacity: 0;
       visibility: hidden;
     }
-  }
+}
 
 .loader-div {
     position: fixed;
@@ -33,4 +33,11 @@
     width: 585px;
     height: auto;
     margin-top: 2%;
+}
+
+@media only screen and (max-width: 768px) {
+    .loader-div img {
+        width: 465px;
+        margin-top: 10%;
+    }
 }

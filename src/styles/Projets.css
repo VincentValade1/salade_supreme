@@ -1,9 +1,12 @@
 .projets-section {
   margin-inline: 9.6%;
+
 }
 
 .projets-top-duo-div {
     display: flex;
+    width: 100%;
+    height: auto;
     gap: 32px;
 }
 
@@ -29,15 +32,23 @@
 }
 
 .projet-card {
-    max-height: 584px;
+    /* max-height: 584px; */
     position: relative;
     background-color: black;
+    display: flex;
+    width: 100%;
+    height: auto;
+}
+
+.projet-card a {
+    width: 100%;
     display: flex;
 }
 
 .projet-card img {
     height: 100%;
-    width: 100%;
+    max-width: 100%;
+    flex-grow: 1;
 }
 
 .projet-card-infos {

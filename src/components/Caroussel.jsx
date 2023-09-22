@@ -5,6 +5,21 @@ import carousselPictures from '../datas/carousselPictures.json';
 import { NavLink } from 'react-router-dom';
 
 function Caroussel() {
+    const [isTablet, setIsTablet] = useState(window.innerWidth <= 1024);
+
+    useEffect(() => {
+        const handleResize = () => {
+          setIsTablet(window.innerWidth <= 1024);
+        };
+    
+        window.addEventListener('resize', handleResize);
+    
+        return () => {
+          window.removeEventListener('resize', handleResize);
+        };
+    }, []);
+
+
     const logoSalade = process.env.PUBLIC_URL + "/images/logoCaroussel.png";
 
     const [pictures, setPictures] = useState([]);
@@ -61,9 +76,14 @@ function Caroussel() {
     return (
         <section className={`slideshow ${ currentIndex ? 'active' : ""}`}>
             <img src={process.env.PUBLIC_URL + imageUrl} alt={alt} />
-            <button id='image précédante' tabIndex="0" aria-label='image précédante' aria-roledescription="fleche image précendante du carrousel d'images" className="arrow left" onClick={previousSlide}><FaChevronLeft /></button>
-            <button id='image suivante' tabIndex="0" aria-label='image suivante' aria-roledescription="fleche image suivante du carrousel d'images"  className="arrow right" onClick={nextSlide}><FaChevronRight /></button>
-            <span className='bulletpoint'>{activeImageBulletPoint}/{slideLength}</span>
+            {!isTablet && (
+                <>
+                    <button id='image précédante' tabIndex="0" aria-label='image précédante' aria-roledescription="fleche image précendante du carrousel d'images" className="arrow left" onClick={previousSlide}><FaChevronLeft /></button>
+                    <button id='image suivante' tabIndex="0" aria-label='image suivante' aria-roledescription="fleche image suivante du carrousel d'images"  className="arrow right" onClick={nextSlide}><FaChevronRight /></button>
+                    <span className='bulletpoint'>{activeImageBulletPoint}/{slideLength}</span>
+                </>  
+            )}
+            
             <div className='overlay-caroussel-div'>
                 <h1><img tabIndex="0" src={logoSalade} alt="Salade Suprême"/></h1>
                 <h2 tabIndex="0" className='accueil-h2'>Design Global</h2>
