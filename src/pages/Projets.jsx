@@ -19,7 +19,7 @@ function Projets() {
                     <span>Scroll pour explorer</span>
                     <BsTriangleFill className='scroll-icon'/>
                 </div>
-                <ProjetCard className="projet-top-card" link='/projets/colocations' cover={projetsData[0].colocations.cover} altCover={projetsData[0].colocations.altCover} title={projetsData[0].colocations.title} theme={projetsData[0].colocations.theme} />
+                <ProjetCard className="projet-large-card" link='/projets/colocations' cover={projetsData[0].colocations.cover} altCover={projetsData[0].colocations.altCover} title={projetsData[0].colocations.title} theme={projetsData[0].colocations.theme} />
                 <div className="projets-six-cards-div">
                     <ProjetCard link='/projets/identite' cover={projetsData[0].identite.cover} altCover={projetsData[0].identite.altCover} title={projetsData[0].identite.title} theme={projetsData[0].identite.theme} />
                     <ProjetCard link='/projets/alphabet' cover={projetsData[0].alphabet.cover} altCover={projetsData[0].alphabet.altCover} title={projetsData[0].alphabet.title} theme={projetsData[0].alphabet.theme} />

@@ -111,6 +111,15 @@
 
 @media only screen and (max-width: 768px) {
     .membres-section {
-        padding-inline: 32px;
+        padding-inline: 0;
+        padding-bottom: 12px;
+    }
+
+    .top-members-div, .bottom-members-div {
+        flex-direction: column;
+    }
+
+    .membre-card {
+        margin-bottom: 24px;
     }
 }
