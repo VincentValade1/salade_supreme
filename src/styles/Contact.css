@@ -147,6 +147,10 @@
         padding-inline: 14px;
     }
 
+    .contact-div span {
+        margin-bottom: 5px;
+    }
+
     .tel-socialmedia-div {
         justify-content: center;
     }
@@ -157,7 +161,7 @@
 
     .form-header-div {
         flex-direction: column;
-        margin-bottom: 25px;
+        margin-bottom: 20px;
     }
 
     .btn-submit {

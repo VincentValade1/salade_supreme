@@ -53,9 +53,9 @@
 }
 
 .membre-opened-card {
-    position: relative;
+    position: fixed;
     display: flex;
-    margin-top: 208px;
+    margin-top: 50px;
     margin-bottom: 100vh;
     padding: 50px 50px 50px 57px;
     width: 904px;
@@ -75,12 +75,11 @@
     margin: 0;
 }
 
-.membre-opened-card h3 {
+.membre-opened-card h3, .membre-opened-card h1 {
     color: #28338A;
     font-size: 32px;
     font-family: "Mango-Black";
     margin: 0 0 20px 0;
-    line-height: ;
 }
 
 .membre-opened-card img {
@@ -109,10 +108,79 @@
     color: #28338A;
 }
 
+@media only screen and (max-width: 1024px) {
+    .membres-section {
+        padding-inline: 50px;
+    }
+
+    .membre-clicked-div {
+        height: 100%;
+        padding-top: 80px;
+    }
+
+    .membre-opened-card {
+        position: relative;
+        flex-direction: column;
+        justify-content: center;
+        margin-top: 0;
+        margin-bottom: 0;
+        padding: 20px;
+        width: 70%;
+        /* max-height: auto; */
+        height: auto;
+        background-color: #FFFFFF;
+        border-radius: 8px;
+    }
+    
+    .membre-opened-card img {
+        width: 100%;
+        height: auto;
+        border-radius: 8px 8px 0 0;
+    }
+
+    .membre-opened-card-text-div {
+        align-items: center;
+        margin-inline: auto;
+        margin-top: 0;
+        padding: 28px;
+    }
+
+    .membre-opened-card-text-div :not(:first-child) {
+        text-align: center;
+    }
+
+    .membre-top-infos {
+        display: flex;
+        flex-direction: column;
+    }
+
+    .membre-bouton-retour {
+        width: 312px;
+        height: 62px;
+        border-radius: 8px;
+        background-color: #283389;
+        /* font-size: 18px; */
+        /* color: white; */
+        display: flex;
+        justify-content: center;
+        flex-direction: column;
+        margin-top: 80px;
+        margin-bottom: 43px;
+    }
+
+    .membre-bouton-retour span {
+        font-size: 18px;
+        color: white;
+        font-family: "Mango-Black";
+    }
+
+}
+
 @media only screen and (max-width: 768px) {
     .membres-section {
         padding-inline: 0;
         padding-bottom: 12px;
+        position: relative;
     }
 
     .top-members-div, .bottom-members-div {
@@ -122,4 +190,17 @@
     .membre-card {
         margin-bottom: 24px;
     }
+
+    .membre-opened-card {
+        width: 100%;
+        height: fit-content;
+        padding: 0;
+        margin-top: 70px;
+        border-radius: 0;
+    }
+
+    .membre-opened-card img {
+        border-radius: 0;
+    }
 }
+

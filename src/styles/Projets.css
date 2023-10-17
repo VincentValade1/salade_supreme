@@ -105,12 +105,11 @@
 
 .projet-card h2 {
     font-size: clamp(20px, 1.5vw, 24px);
-
-    /* font-size: 24px; */
     line-height: 36px;
     padding-bottom: 13px;
     margin: 0;
-    border-bottom: 2px solid #F8C7CD;
+    width: 100%;
+    border-bottom: 2px solid #f9bcc3;
 }
 
 .projet-card h3 {
@@ -124,13 +123,30 @@
 @media only screen and (min-width: 1920px) {
     .projets-six-cards-div .projet-card{
         min-width: 400px;
-        
     }
 }
 
 @media only screen and (max-width: 1024px) {
     .projets-section {
         margin-inline: 5%;
+    }
+
+    .projet-card img {
+        opacity: 0.8;
+    }
+
+    .projet-card h3 {
+        margin-top: 20px;
+    }
+
+    .projet-top-card h2, .projet-large-card h2 {
+        margin-inline: 0;
+        max-width: 100%;
+    }
+
+    .projets-section .projet-card-infos {
+        padding-inline: 16px;
+        padding-bottom: 24px;
     }
 
     .projets-six-cards-div {

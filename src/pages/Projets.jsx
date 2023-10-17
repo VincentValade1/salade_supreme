@@ -21,12 +21,12 @@ function Projets() {
                 </div>
                 <ProjetCard className="projet-large-card" link='/projets/colocations' cover={projetsData[0].colocations.cover} altCover={projetsData[0].colocations.altCover} title={projetsData[0].colocations.title} theme={projetsData[0].colocations.theme} />
                 <div className="projets-six-cards-div">
-                    <ProjetCard link='/projets/identite' cover={projetsData[0].identite.cover} altCover={projetsData[0].identite.altCover} title={projetsData[0].identite.title} theme={projetsData[0].identite.theme} />
-                    <ProjetCard link='/projets/alphabet' cover={projetsData[0].alphabet.cover} altCover={projetsData[0].alphabet.altCover} title={projetsData[0].alphabet.title} theme={projetsData[0].alphabet.theme} />
-                    <ProjetCard link='/projets/ateliers' cover={projetsData[0].ateliers.cover} altCover={projetsData[0].ateliers.altCover} title={projetsData[0].ateliers.title} theme={projetsData[0].ateliers.theme} />
-                    <ProjetCard link='/projets/fancy-fuzz' cover={projetsData[0].fancyfuzz.cover} altCover={projetsData[0].fancyfuzz.altCover} title={projetsData[0].fancyfuzz.title} theme={projetsData[0].fancyfuzz.theme} />
-                    <ProjetCard link='/projets/serigraphies' cover={projetsData[0].serigraphies.cover} altCover={projetsData[0].serigraphies.altCover} title={projetsData[0].serigraphies.title} theme={projetsData[0].serigraphies.theme} />
-                    <ProjetCard link='/projets/biennale' cover={projetsData[0].biennale.cover} altCover={projetsData[0].biennale.altCover} title={projetsData[0].biennale.title} theme={projetsData[0].biennale.theme} />
+                    <ProjetCard link='/projets/identite' cover={projetsData[0].identite.bannerImgM} altCover={projetsData[0].identite.altCover} title={projetsData[0].identite.title} theme={projetsData[0].identite.theme} />
+                    <ProjetCard link='/projets/alphabet' cover={projetsData[0].alphabet.coverM} altCover={projetsData[0].alphabet.altCover} title={projetsData[0].alphabet.title} theme={projetsData[0].alphabet.theme} />
+                    <ProjetCard link='/projets/ateliers' cover={projetsData[0].ateliers.coverM} altCover={projetsData[0].ateliers.altCover} title={projetsData[0].ateliers.title} theme={projetsData[0].ateliers.theme} />
+                    <ProjetCard link='/projets/fancy-fuzz' cover={projetsData[0].fancyfuzz.coverM} altCover={projetsData[0].fancyfuzz.altCover} title={projetsData[0].fancyfuzz.title} theme={projetsData[0].fancyfuzz.theme} />
+                    <ProjetCard link='/projets/serigraphies' cover={projetsData[0].serigraphies.coverM} altCover={projetsData[0].serigraphies.altCover} title={projetsData[0].serigraphies.title} theme={projetsData[0].serigraphies.theme} />
+                    <ProjetCard link='/projets/biennale' cover={projetsData[0].biennale.coverM} altCover={projetsData[0].biennale.altCover} title={projetsData[0].biennale.title} theme={projetsData[0].biennale.theme} />
                 </div>
             </section>
         </main>

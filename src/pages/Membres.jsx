@@ -5,6 +5,7 @@ import '../styles/Membres.css';
 function Membres() {
     const fiveFirstMembers = membresData.slice(0, 5);
     const fiveLastMembers = membresData.slice(5);
+    
 
     return(
         <main className="pink-border-main-div">
