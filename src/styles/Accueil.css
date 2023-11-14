@@ -1,0 +1,31 @@
+.partner-logos-section {
+    display: flex;
+    flex-direction: column;
+}
+
+.partner-logos-section h3 {
+    margin-inline: auto;
+}
+
+.partner-logos {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+    margin-top: 60px;
+    margin-bottom: 60px;
+    margin-inline: 100px;
+    gap: 20px;
+}
+
+.partner-logos img {
+    max-width: 100px;
+    height: auto;
+}
+
+@media only screen and (max-width: 768px) {
+    .partner-logos {
+        margin-inline: 20px;
+    }
+}

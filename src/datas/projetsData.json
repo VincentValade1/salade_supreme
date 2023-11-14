@@ -208,6 +208,49 @@
 
             "img3": "/images/biennale_img3.jpg",
             "alt3": "texte alt"
+        },
+        "clutch": {
+            "cover": "/images/11ansdeClutch_cover.jpg",
+            "coverM": "/images/11ansdeClutch_cover_M.jpg",
+            "altCover": "machine de sérigraphie",
+            "title": "11 ans de Clutch",
+            "theme": "Scénographie",
+            "description": "À l'occasion des 11 ans de Clutch, le collectif a sorti le paquet en proposant plusieurs animations : Du tatouage éphémère, une fresque participative animée et une initiation aux bases du cinéma d'animation avec des jeux optiques. En plus de ces trois animations sur place, le collectif a proposé une signalétique imprimée et en volume ainsi qu'une arche aux couleurs de l'événement. Crédits : ©Evan Savy",
+
+            "bannerImg": "/images/11ansdeClutch_banner.jpg",
+            "bannerImgM": "/images/11ansdeClutch_banner_M.jpg",
+            "altBannerImg": "texte alt",
+
+            "img1": "/images/11ansdeClutch_img1.jpg",
+            "img1M": "/images/11ansdeClutch_img1_M.jpg",
+            "alt1": "Arche en forme de chimère",
+
+            "img2": "/images/11ansdeClutch_img2.jpg",
+            "img2M": "/images/11ansdeClutch_img2_M.jpg",
+            "alt2": "Arche réalisée en matériaux recyclés, aux couleurs de l'évènement",
+
+            "img4": "/images/11ansdeClutch_img4.jpg",
+            "img4M": "/images/11ansdeClutch_img4_M.jpg",
+            "alt4": "Module de découverte du cinéma d'animation en fonctionnement",
+
+            "img5": "/images/11ansdeClutch_img5.jpg",
+            "img5M": "/images/11ansdeClutch_img5_M.jpg",
+            "alt5": "Création et animation de jeux optiques et d'un module de découverte du cinéma d'animation",
+
+            "img7": "/images/11ansdeClutch_img7.jpg",
+            "alt7": "Fresque participative réalisée lors de l'évènement",
+
+            "img8": "/images/11ansdeClutch_img8.jpg",
+            "alt8": "Module de découverte du cinéma d'animation en fonctionnement",
+
+            "img9": "/images/11ansdeClutch_img9.jpg",
+            "alt9": "Module de découverte du cinéma d'animation en fonctionnement",
+
+            "img10": "/images/11ansdeClutch_img10.jpg",
+            "alt10": "Tatouage éphémère sur un visiteur",
+
+            "img11": "/images/11ansdeClutch_img11.jpg",
+            "alt11": "Fresque participative réalisée lors de l'évènement"
         }
     }
 ]

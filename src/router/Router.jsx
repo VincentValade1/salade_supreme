@@ -19,6 +19,7 @@ import Ateliers from "../pages/Ateliers";
 import FancyFuzz from "../pages/FancyFuzz";
 import Serigraphies from "../pages/Serigraphies";
 import Biennale from "../pages/Biennale";
+import Clutch from "../pages/Clutch";
 import MembreMobile from "../pages/MembreMobile";
 
 function Router() {
@@ -38,6 +39,8 @@ function Router() {
                 <Route exact path='/projets/fancy-fuzz' element={<FancyFuzz />} />
                 <Route exact path='/projets/serigraphies' element={<Serigraphies />} />
                 <Route exact path='/projets/biennale' element={<Biennale />} />
+                <Route exact path='/projets/clutch' element={<Clutch />} />
+
                 
                 <Route exact path='/membres/:id' element={<MembreMobile />} />
 

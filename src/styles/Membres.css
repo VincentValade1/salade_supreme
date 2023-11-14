@@ -192,12 +192,22 @@
     }
 
     .membre-opened-card {
+        /* border-top: 10px solid #F8C7CD ; */
+        position: relative;
         width: 100%;
         height: fit-content;
         padding: 0;
         margin-top: 70px;
         border-radius: 0;
     }
+
+    /* .membre-opened-card ::before {
+        height: 10px;
+        width: 100%;
+        position: fixed;
+        top: 70px;
+        background-color: #F8C7CD;
+    } */
 
     .membre-opened-card img {
         border-radius: 0;
