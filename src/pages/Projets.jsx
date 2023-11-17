@@ -28,8 +28,8 @@ function Projets() {
                     <ProjetCard link='/projets/serigraphies' cover={projetsData[0].serigraphies.cover} coverM={projetsData[0].serigraphies.coverM} altCover={projetsData[0].serigraphies.altCover} title={projetsData[0].serigraphies.title} theme={projetsData[0].serigraphies.theme} />
                     <ProjetCard link='/projets/biennale' cover={projetsData[0].biennale.cover} coverM={projetsData[0].biennale.coverM} altCover={projetsData[0].biennale.altCover} title={projetsData[0].biennale.title} theme={projetsData[0].biennale.theme} />
                     <ProjetCard link='/projets/clutch' cover={projetsData[0].clutch.cover} coverM={projetsData[0].clutch.coverM} altCover={projetsData[0].clutch.altCover} title={projetsData[0].clutch.title} theme={projetsData[0].clutch.theme} />
-                    {/* <ProjetCard link='/projets/design' cover={projetsData[0].design.cover} coverM={projetsData[0].design.coverM} altCover={projetsData[0].design.altCover} title={projetsData[0].design.title} theme={projetsData[0].design.theme} />
-                    <ProjetCard link='/projets/oz' cover={projetsData[0].oz.cover} coverM={projetsData[0].oz.coverM} altCover={projetsData[0].oz.altCover} title={projetsData[0].oz.title} theme={projetsData[0].oz.theme} /> */}
+                    <ProjetCard link='/projets/ecoConception' cover={projetsData[0].ecoConception.cover} coverM={projetsData[0].ecoConception.coverM} altCover={projetsData[0].ecoConception.altCover} title={projetsData[0].ecoConception.title} theme={projetsData[0].ecoConception.theme} />
+                    <ProjetCard link='/projets/ozOccitanie' cover={projetsData[0].oz.cover} coverM={projetsData[0].oz.coverM} altCover={projetsData[0].oz.altCover} title={projetsData[0].oz.title} theme={projetsData[0].oz.theme} />
                 </div>
             </section>
         </main>

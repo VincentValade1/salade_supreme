@@ -20,6 +20,8 @@ import FancyFuzz from "../pages/FancyFuzz";
 import Serigraphies from "../pages/Serigraphies";
 import Biennale from "../pages/Biennale";
 import Clutch from "../pages/Clutch";
+import EcoConception from "../pages/EcoConception";
+import OzOccitanie from "../pages/OzOccitanie";
 import MembreMobile from "../pages/MembreMobile";
 
 function Router() {
@@ -40,7 +42,8 @@ function Router() {
                 <Route exact path='/projets/serigraphies' element={<Serigraphies />} />
                 <Route exact path='/projets/biennale' element={<Biennale />} />
                 <Route exact path='/projets/clutch' element={<Clutch />} />
-
+                <Route exact path='/projets/ecoConception' element={<EcoConception />} />
+                <Route exact path='/projets/ozOccitanie' element={<OzOccitanie />} />
                 
                 <Route exact path='/membres/:id' element={<MembreMobile />} />
 

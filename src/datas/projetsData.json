@@ -238,19 +238,88 @@
             "alt5": "Création et animation de jeux optiques et d'un module de découverte du cinéma d'animation",
 
             "img7": "/images/11ansdeClutch_img7.jpg",
+            "img7M": "/images/11ansdeClutch_img7_M.jpg",
             "alt7": "Fresque participative réalisée lors de l'évènement",
 
             "img8": "/images/11ansdeClutch_img8.jpg",
+            "img8M": "/images/11ansdeClutch_img8_M.jpg",
             "alt8": "Module de découverte du cinéma d'animation en fonctionnement",
 
             "img9": "/images/11ansdeClutch_img9.jpg",
+            "img9M": "/images/11ansdeClutch_img9_M.jpg",
             "alt9": "Module de découverte du cinéma d'animation en fonctionnement",
 
             "img10": "/images/11ansdeClutch_img10.jpg",
+            "img10M": "/images/11ansdeClutch_img10_M.jpg",
             "alt10": "Tatouage éphémère sur un visiteur",
 
             "img11": "/images/11ansdeClutch_img11.jpg",
+            "img11M": "/images/11ansdeClutch_img11_M.jpg",
             "alt11": "Fresque participative réalisée lors de l'évènement"
+        },
+        "ecoConception": {
+            "cover": "/images/EcoConception_cover.jpg",
+            "coverM": "/images/EcoConception_cover_M.jpg",
+            "altCover": "machine de sérigraphie",
+            "title": "Design & éco-conception",
+            "theme": "Design d'objet",
+            "description": "L'entreprise Toulousaine LOUIS, spécialisée dans la fabrication de mobilier de bureau adaptable et durable a fait appel à nos services pour créer et redéfinir le design de ses produits.",
+
+            "bannerImg": "/images/EcoConception_banner.jpg",
+            "bannerImgM": "/images/EcoConception_banner_M.jpg",
+            "altBannerImg": "Nouvelle table de réunion 100% configurable, conçue par Quentin pour l'entreprise de mobilier éco-conçue LOUIS",
+
+            "img1": "/images/EcoConception_img1.jpg",
+            "img1M": "/images/EcoConception_img1_M.jpg",
+            "alt1": "Optimisation et réactualisation de l'ESTRADE, pour la société LOUIS",
+
+            "img2": "/images/EcoConception_img2.jpg",
+            "img2M": "/images/EcoConception_img2_M.jpg",
+            "alt2": "Optimisation et réactualisation de l'ESTRADE, pour la société LOUIS",
+
+            "img3": "/images/EcoConception_img3.jpg",
+            "img3M": "/images/EcoConception_img3_M.jpg",
+            "alt3": "Mise à jour du bureau STUDIO, pour la société LOUIS.",
+
+            "img4": "/images/EcoConception_img4.jpg",
+            "img4M": "/images/EcoConception_img4_M.jpg",
+            "alt4": "Lifting” de la table basse EDIE, pour la société LOUIS.",
+
+            "img5": "/images/EcoConception_img5.jpg",
+            "img5M": "/images/EcoConception_img5_M.jpg",
+            "alt5": "Lifting” de la table basse EDIE, pour la société LOUIS.",
+
+            "img6": "/images/EcoConception_img6.jpg",
+            "img6M": "/images/EcoConception_img6_M.jpg",
+            "alt6": "Nouveau bureau d'équipe 100% configurable, conçue par Quentin pour l'entreprise de mobilier éco-conçue LOUIS",
+
+            "img7": "/images/EcoConception_img7.jpg",
+            "img7M": "/images/EcoConception_img7_M.jpg",
+            "alt7": "Nouveau bureau d'équipe 100% configurable, conçue par Quentin pour l'entreprise de mobilier éco-conçue LOUIS",
+
+            "img8": "/images/EcoConception_img8.jpg",
+            "img8M": "/images/EcoConception_img8_M.jpg",
+            "alt8": "Nouvelle table de réunion 100% configurable, conçue par Quentin pour l'entreprise de mobilier éco-conçue LOUIS",
+
+            "img9": "/images/EcoConception_img9.jpg",
+            "img9M": "/images/EcoConception_img9_M.jpg",
+            "alt9": "Nouveau bureau d'équipe 100% configurable, conçue par Quentin pour l'entreprise de mobilier éco-conçue LOUIS",
+
+            "img10": "/images/EcoConception_img10.jpg",
+            "img10M": "/images/EcoConception_img10_M.jpg",
+            "alt10": "Nouvelle table de réunion 100% configurable, conçue par Quentin pour l'entreprise de mobilier éco-conçue LOUIS"
+        },
+        "oz": {
+            "cover": "/images/oz_cover.jpg",
+            "coverM": "/images/oz_cover_M.jpg",
+            "altCover": "Édition 2023 de OZ Occitanie au Zénith de Toulouse",
+            "title": "OZ Occitanie",
+            "theme": "A INDIQUER",
+            "description": "Réalisation d'une vidéo signalétique pour écran géant, diffusée dans le hall du Zénith Toulouse Métropole pour le festival Oz Occitanie.",
+
+            "bannerImg": "/images/oz_banner.jpg",
+            "bannerImgM": "/images/oz_banner_M.jpg",
+            "altBannerImg": "Édition 2023 de OZ Occitanie au Zénith de Toulouse"
         }
     }
 ]

@@ -21,6 +21,18 @@ function Clutch() {
                     <ProjetModel123 img1={data.clutch.img4} img1M={data.clutch.img4M} alt1={data.clutch.alt4} img2={data.clutch.img5} img2M={data.clutch.img5M} alt2={data.clutch.alt5} extraContent2={null} extraContent3={clutchYoutube2}  />
                 )
             )}
+
+            {projetsData.map(( data ) =>
+                (
+                    <ProjetModel123 img1={data.clutch.img7} img1M={data.clutch.img7M} alt1={data.clutch.alt7} img2={data.clutch.img8} img2M={data.clutch.img8M} alt2={data.clutch.alt8} img3={data.clutch.img9} img3M={data.clutch.img9M} alt3={data.clutch.alt9} />
+                )
+            )}
+
+            {projetsData.map(( data ) =>
+                (
+                    <ProjetModel123 img1={data.clutch.img10} img1M={data.clutch.img10M} alt1={data.clutch.alt10} img2={data.clutch.img11} img2M={data.clutch.img11M} alt2={data.clutch.alt11} extraContent2={null} />
+                )
+            )}
            
         </main>
     )
