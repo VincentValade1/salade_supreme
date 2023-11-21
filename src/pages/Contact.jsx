@@ -5,6 +5,10 @@ import emailjs from '@emailjs/browser';
 import { BsFacebook, BsLinkedin, BsInstagram, BsEnvelopeFill, BsFillTelephoneFill } from 'react-icons/bs';
 
 function Contact() {
+   
+    const emailJsServiceId = process.env.REACT_APP_YOUR_SERVICE_ID;
+    const emailJsTemplateId = process.env.REACT_APP_YOUR_TEMPLATE_ID;
+    const emailJsPublicKey = process.env.REACT_APP_YOUR_PUBLIC_KEY;
 
     const form = useRef();
 
@@ -12,7 +16,7 @@ function Contact() {
         e.preventDefault();
     
         // connecter email services sur email.js avec Quentin, utiliser clé .env
-        emailjs.sendForm('service_z849imd', 'template_6zs4w09', form.current, '9_VmHf0637H0rqZ24')
+        emailjs.sendForm(emailJsServiceId, emailJsTemplateId, form.current, emailJsPublicKey)
           .then((result) => {
               console.log(result.text);
           }, (error) => {
@@ -57,7 +61,7 @@ function Contact() {
                         <span tabIndex="0">96 bis rue du Général Bourbaki</span>
                         <span tabIndex="0">31200 Toulouse</span>
                         <span tabIndex="0">France</span>
-                        <div tabIndex="0" className="map">
+                        <div className="map" aria-label="Emplacement géographique de Salade Suprême">
                             <iframe src="https://www.google.com/maps/embed?pb=!1m14!1m8!1m3!1d7595.175015356029!2d1.4320169363357982!3d43.622303604946616!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x12aebbdd8e5ef04d%3A0xd10c33d8ae79d646!2sSalade%20Supr%C3%AAme!5e0!3m2!1sfr!2sfr!4v1700587913054!5m2!1sfr!2sfr"
                                 title="salade supreme adresse"
                                 loading="chargement" 

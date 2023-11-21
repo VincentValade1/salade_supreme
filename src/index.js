@@ -4,13 +4,14 @@ import './index.css';
 import './fonts/black-mango-black.ttf';
 import './fonts/gotham-book.otf';
 // import App from './App';
-import Router from './router/Router';
+// import Router from './router/Router';
+import App from './App';
 import reportWebVitals from './reportWebVitals';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <React.StrictMode>
-    <Router />
+    <App />
   </React.StrictMode>
 );
 
