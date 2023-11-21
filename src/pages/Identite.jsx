@@ -1,7 +1,6 @@
 import ProjetModel from "../components/ProjetModel";
 import projetsData from '../datas/projetsData.json';
 
-
 function Identite() {
     return (
         <>

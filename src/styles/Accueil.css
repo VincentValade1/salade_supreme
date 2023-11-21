@@ -15,12 +15,12 @@
     align-items: center;
     margin-top: 60px;
     margin-bottom: 60px;
-    margin-inline: 100px;
+    margin-inline: 90px;
     gap: 20px;
 }
 
 .partner-logos img {
-    max-width: 100px;
+    max-width: 90px;
     height: auto;
 }
 

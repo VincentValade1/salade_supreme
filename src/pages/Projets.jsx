@@ -31,6 +31,7 @@ function Projets() {
                     <ProjetCard link='/projets/ecoConception' cover={projetsData[0].ecoConception.cover} coverM={projetsData[0].ecoConception.coverM} altCover={projetsData[0].ecoConception.altCover} title={projetsData[0].ecoConception.title} theme={projetsData[0].ecoConception.theme} />
                     <ProjetCard link='/projets/ozOccitanie' cover={projetsData[0].oz.cover} coverM={projetsData[0].oz.coverM} altCover={projetsData[0].oz.altCover} title={projetsData[0].oz.title} theme={projetsData[0].oz.theme} />
                 </div>
+                <ProjetCard className="projet-large-card" link='/projets/streetArt' cover={projetsData[0].streetart.cover} coverM={projetsData[0].streetart.coverM} altCover={projetsData[0].streetart.altCover} title={projetsData[0].streetart.title} theme={projetsData[0].streetart.theme} />
             </section>
         </main>
     )

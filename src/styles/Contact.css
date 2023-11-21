@@ -25,6 +25,13 @@
     margin-bottom: 49.5px;
 }
 
+.contact-icon {
+    display: flex;
+    align-items: center;
+    text-align: center;
+    gap: 10px;
+}
+
 .contact-main-div span, .contact-main-div p {
     color: #1D1D1B;
 }
@@ -149,6 +156,10 @@
 
     .contact-div span {
         margin-bottom: 5px;
+    }
+
+    .contact-icon {
+        justify-content: center;
     }
 
     .tel-socialmedia-div {

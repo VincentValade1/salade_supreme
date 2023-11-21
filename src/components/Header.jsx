@@ -1,7 +1,7 @@
 import '../styles/Header.css'
 import { Link, NavLink } from 'react-router-dom';
 import { useState, useEffect } from 'react';
-import logo from '../assets/picto-logo.jpg';
+// import logo from '../assets/picto-logo.jpg';
 import { FaBars } from 'react-icons/fa';
 import { BsFacebook, BsLinkedin, BsInstagram } from 'react-icons/bs';
 
@@ -29,12 +29,14 @@ function Header() {
         return () => {
           window.removeEventListener('resize', handleResize);
         };
-      }, []);
+    }, []);
+
+    const homeLogo = process.env.PUBLIC_URL + "/images/picto-logo.jpg";
 
     return (
        <header>
            <Link tabIndex="0" aria-label="lien vers page accueil" to='/' className='logo-accueil' onClick={closeMenu}>
-                <img src={logo} alt='logo accueil' className='home-logo' />
+                <img src={homeLogo} alt='logo accueil' className='home-logo' />
             </Link>
             <button tabIndex="0"aria-roledescription='bouton qui ouvre les liens de navigations de pages' className='menu-toggle' onClick={toggleMenu}>
                 <FaBars />

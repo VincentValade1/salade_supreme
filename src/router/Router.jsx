@@ -3,6 +3,7 @@ import React from "react";
 import Accueil from "../pages/Accueil";
 import Projets from "../pages/Projets";
 import Membres from "../pages/Membres"
+import MembreMobile from "../pages/MembreMobile";
 import Services from "../pages/Services";
 import Contact from "../pages/Contact";
 import Erreur from "../pages/Erreur";
@@ -22,7 +23,8 @@ import Biennale from "../pages/Biennale";
 import Clutch from "../pages/Clutch";
 import EcoConception from "../pages/EcoConception";
 import OzOccitanie from "../pages/OzOccitanie";
-import MembreMobile from "../pages/MembreMobile";
+import StreetArt from "../pages/StreetArt";
+
 
 function Router() {
     return (
@@ -44,6 +46,7 @@ function Router() {
                 <Route exact path='/projets/clutch' element={<Clutch />} />
                 <Route exact path='/projets/ecoConception' element={<EcoConception />} />
                 <Route exact path='/projets/ozOccitanie' element={<OzOccitanie />} />
+                <Route exact path='/projets/streetArt' element={<StreetArt />} />
                 
                 <Route exact path='/membres/:id' element={<MembreMobile />} />
 

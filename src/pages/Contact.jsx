@@ -2,7 +2,7 @@ import '../styles/Contact.css';
 import '../index.css';
 import { useRef } from "react";
 import emailjs from '@emailjs/browser';
-import { BsFacebook, BsLinkedin, BsInstagram } from 'react-icons/bs';
+import { BsFacebook, BsLinkedin, BsInstagram, BsEnvelopeFill, BsFillTelephoneFill } from 'react-icons/bs';
 
 function Contact() {
 
@@ -28,9 +28,9 @@ function Contact() {
                 <section className="contact-map-section">
                     <div className='contact-div'>
                         <h2 tabIndex="0">Nous contacter</h2>
-                        <span tabIndex="0">@: contact@saladesupreme.fr</span>
+                        <span tabIndex="0" className='contact-icon'><BsEnvelopeFill /> contact@saladesupreme.fr</span>
                         <div className="tel-socialmedia-div">
-                            <span tabIndex="0">Tél: 07 86 50 32 06</span>
+                            <span tabIndex="0" className='contact-icon'><BsFillTelephoneFill /> 07 86 50 32 06</span>
                             <div className='social-div'>
                                 <a tabIndex="0" aria-label="lien vers page Facebook" href="https://www.facebook.com/profile.php?id=100066533031615" target="_blank" rel="noreferrer noopener" ><BsFacebook /></a>
                                 <a tabIndex="0" aria-label="lien vers page Linked in" href="https://www.linkedin.com/company/salade-supreme/" target="_blank" rel="noreferrer noopener" ><BsLinkedin /></a>
@@ -58,7 +58,7 @@ function Contact() {
                         <span tabIndex="0">31200 Toulouse</span>
                         <span tabIndex="0">France</span>
                         <div tabIndex="0" className="map">
-                            <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2888.2615338336454!2d1.430782176112962!3d43.62191527110366!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x12aebb4e2f75bc53%3A0x1b386c29d4bababb!2s96%20bis%20Rue%20du%20G%C3%A9n%C3%A9ral%20Bourbaki%2C%2031200%20Toulouse!5e0!3m2!1sfr!2sfr!4v1693846165464!5m2!1sfr!2sfr" 
+                            <iframe src="https://www.google.com/maps/embed?pb=!1m14!1m8!1m3!1d7595.175015356029!2d1.4320169363357982!3d43.622303604946616!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x12aebbdd8e5ef04d%3A0xd10c33d8ae79d646!2sSalade%20Supr%C3%AAme!5e0!3m2!1sfr!2sfr!4v1700587913054!5m2!1sfr!2sfr"
                                 title="salade supreme adresse"
                                 loading="chargement" 
                                 referrerPolicy="no-referrer-when-downgrade">

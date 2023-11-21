@@ -142,7 +142,23 @@
 
             "img3": "/images/ateliers_img3.jpg",
             "img3M": "/images/ateliers_img3_M.jpg",
-            "alt3": "Banc titres et logiciels de montage pour l'animation en papier découpés"
+            "alt3": "Elina présentant les principes de l'animation de figurines",
+
+            "img4": "/images/ateliers_img4.jpg",
+            "img4M": "/images/ateliers_img4_M.jpg",
+            "alt4": "Enfants participants à un atelier de peinture murale en exterieur",
+
+            "img5": "/images/ateliers_img5.jpg",
+            "img5M": "/images/ateliers_img5_M.jpg",
+            "alt5": "Enfants participants à un atelier de peinture murale en exterieur",
+
+            "img7": "/images/ateliers_img7.jpg",
+            "img7M": "/images/ateliers_img7_M.jpg",
+            "alt7": "Lampe et tabouret en carton réalisés par deux enfants.",
+
+            "img8": "/images/ateliers_img8.jpg",
+            "img8M": "/images/ateliers_img8_M.jpg",
+            "alt8": "Commode et avion en carton réalisés par deux enfants."
         },
         "fancyfuzz": {
             "cover": "/images/fancyfuzz_cover.jpg",
@@ -189,25 +205,16 @@
             "alt3": "Sérigraphie de l'illustration de Clément Cases sur papier brillant"
         },
         "biennale": {
-            "cover": "/images/serigraphie_cover.jpg",
-            "coverM": "/images/serigraphie_cover_M.jpg",
-            "altCover": "machine de sérigraphie",
+            "cover": "/images/serigraphie_img3_M.jpg",
+            "coverM": "/images/serigraphie_img3_M.jpg",
+            "altCover": "Sérigraphie de l'illustration de Clément Cases sur papier brillant",
             "title": "Biennale Design(s) Verts",
             "theme": "Impressions / Exposition",
             "description": "Rétrospective Hayao Miyazaki réalisée au cinéma la Muse à Bressols dans le cadre de la Biennale Design(s) verts, organisée par l'Institut supérieur Couleur, Image, Design. Atelier linogravure dirigé par le collectif.",
 
-            "bannerImg": "/images/biennale_banner.jpg",
-            "bannerImgM": "/images/mister_banner_M.jpg",
-            "altBannerImg": "texte alt",
-
-            "img1": "/images/biennale_img1.jpg",
-            "alt1": "texte alt",
-
-            "img2": "/images/biennale_img2.jpg",
-            "alt2": "texte alt",
-
-            "img3": "/images/biennale_img3.jpg",
-            "alt3": "texte alt"
+            "bannerImg": "/images/serigraphie_img3.jpg",
+            "bannerImgM": "/images/serigraphie_img3_M.jpg",
+            "altBannerImg": "Sérigraphie de l'illustration de Clément Cases sur papier brillant"
         },
         "clutch": {
             "cover": "/images/11ansdeClutch_cover.jpg",
@@ -271,7 +278,7 @@
 
             "img1": "/images/EcoConception_img1.jpg",
             "img1M": "/images/EcoConception_img1_M.jpg",
-            "alt1": "Optimisation et réactualisation de l'ESTRADE, pour la société LOUIS",
+            "alt1": "Optimisation et réactualisation de l'ESTRADE",
 
             "img2": "/images/EcoConception_img2.jpg",
             "img2M": "/images/EcoConception_img2_M.jpg",
@@ -279,47 +286,107 @@
 
             "img3": "/images/EcoConception_img3.jpg",
             "img3M": "/images/EcoConception_img3_M.jpg",
-            "alt3": "Mise à jour du bureau STUDIO, pour la société LOUIS.",
+            "alt3": "Mise à jour du bureau STUDIO, pour la société LOUIS",
 
             "img4": "/images/EcoConception_img4.jpg",
             "img4M": "/images/EcoConception_img4_M.jpg",
-            "alt4": "Lifting” de la table basse EDIE, pour la société LOUIS.",
+            "alt4": "Lifting” de la table basse EDIE, pour la société LOUIS",
 
             "img5": "/images/EcoConception_img5.jpg",
             "img5M": "/images/EcoConception_img5_M.jpg",
-            "alt5": "Lifting” de la table basse EDIE, pour la société LOUIS.",
+            "alt5": "Lifting” de la table basse EDIE, pour la société LOUIS",
 
             "img6": "/images/EcoConception_img6.jpg",
             "img6M": "/images/EcoConception_img6_M.jpg",
-            "alt6": "Nouveau bureau d'équipe 100% configurable, conçue par Quentin pour l'entreprise de mobilier éco-conçue LOUIS",
+            "alt6": "Nouveau bureau d'équipe 100% configurable",
 
             "img7": "/images/EcoConception_img7.jpg",
             "img7M": "/images/EcoConception_img7_M.jpg",
-            "alt7": "Nouveau bureau d'équipe 100% configurable, conçue par Quentin pour l'entreprise de mobilier éco-conçue LOUIS",
+            "alt7": "Nouveau bureau d'équipe 100% configurable",
 
             "img8": "/images/EcoConception_img8.jpg",
             "img8M": "/images/EcoConception_img8_M.jpg",
-            "alt8": "Nouvelle table de réunion 100% configurable, conçue par Quentin pour l'entreprise de mobilier éco-conçue LOUIS",
+            "alt8": "Nouvelle table de réunion 100% configurable",
 
             "img9": "/images/EcoConception_img9.jpg",
             "img9M": "/images/EcoConception_img9_M.jpg",
-            "alt9": "Nouveau bureau d'équipe 100% configurable, conçue par Quentin pour l'entreprise de mobilier éco-conçue LOUIS",
+            "alt9": "Nouveau bureau d'équipe 100% configurable",
 
             "img10": "/images/EcoConception_img10.jpg",
             "img10M": "/images/EcoConception_img10_M.jpg",
-            "alt10": "Nouvelle table de réunion 100% configurable, conçue par Quentin pour l'entreprise de mobilier éco-conçue LOUIS"
+            "alt10": "Nouvelle table de réunion 100% configurable"
         },
         "oz": {
             "cover": "/images/oz_cover.jpg",
             "coverM": "/images/oz_cover_M.jpg",
             "altCover": "Édition 2023 de OZ Occitanie au Zénith de Toulouse",
             "title": "OZ Occitanie",
-            "theme": "A INDIQUER",
+            "theme": "Signalétique / Graphisme",
             "description": "Réalisation d'une vidéo signalétique pour écran géant, diffusée dans le hall du Zénith Toulouse Métropole pour le festival Oz Occitanie.",
 
             "bannerImg": "/images/oz_banner.jpg",
             "bannerImgM": "/images/oz_banner_M.jpg",
             "altBannerImg": "Édition 2023 de OZ Occitanie au Zénith de Toulouse"
+        },
+        "streetart": {
+            "cover": "/images/streetart_cover.jpg",
+            "coverM": "/images/streetart_banner_M.jpg",
+            "altCover": "Réalisation d'une peinture monumentale sur le skatepark de Montauban",
+            "title": "Street Art",
+            "theme": "Street Art",
+            "description": "A DEFINIR",
+
+            "bannerImg": "/images/streetart_banner.jpg",
+            "bannerImgM": "/images/streetart_banner_M.jpg",
+            "altBannerImg": "Réalisation d'une peinture monumentale sur le skatepark de Montauban",
+
+            "img1": "/images/streetart_img1.jpg",
+            "img1M": "/images/streetart_img1_M.jpg",
+            "alt1": "Réalisation d'une peinture monumentale sur le skatepark de Montauban",
+
+            "img2": "/images/streetart_img2.jpg",
+            "img2M": "/images/streetart_img2_M.jpg",
+            "alt2": "Réalisation d'une peinture monumentale sur le skatepark de Montauban",
+
+            "img3": "/images/streetart_img3.jpg",
+            "img3M": "/images/streetart_img3_M.jpg",
+            "alt3": "Réalisation d'une peinture monumentale sur le skatepark de Montauban",
+
+            "img4": "/images/streetart_img4.jpg",
+            "img4M": "/images/streetart_img4_M.jpg",
+            "alt4": "Performance live dans la vitrines des Galeries Lafayette de Montauban",
+
+            "img5": "/images/streetart_img5.jpg",
+            "img5M": "/images/streetart_img5_M.jpg",
+            "alt5": "Performance live dans la vitrines des Galeries Lafayette de Montauban",
+
+            "img6": "/images/streetart_img6.jpg",
+            "img6M": "/images/streetart_img6_M.jpg",
+            "alt6": "Atelier participatif : réalisation d'une fresque avec les élèves de l'école de Carreyrat",
+
+            "img7": "/images/streetart_img7.jpg",
+            "img7M": "/images/streetart_img7_M.jpg",
+            "alt7": "Atelier participatif : réalisation d'une fresque avec les élèves de l'école de Carreyrat",
+
+            "img8": "/images/streetart_img8.jpg",
+            "img8M": "/images/streetart_img8_M.jpg",
+            "alt8": "Atelier participatif : réalisation d'une fresque avec les élèves de l'école de Carreyrat",
+
+            "img9": "/images/streetart_img9.jpg",
+            "img9M": "/images/streetart_img9_M.jpg",
+            "alt9": "Atelier participatif : réalisation d'une fresque avec les élèves de l'école de Carreyrat",
+
+            "img10": "/images/streetart_img10.jpg",
+            "img10M": "/images/streetart_img10_M.jpg",
+            "alt10": "Fresque réalisée dans le Tarn et Garonne",
+
+            "img11": "/images/streetart_img11.jpg",
+            "img11M": "/images/streetart_img11_M.jpg",
+            "alt11": "Réalisation d'une fresque avec et pour tous les enfants de l'école Saint Joseph à Monclar-de-Quercy",
+
+            "img12": "/images/streetart_img12.jpg",
+            "img12M": "/images/streetart_img12_M.jpg",
+            "alt12": "Fresque peinte aux alentours du Port Canal à Montauban"
         }
     }
 ]

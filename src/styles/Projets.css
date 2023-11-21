@@ -66,6 +66,10 @@
     padding-bottom: 7.5%;
 }
 
+.projet-large-card {
+    margin-bottom: 80px;
+}
+
 .projet-large-card .projet-card-infos {
     padding-left: 4.25%;
     padding-bottom: 3.15%;
@@ -83,7 +87,6 @@
     justify-content: space-between;
     margin-bottom: 75px;
     gap: min(80px);
-    margin-top: 80px;
 }
 
 .projets-six-cards-div .projet-card {
@@ -123,6 +126,14 @@
 @media only screen and (min-width: 1920px) {
     .projets-six-cards-div .projet-card{
         min-width: 400px;
+    }
+}
+
+/* Cet élément fictif prendra tout l'espace restant pour adapter une card seule aux memes dim */
+@media only screen and (max-width:1400px) {
+    .projets-six-cards-div:after {
+        content: "";
+        flex: auto;
     }
 }
 

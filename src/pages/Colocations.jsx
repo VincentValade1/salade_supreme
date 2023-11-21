@@ -2,7 +2,7 @@ import ProjetModel from "../components/ProjetModel";
 import projetsData from '../datas/projetsData.json';
 
 
-function colocationsations() {
+function Colocations() {
     return (
         <>
             {projetsData.map(( data ) =>
@@ -14,4 +14,4 @@ function colocationsations() {
     )
 }
 
-export default colocationsations;
+export default Colocations;
