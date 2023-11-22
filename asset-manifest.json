@@ -1,18 +1,18 @@
 {
   "files": {
-    "main.css": "/salade_supreme/static/css/main.3435a1f3.css",
-    "main.js": "/salade_supreme/static/js/main.49c5a3f6.js",
-    "static/js/787.987457d8.chunk.js": "/salade_supreme/static/js/787.987457d8.chunk.js",
+    "main.css": "/salade_supreme/static/css/main.3064d19b.css",
+    "main.js": "/salade_supreme/static/js/main.5f3762ea.js",
+    "static/js/787.8c207207.chunk.js": "/salade_supreme/static/js/787.8c207207.chunk.js",
     "static/media/gotham-book.otf": "/salade_supreme/static/media/gotham-book.e37cf59954e32a3f5401.otf",
     "static/media/black-mango-black.ttf": "/salade_supreme/static/media/black-mango-black.ceb6e6203d843f3b7c22.ttf",
     "static/media/gotham-htf-book.ttf": "/salade_supreme/static/media/gotham-htf-book.be7538782f9ba70c5226.ttf",
     "index.html": "/salade_supreme/index.html",
-    "main.3435a1f3.css.map": "/salade_supreme/static/css/main.3435a1f3.css.map",
-    "main.49c5a3f6.js.map": "/salade_supreme/static/js/main.49c5a3f6.js.map",
-    "787.987457d8.chunk.js.map": "/salade_supreme/static/js/787.987457d8.chunk.js.map"
+    "main.3064d19b.css.map": "/salade_supreme/static/css/main.3064d19b.css.map",
+    "main.5f3762ea.js.map": "/salade_supreme/static/js/main.5f3762ea.js.map",
+    "787.8c207207.chunk.js.map": "/salade_supreme/static/js/787.8c207207.chunk.js.map"
   },
   "entrypoints": [
-    "static/css/main.3435a1f3.css",
-    "static/js/main.49c5a3f6.js"
+    "static/css/main.3064d19b.css",
+    "static/js/main.5f3762ea.js"
   ]
 }
