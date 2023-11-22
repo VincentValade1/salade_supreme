@@ -15,7 +15,7 @@ function MembreMobile() {
     
     return(
         <main className="membre-opened-card">
-            <img tabIndex="0" src={matchingName.portraitM} alt={`portrait du membre ${matchingName.name}`} />
+            <img tabIndex="0" src={process.env.PUBLIC_URL + matchingName.portraitM} alt={`portrait du membre ${matchingName.name}`} />
             <div className="membre-opened-card-text-div">
                 <div className="membre-top-infos">
                     <h1 tabIndex="0">{matchingName.name}</h1>

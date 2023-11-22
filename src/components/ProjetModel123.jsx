@@ -36,19 +36,19 @@ function ProjetModel123 ({ extraContent1, extraContent2, extraContent3, img1, im
             {extraContent1}
             <div className="projet-duo-images-div">
                 <div className="projet-left-image-div">
-                    {isMobile ? <img tabIndex="0" src={img1M} alt={alt1} /> : <img tabIndex="0" src={img1} alt={alt1} />}
+                    {isMobile ? <img tabIndex="0" src={process.env.PUBLIC_URL + img1M} alt={alt1} /> : <img tabIndex="0" src={process.env.PUBLIC_URL + img1} alt={alt1} />}
                     {isDesktop && <p tabIndex="0">{alt1}</p>}
                 </div>
                 <div className="projet-right-image-div">
-                    {isMobile ? <img tabIndex="0" src={img2M} alt={alt2} /> : <img tabIndex="0" src={img2} alt={alt2} />}
+                    {isMobile ? <img tabIndex="0" src={process.env.PUBLIC_URL + img2M} alt={alt2} /> : <img tabIndex="0" src={process.env.PUBLIC_URL + img2} alt={alt2} />}
                     {isDesktop && <p tabIndex="0">{alt2}</p>}
                 </div>
             </div>
             {extraContent2 !== null ? (
                 isMobile ? (
-                    <img tabIndex="0" className='projet-lastImg' src={img3M} alt={alt3} />
+                    <img tabIndex="0" className='projet-lastImg' src={process.env.PUBLIC_URL + img3M} alt={alt3} />
                 ) : (
-                    <img tabIndex="0" className='projet-lastImg' src={img3} alt={alt3} />
+                    <img tabIndex="0" className='projet-lastImg' src={process.env.PUBLIC_URL + img3} alt={alt3} />
                 )
             ) : (
                 extraContent3

@@ -20,7 +20,7 @@ function ProjetCard({className, link, cover, coverM, altCover, title, theme }) {
     return(
         <div className={`projet-card ${className ? className : ''}`}>
             <NavLink tabIndex="0" aria-label={`lien vers page ${theme}`} to={link} >
-                {isMobile ? (<img src={coverM} alt={altCover} />) : (<img src={cover} alt={altCover} />)}
+                {isMobile ? (<img src={process.env.PUBLIC_URL + coverM} alt={altCover} />) : (<img src={process.env.PUBLIC_URL + cover} alt={altCover} />)}
                 <div className="projet-card-infos">
                     <h2 tabIndex="0">{title}</h2>
                     <h3 tabIndex="0">{theme}</h3>

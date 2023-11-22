@@ -77,13 +77,13 @@ function MembreCard({membre}) {
             {isMobile ? (
                 <Link to={`/membres/${membre.id}`} key={membre.id}>
                     <div tabIndex="0" id='trigger' role='button' aria-labelledby={`cliquer pour plus d'infos sur ${membre.name}`} aria-haspopup="true" aria-controls='popup' aria-expanded="false" key={membre.id} className="membre-card" onClick={handleCardClick}>
-                        <img src={cover} alt={`illustration du membre ${membre.name}`} />
+                        <img src={process.env.PUBLIC_URL + cover} alt={`illustration du membre ${membre.name}`} />
                         <h2>{membre.name}</h2>
                     </div>
                 </Link>
             ) : (
                 <div tabIndex="0" id='trigger' role='button' aria-labelledby={`cliquer pour plus d'infos sur ${membre.name}`} aria-haspopup="true" aria-controls='popup' aria-expanded="false" key={membre.id} className="membre-card" onMouseEnter={handleHover} onMouseLeave={handleNoHover} onClick={handleCardClick} >
-                    <img src={cover} alt={`illustration du membre ${membre.name}`} />
+                    <img src={process.env.PUBLIC_URL + cover} alt={`illustration du membre ${membre.name}`} />
                     <h2>{membre.name}</h2>
                 </div>
             )}
@@ -96,7 +96,7 @@ function MembreCard({membre}) {
                     <div className="membre-opened-card">
                         {isDesktop ? (<RxCross2 className="closing-cross"/>) : null }
                         
-                        {isTablet ? (<img tabIndex="0" src={membre.portraitM} alt={`portrait du membre ${membre.name}`} />) : (<img tabIndex="0" src={membre.portrait} alt={`portrait du membre ${membre.name}`} />)}
+                        {isTablet ? (<img tabIndex="0" src={process.env.PUBLIC_URL + membre.portraitM} alt={`portrait du membre ${membre.name}`} />) : (<img tabIndex="0" src={process.env.PUBLIC_URL + membre.portrait} alt={`portrait du membre ${membre.name}`} />)}
                         <div className="membre-opened-card-text-div">
                             <div className="membre-top-infos">
                                 <h3 tabIndex="0">{membre.name}</h3>
