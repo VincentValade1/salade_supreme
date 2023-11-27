@@ -1,3 +1,7 @@
+.accueil-main-div {
+    background-color: rgb(255, 255, 255);
+}
+
 .partner-logos-section {
     display: flex;
     flex-direction: column;
@@ -23,6 +27,43 @@
     max-width: 90px;
     height: auto;
 }
+
+.dark-mode-alert-div {
+    position: absolute;
+    display: flex;
+    background-color: white;
+    top: 15%;
+    z-index: 20;
+    width: 500px;
+    flex-direction: column;
+    text-align: center;
+    padding: 30px;
+    border-radius: 8px;
+    left: 50%;
+    transform: translateX(-50%);
+    align-items: center;
+    border: 10px solid white;
+    background-color: black;
+}
+
+.dark-mode-alert-div button {
+    width: fit-content;
+    height: 49px;
+    padding: 10px 20px 10px 20px;
+    border-radius: 8px;
+    font-family: "Mango-Black";
+    font-size: 18px;
+}
+
+.dark-mode-alert-div button:hover {
+    cursor: pointer;
+}
+
+.palette-icon {
+    font-size: 50px;
+    color: white;
+}
+
 
 @media only screen and (max-width: 768px) {
     .partner-logos {
