@@ -1,3 +1,5 @@
+import '../styles/Services.css';
+
 function ServiceCard ({ className, cover, coverAlt, title, description }) {
     return(
         <div className={`service-card ${className ? className : ''}`}>

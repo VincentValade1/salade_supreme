@@ -15,7 +15,6 @@ function Contact() {
     const sendEmail = (e) => {
         e.preventDefault();
     
-        // connecter email services sur email.js avec Quentin, utiliser clé .env
         emailjs.sendForm(emailJsServiceId, emailJsTemplateId, form.current, emailJsPublicKey)
           .then((result) => {
               console.log(result.text);
@@ -77,4 +76,4 @@ function Contact() {
     )
 }
 
-export default Contact
+export default Contact;

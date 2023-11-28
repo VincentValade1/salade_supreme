@@ -2,7 +2,6 @@ import ProjetModel from "../components/ProjetModel";
 import projetsData from '../datas/projetsData.json';
 import YoutubeLector from "../components/YoutubeLector";
 
-
 function OzOccitanie() {
     const ozYoutube1 = <YoutubeLector videoId= 'YNPBtORcNwE' />;
 

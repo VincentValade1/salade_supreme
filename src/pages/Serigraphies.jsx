@@ -1,8 +1,7 @@
 import ProjetModel from "../components/ProjetModel";
 import projetsData from '../datas/projetsData.json';
 
-
-function serigraphiess() {
+function Serigraphies() {
     return (
         <>
             {projetsData.map(( data ) =>
@@ -14,4 +13,4 @@ function serigraphiess() {
     )
 }
 
-export default serigraphiess;
+export default Serigraphies;

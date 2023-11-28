@@ -51,11 +51,10 @@
     flex-direction: column;
     background-color: #28338A;
     justify-content: center;
-    align-items: center;
     flex: 1;
     width: 50%;
     height: auto;
-    padding: 10px 5.5% 10px 5.5%;
+    padding: 10px 3% 10px 3%;
 
     @media only screen and (max-width: 768px) {
         width: 100%;
@@ -93,6 +92,7 @@
 .service-card p {
     font-size: clamp(14px, 1vw, 16px);
     margin: 0;
+    line-height: 22px;
 
     @media only screen and (max-width: 768px) {
         font-size: 16px;
@@ -115,4 +115,4 @@
     .service-card-5 {
         flex-direction: row;
     }
-};
+}

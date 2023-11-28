@@ -10,7 +10,6 @@ header {
     height: 70px;
     padding-left: 7.505%;
     padding-right: 7.725%;
-    /* border-bottom: 10px solid #F8C7CD; */
 }
 
 header nav {
@@ -22,18 +21,19 @@ header nav a {
     margin-left: 45px;
     height: 100%;
     font-size: 18px;
-    padding-inline: 7px;
+    line-height: 20px;
+    padding-inline: 4px;
     text-decoration: none;
     color: #28338A;
 }
 
 header nav a:hover {
-    box-shadow: 0 -10px #F8C7CD inset;
+    box-shadow: 0 -12px #F8C7CD inset;
     transition: 0.2s ease;
 }
 
 header nav a.active {
-    box-shadow: 0 -10px #F8C7CD inset;
+    box-shadow: 0 -12px #F8C7CD inset;
 }
 
 .logo-accueil {
@@ -89,14 +89,15 @@ header nav a.active {
     .menu-toggle-link {
         font-size: 24px;
         margin-inline: auto;
-        margin-bottom: 50px;
+        margin-bottom: 55px;
         box-shadow: 0 -15px #F8C7CD inset;
-        height: 36px;
+        height: 28px;
     }
 
     .menu-toggle-link.active {
         box-shadow: 0 -15px #F8C7CD inset;
         width: auto;
+        height: 28px;
     }
 
     header nav.active-toggle-menu {
@@ -111,7 +112,6 @@ header nav a.active {
         width: 100%;
         height: calc(100vh - 70px) ;
         background-color: white;
-        /* padding-top: 155px; */
     }
 
     .active-toggle-menu-links-div {
@@ -134,10 +134,4 @@ header nav a.active {
         font-size: 35px;
         height: fit-content;
     }
-
-    /* header nav a.active-toggle-menu {
-        height: auto;
-        box-shadow: 0 -10px #F8C7CD inset;
-
-    } */
 }

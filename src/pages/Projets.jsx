@@ -1,16 +1,15 @@
-import '../styles/Projets.css'
+import '../styles/Projets.css';
 import ProjetCard from '../components/ProjetCard';
 import projetsData from '../datas/projetsData.json';
 import { BsTriangleFill } from 'react-icons/bs';
  
-
 function Projets() {
 
     return(
         <main className="pink-border-main-div">
             <section className='projets-section'>
                 <h1 tabIndex="0" className="pink-titles">Nos Supreme Projets</h1>
-                <p tabIndex="0" className='description-pages'>Né en 2017, Salade Suprême est un collectif de design global composé d'artistes, d'artisans et de designers. Il s'agit avant tout d'un réseau d'acteurs de la création qui se sont réunis sous un même nom afin d'unir leurs compétences pour mener des projets culturels et sociaux dans une approche résolument éthique.</p>
+                <p tabIndex="0" className='description-pages'>Salade suprême est avant tout un réseau d'acteurs et d'actrices de la création qui se sont réuni.e.s sous un même nom afin d'unir leurs compétences pour mener des projets culturels et sociaux dans une approche résolument éthique.</p>
                 <div className="projets-top-duo-div">
                     <ProjetCard className="projet-top-card" link='/projets/supreme-vitrines' cover={projetsData[0].vitrines.cover} coverM={projetsData[0].vitrines.coverM} altCover={projetsData[0].vitrines.altCover} title={projetsData[0].vitrines.title} theme={projetsData[0].vitrines.theme} />
                     <ProjetCard className="projet-top-card" link='/projets/mister-freeze' cover={projetsData[0].misterfreeze.cover} coverM={projetsData[0].misterfreeze.coverM} altCover={projetsData[0].misterfreeze.altCover} title={projetsData[0].misterfreeze.title} theme={projetsData[0].misterfreeze.theme} />

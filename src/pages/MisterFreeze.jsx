@@ -1,7 +1,6 @@
 import ProjetModel from "../components/ProjetModel";
 import projetsData from '../datas/projetsData.json';
 
-
 function MisterFreeze() {
     return (
         <>
@@ -15,5 +14,3 @@ function MisterFreeze() {
 }
 
 export default MisterFreeze;
-
-// ajouter images mobile comme ce modele sur toute les photos et tous les projets!! 

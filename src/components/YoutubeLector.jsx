@@ -3,7 +3,7 @@ import YouTube from 'react-youtube';
 import '../styles/YoutubeLector.css';
 
 function YoutubeLector(props) {
-    // Remplacez 'VIDEO_ID' par l'ID de la vidéo YouTube que vous souhaitez inclure.
+    // Remplacez 'VIDEO_ID' par l'ID de la vidéo YouTube que vous souhaitez inclure, en utilisant le composant.
     const videoId = props.videoId;
 
     const opts = {

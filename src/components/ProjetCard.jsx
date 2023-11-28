@@ -1,5 +1,6 @@
-import { NavLink } from 'react-router-dom'
+import { NavLink } from 'react-router-dom';
 import { useState, useEffect } from 'react';
+import '../styles/Projets.css';
 
 function ProjetCard({className, link, cover, coverM, altCover, title, theme }) {
 

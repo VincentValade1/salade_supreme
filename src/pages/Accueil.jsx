@@ -11,7 +11,7 @@ function Accueil() {
     const [showFloatingDiv, setShowFloatingDiv] = useState(false);
 
   useEffect(() => {
-    const delayToCheckStyles = 3000; // Définir le délai en millisecondes (par exemple, 3000 ms pour 3 secondes)
+    const delayToCheckStyles = 3000;
 
     const checkStyles = () => {
       const rootElement = document.querySelector(".accueil-main-div"); // Sélectionnez l'élément racine ou l'élément que vous souhaitez inspecter

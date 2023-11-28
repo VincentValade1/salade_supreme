@@ -12,7 +12,7 @@
     width: 100%;
     align-items: center;
     justify-content: center;
-};
+}
 
 .membre-card {
     display: flex;
@@ -126,7 +126,6 @@
         margin-bottom: 0;
         padding: 20px;
         width: 70%;
-        /* max-height: auto; */
         height: auto;
         background-color: #FFFFFF;
         border-radius: 8px;
@@ -159,8 +158,6 @@
         height: 62px;
         border-radius: 8px;
         background-color: #283389;
-        /* font-size: 18px; */
-        /* color: white; */
         display: flex;
         justify-content: center;
         flex-direction: column;
@@ -192,7 +189,6 @@
     }
 
     .membre-opened-card {
-        /* border-top: 10px solid #F8C7CD ; */
         position: relative;
         width: 100%;
         height: fit-content;
@@ -201,16 +197,7 @@
         border-radius: 0;
     }
 
-    /* .membre-opened-card ::before {
-        height: 10px;
-        width: 100%;
-        position: fixed;
-        top: 70px;
-        background-color: #F8C7CD;
-    } */
-
     .membre-opened-card img {
         border-radius: 0;
     }
 }
-

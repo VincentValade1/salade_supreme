@@ -9,7 +9,6 @@
     margin-inline: 7.4%;
     display: flex;
     flex-direction: column;
-    /* padding-bottom: 90px; */
 }
 
 .projet-content img {
@@ -33,8 +32,6 @@
 }
 
 .projet-description {
-    /* color: black;
-    font-size: 20px; */
     width: 70%;
     margin-bottom: 111px;
     margin-top: 0;
@@ -84,7 +81,6 @@
     width: 100%;
     height: auto;
     flex-wrap: nowrap;
-    /* font-size: 16px; */
     font-size: clamp(12px, 1.5vw, 12px);
     color: black;
 }

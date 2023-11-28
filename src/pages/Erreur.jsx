@@ -9,10 +9,9 @@ function Erreur() {
                 <span>ERREUR 404</span>
                 <p>La page demandée n'a pas été trouvée</p>
                 <NavLink tabIndex="0" aria-label="retour vers la page accueil" activeclassname='active' to='/'className="bouton-erreur-accueil">Retour vers la page<br/>Accueil</NavLink>
-
             </section>
         </main>
     )
 }
 
-export default Erreur
+export default Erreur;

@@ -2,7 +2,6 @@ import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { RxCross2 } from 'react-icons/rx';
 import '../styles/Membres.css';
-// import MembreMobile from '../pages/MembreMobile';
 
 function MembreCard({membre}) {
   
@@ -75,7 +74,7 @@ function MembreCard({membre}) {
     return(
         <>
             {isMobile ? (
-                <Link to={`/membres/${membre.id}`} key={membre.id}>
+                <Link to={`/membres/${membre.name}`} key={membre.id}>
                     <div tabIndex="0" id='trigger' role='button' aria-labelledby={`cliquer pour plus d'infos sur ${membre.name}`} aria-haspopup="true" aria-controls='popup' aria-expanded="false" key={membre.id} className="membre-card" onClick={handleCardClick}>
                         <img src={process.env.PUBLIC_URL + cover} alt={`illustration du membre ${membre.name}`} />
                         <h2>{membre.name}</h2>
@@ -87,9 +86,6 @@ function MembreCard({membre}) {
                     <h2>{membre.name}</h2>
                 </div>
             )}
-
-            {/* check problème passage de mobile a plus grand sur membre */}
-
             
             {isCardOpen && !isMobile && (
                 <div tabIndex="0" id='popup' role='region' aria-labelledby="fenetre d'infos sur le membre cliqué" aria-label="cliquez n'importe où pour fermer cette fenêtre d'informations sur le membre" className='membre-clicked-div' onClick={handleCardClose}>

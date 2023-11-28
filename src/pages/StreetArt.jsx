@@ -3,7 +3,6 @@ import projetsData from '../datas/projetsData.json';
 import ProjetModel123 from "../components/ProjetModel123";
 import '../styles/ProjetModel.css';
 
-
 function StreetArt() {
 
     return (

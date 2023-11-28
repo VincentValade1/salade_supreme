@@ -1,8 +1,6 @@
 import ProjetModel from "../components/ProjetModel";
 import projetsData from '../datas/projetsData.json';
 import YoutubeLector from "../components/YoutubeLector";
-import '../styles/FancyFuzz.css';
-
 
 function FancyFuzz() {
     const fancyFuzzClip1 = <YoutubeLector videoId= 'X5Gp4Lh5M1I' />;

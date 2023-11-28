@@ -1,7 +1,6 @@
 import '../styles/Header.css'
 import { Link, NavLink } from 'react-router-dom';
 import { useState, useEffect } from 'react';
-// import logo from '../assets/picto-logo.jpg';
 import { FaBars } from 'react-icons/fa';
 import { BsFacebook, BsLinkedin, BsInstagram } from 'react-icons/bs';
 
