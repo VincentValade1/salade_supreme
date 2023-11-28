@@ -29,7 +29,7 @@
 }
 
 .dark-mode-alert-div {
-    position: absolute;
+    position: fixed;
     display: flex;
     background-color: white;
     top: 15%;
@@ -67,5 +67,9 @@
 @media only screen and (max-width: 768px) {
     .partner-logos {
         margin-inline: 20px;
+    }
+
+    .dark-mode-alert-div {
+        width: 80%;
     }
 }
