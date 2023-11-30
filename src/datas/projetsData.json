@@ -1,28 +1,64 @@
 [
     {
         "vitrines": {
-            "cover": "/images/vitrine_cover.jpg",
-            "coverM": "/images/vitrine_cover_M.jpg",
-            "altCover": "dessins sur une vitrine de restaurant",
+            "cover": "/images/vitrines_cover.jpg",
+            "coverM": "/images/vitrines_cover_M.jpg",
+            "altCover": "Décoration d'une vitrine pour les 400ans de la fête des 400 coups à Montauban",
             "title": "Suprême vitrines",
             "theme": "Illustration",
-            "description": "Depuis 2020, le collectif travaille en collaboration avec la ville de Montauban. Tous les ans, plusieurs artistes ornent les vitrines des commerces pour différentes occasions (Noël, DessIngres, les 400 coups, …)",
+            "description": "Depuis 2020, le collectif travaille en collaboration avec la ville de Montauban. Tous les ans, plusieurs artistes ornent les vitriness des commerces pour différentes occasions (Noël, DessIngres, les 400 coups, …)",
 
-            "bannerImg": "/images/vitrine_banner.jpg",
-            "bannerImgM": "/images/vitrine_banner_M.jpg",
-            "altBannerImg": "femme dessinant sur une vitrine de boutique de café",
+            "bannerImg": "/images/vitrines_banner.jpg",
+            "bannerImgM": "/images/vitrines_banner_M.jpg",
+            "altBannerImg": "Vitrine décorée aux crayons blanc",
 
-            "img1": "/images/vitrine_img1.jpg",
-            "img1M": "/images/vitrine_img1_M.jpg",
-            "alt1": "Décoration de vitrine de commerçants  pour promouvoir le festival d'art graphique Dess'Ingres",
+            "img1": "/images/vitrines_img1.jpg",
+            "img1M": "/images/vitrines_img1_M.jpg",
+            "alt1": "Décoration d'une vitrine à Montauban pour les fêtes de Noël, 2020.",
 
-            "img2": "/images/vitrine_img2.jpg",
-            "img2M": "/images/vitrine_img2_M.jpg",
-            "alt2": "Décoration de vitrine de commerçants à l'occasion de la fête des 400 ans des 400 coups de Montauban",
+            "img2": "/images/vitrines_img2.jpg",
+            "img2M": "/images/vitrines_img2_M.jpg",
+            "alt2": "Décoration d'une vitrine de magasin à Bordeaux",
 
-            "img3": "/images/vitrine_img3.jpg",
-            "img3M": "/images/vitrine_img3_M.jpg",
-            "alt3": "Décoration de vitrine de commerçants à l'occasion de la fête des 400 ans des 400 coups de Montauban"
+            "img3": "/images/vitrines_img3.jpg",
+            "img3M": "/images/vitrines_img3_M.jpg",
+            "alt3": "Décoration d'une vitrine de magasin à Bordeaux",
+
+            "img4": "/images/vitrines_img4.jpg",
+            "img4M": "/images/vitrines_img4_M.jpg",
+            "alt4": "Décoration d'une vitrine pour les 400ans de la fête des 400 coups à Montauban",
+
+            "img5": "/images/vitrines_img5.jpg",
+            "img5M": "/images/vitrines_img5_M.jpg",
+            "alt5": "Décoration d'une vitrine pour les 400ans de la fête des 400 coups à Montauban",
+
+            "img6": "/images/vitrines_img6.jpg",
+            "img6M": "/images/vitrines_img6_M.jpg",
+            "alt6": "Décoration d'une vitrine pour les 400ans de la fête des 400 coups à Montauban",
+
+            "img7": "/images/vitrines_img7.jpg",
+            "img7M": "/images/vitrines_img7_M.jpg",
+            "alt7": "Décoration d'une vitrine pour les festival Dessingres à Montauban",
+
+            "img8": "/images/vitrines_img8.jpg",
+            "img8M": "/images/vitrines_img8_M.jpg",
+            "alt8": "Décoration d'une vitrine pour les festival Dessingres à Montauban",
+            
+            "img9": "/images/vitrines_img9.jpg",
+            "img9M": "/images/vitrines_img9_M.jpg",
+            "alt9": "Décoration d'une vitrine pour les festival Dessingres à Montauban",
+
+            "img10": "/images/vitrines_img10.jpg",
+            "img10M": "/images/vitrines_img10_M.jpg",
+            "alt10": "Décoration d'une vitrine pour les festival Dessingres à Montauban",
+
+            "img11": "/images/vitrines_img11.jpg",
+            "img11M": "/images/vitrines_img11_M.jpg",
+            "alt11": "Décoration d'une vitrine pour les festival Dessingres à Montauban",
+
+            "img12": "/images/vitrines_img12.jpg",
+            "img12M": "/images/vitrines_img12_M.jpg",
+            "alt12": "Décoration d'une vitrine pour les festival Dessingres à Montauban"
         },
         "misterfreeze": {
             "cover": "/images/mister_cover.jpg",
@@ -49,28 +85,48 @@
             "alt3": "Photo de classe devant notre cabinet des curiosités"
         },
         "colocations": {
-            "cover": "/images/coloc_cover.jpg",
-            "coverM": "/images/coloc_banner_M.jpg",
+            "cover": "/images/colocation_cover.jpg",
+            "coverM": "/images/colocation_cover_M.jpg",
             "altCover": "cuisine rétro design",
             "title": "Colocation(s)",
             "theme": "Scénographie / Exposition",
             "description": "Création d'une scénographie d'exposition pour “Colocation(s) - Notre passé et son futur” en collaboration avec la MéMo (médiathèque de Montauban) et la ville de Montauban. Cette scénographie présente des répliques d'appartements typiques des années 1970 et 2020. Le but de cette expositions était de mettre en avant comment notre passé imprègne notre quotidien tout en évoluant avec de nouvelles technologies propres à notre époque.",
 
-            "bannerImg": "/images/coloc_banner.jpg",
-            "bannerImgM": "/images/coloc_banner_M.jpg",
+            "bannerImg": "/images/colocation_banner.jpg",
+            "bannerImgM": "/images/colocation_banner_M.jpg",
             "altBannerImg": "cuisine rétro design",
 
-            "img1": "/images/coloc_img1.jpg",
-            "img1M": "/images/coloc_img1_M.jpg",
-            "alt1": "Salon et salle à manger entièrement reconstituée",
+            "img1": "/images/colocation_img1.jpg",
+            "img1M": "/images/colocation_img1_M.jpg",
+            "alt1": "Chinage d'accessoires à Emmaüs 82",
 
-            "img2": "/images/coloc_img2.jpg",
-            "img2M": "/images/coloc_img2_M.jpg",
-            "alt2": "Scénette dans la cuisine des années 70",
+            "img2": "/images/colocation_img2.jpg",
+            "img2M": "/images/colocation_img2_M.jpg",
+            "alt2": "Chinage de meubles à Emmaüs 82",
 
-            "img3": "/images/coloc_img3.jpg",
-            "img3M": "/images/coloc_img3_M.jpg",
-            "alt3": "Cuisine de l'année 2020 positionnée en face de l'appartement de 1970"
+            "img4": "/images/colocation_img4.jpg",
+            "img4M": "/images/colocation_img4_M.jpg",
+            "alt4": "Mise en situation, appartement année 70",
+
+            "img5": "/images/colocation_img5.jpg",
+            "img5M": "/images/colocation_img5_M.jpg",
+            "alt5": "Mise en situation, appartement année 70",
+
+            "img6": "/images/colocation_img6.jpg",
+            "img6M": "/images/colocation_img6_M.jpg",
+            "alt6": "Mise en situation, appartement année 70",
+
+            "img7": "/images/colocation_img7.jpg",
+            "img7M": "/images/colocation_img7_M.jpg",
+            "alt7": "Décors années 2020",
+
+            "img8": "/images/colocation_img8.jpg",
+            "img8M": "/images/colocation_img8_M.jpg",
+            "alt8": "Mise en situation, cuisine année 2020",
+
+            "img9": "/images/colocation_img9.jpg",
+            "img9M": "/images/colocation_img9_M.jpg",
+            "alt9": "Mise en situation, cuisine année 2020"
         },
         "identite": {
             "cover": "/images/identite_cover.jpg",
@@ -166,7 +222,7 @@
             "altCover": "chanteuse d'un groupe de musique en live dans décor rétro avec bassiste en arrière plan",
             "title": "Fancy Fuzz",
             "theme": "Audiovisuel",
-            "description": "Captation live vidéo et son pour deux titres du groupe Fancy Fuzz tournés dans la partie années 70 de l'exposition “Colocation(s)”. Lumière/images par Elina Barbeau et son par Thomas Hymon.",
+            "description": "Captation live vidéo et son pour deux titres du groupe Fancy Fuzz tournés dans la partie années 70 de l'exposition “colocationation(s)”. Lumière/images par Elina Barbeau et son par Thomas Hymon.",
 
             "bannerImg": "/images/fancyfuzz_banner.jpg",
             "bannerImgM": "/images/fancyfuzz_banner_M.jpg",
@@ -202,7 +258,39 @@
 
             "img3": "/images/serigraphie_img3.jpg",
             "img3M": "/images/serigraphie_img3_M.jpg",
-            "alt3": "Sérigraphie de l'illustration de Clément Cases sur papier brillant"
+            "alt3": "Sérigraphie de l'illustration de Clément Cases sur papier brillant",
+
+            "img4": "/images/serigraphie_img4.jpg",
+            "img4M": "/images/serigraphie_img4_M.jpg",
+            "alt4": "Cartes de visite de Salade Suprême sérigraphiées par Léa Pep.",
+
+            "img5": "/images/serigraphie_img5.jpg",
+            "img5M": "/images/serigraphie_img5_M.jpg",
+            "alt5": "Packs de stickers sérigraphiées par Léa Pep.",
+
+            "img6": "/images/serigraphie_img6.jpg",
+            "img6M": "/images/serigraphie_img6_M.jpg",
+            "alt6": "feuilles d'illustrations imprimées",
+            
+            "img7": "/images/serigraphie_img7.jpg",
+            "img7M": "/images/serigraphie_img7_M.jpg",
+            "alt7": "Illustration de El.Doble.T sérigraphiée par Léa Pep.",
+            
+            "img8": "/images/serigraphie_img8.jpg",
+            "img8M": "/images/serigraphie_img8_M.jpg",
+            "alt8": "Illustration de El.Doble.T sérigraphiée par Léa Pep.",
+
+            "img9": "/images/serigraphie_img9.jpg",
+            "img9M": "/images/serigraphie_img9_M.jpg",
+            "alt9": "Maxime portant un tee shirt sérigraphié",
+
+            "img10": "/images/serigraphie_img10.jpg",
+            "img10M": "/images/serigraphie_img10_M.jpg",
+            "alt10": "Illustration et sérigraphie textile par Léa Pep.",
+
+            "img11": "/images/serigraphie_img11.jpg",
+            "img11M": "/images/serigraphie_img11_M.jpg",
+            "alt11": "Sérigraphie d’un tote bage par Léa Pep."
         },
         "biennale": {
             "cover": "/images/serigraphie_img3_M.jpg",
@@ -354,11 +442,11 @@
 
             "img4": "/images/streetart_img4.jpg",
             "img4M": "/images/streetart_img4_M.jpg",
-            "alt4": "Performance live dans la vitrines des Galeries Lafayette de Montauban",
+            "alt4": "Performance live dans la vitriness des Galeries Lafayette de Montauban",
 
             "img5": "/images/streetart_img5.jpg",
             "img5M": "/images/streetart_img5_M.jpg",
-            "alt5": "Performance live dans la vitrines des Galeries Lafayette de Montauban",
+            "alt5": "Performance live dans la vitriness des Galeries Lafayette de Montauban",
 
             "img6": "/images/streetart_img6.jpg",
             "img6M": "/images/streetart_img6_M.jpg",

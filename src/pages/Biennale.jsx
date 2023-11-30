@@ -10,7 +10,7 @@ function Biennale() {
         <>
             {projetsData.map(( data ) =>
                 (
-                    <ProjetModel key={data.biennale.title} extraContent1={BiennaleVideo} bannerImg={data.biennale.bannerImg} bannerImgM={data.biennale.bannerImgM} altBannerImg={data.biennale.altBannerImg} title={data.biennale.title} theme={data.biennale.theme} description={data.biennale.description} extraContent2={null} twinPictures={null} />
+                    <ProjetModel key={data.biennale.title} extraTopContent={BiennaleVideo} bannerImg={data.biennale.bannerImg} bannerImgM={data.biennale.bannerImgM} altBannerImg={data.biennale.altBannerImg} title={data.biennale.title} theme={data.biennale.theme} description={data.biennale.description} img3={null} twinPictures={null} />
                 )
             )}
         </>

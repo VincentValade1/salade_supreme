@@ -12,13 +12,13 @@ function Clutch() {
         <main>
             {projetsData.map(( data ) =>
                 (
-                    <ProjetModel key={data.clutch.title} bannerImg={data.clutch.bannerImg} bannerImgM={data.clutch.bannerImgM} altBannerImg={data.clutch.altBannerImg} title={data.clutch.title} theme={data.clutch.theme} description={data.clutch.description} img1={data.clutch.img1} img1M={data.clutch.img1M} alt1={data.clutch.alt1} img2={data.clutch.img2} img2M={data.clutch.img2M} alt2={data.clutch.alt2} extraContent2={null} extraContent3={clutchYoutube1} />
+                    <ProjetModel key={data.clutch.title} bannerImg={data.clutch.bannerImg} bannerImgM={data.clutch.bannerImgM} altBannerImg={data.clutch.altBannerImg} title={data.clutch.title} theme={data.clutch.theme} description={data.clutch.description} img1={data.clutch.img1} img1M={data.clutch.img1M} alt1={data.clutch.alt1} img2={data.clutch.img2} img2M={data.clutch.img2M} alt2={data.clutch.alt2} img3={null} extraYoutubeImg3={clutchYoutube1} />
                 )
             )}
           
             {projetsData.map(( data ) =>
                 (
-                    <ProjetModel123 key={data.clutch.title} img1={data.clutch.img4} img1M={data.clutch.img4M} alt1={data.clutch.alt4} img2={data.clutch.img5} img2M={data.clutch.img5M} alt2={data.clutch.alt5} extraContent2={null} extraContent3={clutchYoutube2}  />
+                    <ProjetModel123 key={data.clutch.title} img1={data.clutch.img4} img1M={data.clutch.img4M} alt1={data.clutch.alt4} img2={data.clutch.img5} img2M={data.clutch.img5M} alt2={data.clutch.alt5} img3={null} extraYoutubeImg3={clutchYoutube2}  />
                 )
             )}
 
@@ -30,7 +30,7 @@ function Clutch() {
 
             {projetsData.map(( data ) =>
                 (
-                    <ProjetModel123 key={data.clutch.title} img1={data.clutch.img10} img1M={data.clutch.img10M} alt1={data.clutch.alt10} img2={data.clutch.img11} img2M={data.clutch.img11M} alt2={data.clutch.alt11} extraContent2={null} />
+                    <ProjetModel123 key={data.clutch.title} img1={data.clutch.img10} img1M={data.clutch.img10M} alt1={data.clutch.alt10} img2={data.clutch.img11} img2M={data.clutch.img11M} alt2={data.clutch.alt11} img3={null} />
                 )
             )}
            

@@ -11,7 +11,7 @@ function FancyFuzz() {
         <>
             {projetsData.map(( data ) =>
                 (
-                    <ProjetModel key={data.fancyfuzz.title} className='main-fancy-fuzz' extraContent1={fancyFuzzClip1} extraContent2={null} extraContent3={fancyFuzzClip2} bannerImg={data.fancyfuzz.bannerImg} bannerImgM={data.fancyfuzz.bannerImgM} altBannerImg={data.fancyfuzz.altBannerImg} title={data.fancyfuzz.title} theme={data.fancyfuzz.theme} description={data.fancyfuzz.description} img1={data.fancyfuzz.img1} img1M={data.fancyfuzz.img1M} alt1={data.fancyfuzz.alt1} img2={data.fancyfuzz.img2} img2M={data.fancyfuzz.img2M} alt2={data.fancyfuzz.alt2} />
+                    <ProjetModel key={data.fancyfuzz.title} extraTopContent={fancyFuzzClip1} img3={null} extraYoutubeImg3={fancyFuzzClip2} bannerImg={data.fancyfuzz.bannerImg} bannerImgM={data.fancyfuzz.bannerImgM} altBannerImg={data.fancyfuzz.altBannerImg} title={data.fancyfuzz.title} theme={data.fancyfuzz.theme} description={data.fancyfuzz.description} img1={data.fancyfuzz.img1} img1M={data.fancyfuzz.img1M} alt1={data.fancyfuzz.alt1} img2={data.fancyfuzz.img2} img2M={data.fancyfuzz.img2M} alt2={data.fancyfuzz.alt2} />
                 )
             )}
         </>

@@ -1,7 +1,7 @@
 import '../styles/ProjetModel.css';
 import { useEffect, useState } from 'react';
 
-function ProjetModel123 ({ extraContent1, extraContent2, extraContent3, img1, img1M, alt1, img2, img2M, alt2, img3, img3M, alt3}) {
+function ProjetModel123 ({ extraTopContent, extraYoutubeImg3, img1, img1M, alt1, img2, img2M, alt2, img3, img3M, alt3}) {
 
     const [isDesktop, setIsDesktop] = useState(window.innerWidth > 1024);
 
@@ -33,7 +33,7 @@ function ProjetModel123 ({ extraContent1, extraContent2, extraContent3, img1, im
 
     return (
         <section className='projet-content'>
-            {extraContent1}
+            {extraTopContent}
             <div className="projet-duo-images-div">
                 <div className="projet-left-image-div">
                     {isMobile ? <img tabIndex="0" src={process.env.PUBLIC_URL + img1M} alt={alt1} /> : <img tabIndex="0" src={process.env.PUBLIC_URL + img1} alt={alt1} />}
@@ -44,14 +44,14 @@ function ProjetModel123 ({ extraContent1, extraContent2, extraContent3, img1, im
                     {isDesktop && <p tabIndex="0">{alt2}</p>}
                 </div>
             </div>
-            {extraContent2 !== null ? (
+            {img3 !== null ? (
                 isMobile ? (
                     <img tabIndex="0" className='projet-lastImg' src={process.env.PUBLIC_URL + img3M} alt={alt3} />
                 ) : (
                     <img tabIndex="0" className='projet-lastImg' src={process.env.PUBLIC_URL + img3} alt={alt3} />
                 )
             ) : (
-                extraContent3
+                extraYoutubeImg3
             )}
         </section>
     );

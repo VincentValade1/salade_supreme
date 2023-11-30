@@ -22,13 +22,13 @@ function EcoConception() {
 
             {projetsData.map(( data ) =>
                 (
-                    <ProjetModel123 key={data.ecoConception.title} img1={data.ecoConception.img7} img1M={data.ecoConception.img7M} alt1={data.ecoConception.alt7} img2={data.ecoConception.img8} img2M={data.ecoConception.img8M} alt2={data.ecoConception.alt8} extraContent2={null} />
+                    <ProjetModel123 key={data.ecoConception.title} img1={data.ecoConception.img7} img1M={data.ecoConception.img7M} alt1={data.ecoConception.alt7} img2={data.ecoConception.img8} img2M={data.ecoConception.img8M} alt2={data.ecoConception.alt8} img3={null} />
                 )
             )}
 
             {projetsData.map(( data ) =>
                 (
-                    <ProjetModel123 key={data.ecoConception.title} img1={data.ecoConception.img9} img1M={data.ecoConception.img9M} alt1={data.ecoConception.alt9} img2={data.ecoConception.img10} img2M={data.ecoConception.img10M} alt2={data.ecoConception.alt10} extraContent2={null} />
+                    <ProjetModel123 key={data.ecoConception.title} img1={data.ecoConception.img9} img1M={data.ecoConception.img9M} alt1={data.ecoConception.alt9} img2={data.ecoConception.img10} img2M={data.ecoConception.img10M} alt2={data.ecoConception.alt10} img3={null} />
 
                 )
             )}
