@@ -293,16 +293,16 @@
             "alt11": "Sérigraphie d’un tote bage par Léa Pep."
         },
         "biennale": {
-            "cover": "/images/serigraphie_img3_M.jpg",
-            "coverM": "/images/serigraphie_img3_M.jpg",
-            "altCover": "Sérigraphie de l'illustration de Clément Cases sur papier brillant",
+            "cover": "/images/biennale_cover.jpg",
+            "coverM": "/images/biennale_cover_M.jpg",
+            "altCover": "atelier de linogravure",
             "title": "Biennale Design(s) Verts",
             "theme": "Impressions / Exposition",
             "description": "Rétrospective Hayao Miyazaki réalisée au cinéma la Muse à Bressols dans le cadre de la Biennale Design(s) verts, organisée par l'Institut supérieur Couleur, Image, Design. Atelier linogravure dirigé par le collectif.",
 
-            "bannerImg": "/images/serigraphie_img3.jpg",
-            "bannerImgM": "/images/serigraphie_img3_M.jpg",
-            "altBannerImg": "Sérigraphie de l'illustration de Clément Cases sur papier brillant"
+            "bannerImg": "/images/biennale_banner.jpg",
+            "bannerImgM": "/images/biennale_banner_M.jpg",
+            "altBannerImg": "atelier de linogravure"
         },
         "clutch": {
             "cover": "/images/11ansdeClutch_cover.jpg",
