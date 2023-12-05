@@ -80,7 +80,7 @@ header nav a.active {
     }
 
     .menu-toggle-link:hover {
-        box-shadow: 0 -15px #F8C7CD inset;
+        box-shadow: 0 -14px #F8C7CD inset;
     }
     header nav {
         display: none;
@@ -91,13 +91,13 @@ header nav a.active {
         margin-inline: auto;
         margin-bottom: 55px;
         box-shadow: 0 -15px #F8C7CD inset;
-        height: 28px;
+        height: 24px;
     }
 
     .menu-toggle-link.active {
-        box-shadow: 0 -15px #F8C7CD inset;
+        box-shadow: 0 -14px #F8C7CD inset;
         width: auto;
-        height: 28px;
+        height: 24px;
     }
 
     header nav.active-toggle-menu {

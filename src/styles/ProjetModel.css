@@ -64,7 +64,7 @@
     position: relative;
 }
 
-.projet-left-image-div::after, .projet-right-image-div::after {
+.projet-left-image-div p::after, .projet-right-image-div p::after {
     content: "";
     position: absolute;
     width: 29.5%;
@@ -137,6 +137,7 @@
 
     .projet-content .pink-titles {
         margin-top: 16px;
+        margin-inline: 5px;
     }
 
     .projet-content img {

@@ -63,9 +63,9 @@ img {
 }
 
 .pink-titles {
-  box-shadow: 0 -18px #F8C7CD inset;
+  box-shadow: 0 -16px #F8C7CD inset;
   color: #28338A;
-  line-height: 40px;
+  line-height: 35px;
   font-family: "Mango-Black";
   font-size: clamp(22px, 4vw, 32px);
   padding-inline: 9px;
@@ -121,5 +121,7 @@ img {
     margin-inline: 15px;
     font-size: 24px;
     padding-inline: 10px;
+    line-height: 30px;
+    box-shadow: 0 -13px #F8C7CD inset;
   }
 }

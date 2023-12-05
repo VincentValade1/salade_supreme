@@ -57,7 +57,7 @@ function ProjetModel({className, extraTopContent, extraYoutubeImg3, twinPictures
                     <div className="projet-duo-images-div">
                         <div className="projet-left-image-div">
                             {isMobile ? <img tabIndex="0" src={process.env.PUBLIC_URL + img1M} alt={alt1} /> : <img tabIndex="0" src={process.env.PUBLIC_URL + img1} alt={alt1} />}
-                            {isDesktop && <p tabIndex="0">{alt1}</p>}
+                            {isDesktop && alt1 !== alt2 && <p tabIndex="0">{alt1}</p>}
                         </div>
                         <div className="projet-right-image-div">
                             {isMobile ? <img tabIndex="0" src={process.env.PUBLIC_URL + img2M} alt={alt2} /> : <img tabIndex="0" src={process.env.PUBLIC_URL + img2} alt={alt2} />}
