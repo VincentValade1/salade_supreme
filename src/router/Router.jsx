@@ -28,7 +28,7 @@ import StreetArt from "../pages/StreetArt";
 
 function Router() {
     return (
-        <Routing basename="/salade_supreme">
+        <Routing>
             <ScrollToTop />
             <Header />
             <Routes>
