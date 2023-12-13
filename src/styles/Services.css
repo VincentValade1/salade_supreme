@@ -2,19 +2,19 @@
     padding-inline: 7.6%;
     padding-bottom: 75px;
 
-    @media only screen and (max-width: 768px) {
+    /* @media only screen and (max-width: 768px) {
         padding-inline: 0;
         padding-bottom: 0;
-    }
+    } */
 }
 
 .all-services-card-div {
     display: flex;
     gap: 25px;
-    @media only screen and (max-width: 768px) {
+    /* @media only screen and (max-width: 768px) {
         flex-direction: column;
         gap: 0;
-    }
+    } */
 }
 
 .services-column-left, .services-column-right {
@@ -31,19 +31,19 @@
     margin-bottom: 22px;
     text-align: center; 
 
-    @media only screen and (max-width: 768px) {
+    /* @media only screen and (max-width: 768px) {
         flex-direction: column;
         margin-bottom: 24px;
-    }
+    } */
 }
 
 .service-card-2, .service-card-5 {
     flex-direction: row-reverse;
     
-    @media only screen and (max-width: 768px) {
+    /* @media only screen and (max-width: 768px) {
         flex-direction: column;
         
-    }
+    } */
 }
 
 .service-card-text-div {
@@ -56,19 +56,19 @@
     height: auto;
     padding: 10px 3% 10px 3%;
 
-    @media only screen and (max-width: 768px) {
+    /* @media only screen and (max-width: 768px) {
         width: 100%;
         aspect-ratio: 1/1;
-    }
+    } */
 }
 
 .service-card img {
     width: 50%;
    
-    @media only screen and (max-width: 768px) {
+    /* @media only screen and (max-width: 768px) {
         width: 100%;
         aspect-ratio: 1/1;
-    }
+    } */
 }
 
 .service-card h2, .service-card p {
@@ -84,9 +84,9 @@
     margin-bottom: 25px;
     margin-top: 0;
 
-    @media only screen and (max-width: 768px) {
+    /* @media only screen and (max-width: 768px) {
         font-size: 24px;
-    }
+    } */
 }
 
 .service-card p {
@@ -94,9 +94,9 @@
     margin: 0;
     line-height: 22px;
 
-    @media only screen and (max-width: 768px) {
+    /* @media only screen and (max-width: 768px) {
         font-size: 16px;
-    }
+    } */
 }
 
 /* faire mediaquerries sous 1224px */
@@ -114,5 +114,44 @@
 
     .service-card-5 {
         flex-direction: row;
+    }
+}
+
+@media only screen and (max-width: 768px) {
+    .services-section {
+        padding-inline: 0;
+        padding-bottom: 0;
+    }
+
+    .all-services-card-div {
+        flex-direction: column;
+        gap: 0;
+    }
+
+    .service-card {
+        flex-direction: column;
+        margin-bottom: 24px;
+    }
+
+    .service-card-2, .service-card-5 {
+        flex-direction: column;
+    }
+
+    .service-card-text-div {
+        width: 100%;
+        aspect-ratio: 1/1;
+    }
+
+    .service-card img {
+        width: 100%;
+        aspect-ratio: 1/1;
+    }
+
+    .service-card h2 {
+        font-size: 24px;
+    }
+
+    .service-card p {
+        font-size: 16px;
     }
 }
