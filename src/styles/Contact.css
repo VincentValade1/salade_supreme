@@ -99,6 +99,10 @@
     margin-left: 69%;
 }
 
+.btn-submit:hover {
+    cursor: pointer;
+}
+
 .contact-main-div h2 {
     margin: 0;
     font-family: "Mango-Black";

@@ -18,7 +18,7 @@ function Contact() {
         emailjs.sendForm(emailJsServiceId, emailJsTemplateId, form.current, emailJsPublicKey)
           .then((result) => {
               console.log(result.text);
-              alert('Formulaire soumis avec succès!');
+              alert('Formulaire envoyé avec succès!');
           }, (error) => {
               console.log(error.text);
           });
