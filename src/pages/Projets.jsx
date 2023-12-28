@@ -8,7 +8,7 @@ function Projets() {
     return(
         <main className="pink-border-main-div">
             <section className='projets-section'>
-                <h1 tabIndex="0" className="pink-titles">Nos Supreme Projets</h1>
+                <h1 tabIndex="0" className="pink-titles">Nos Suprêmes Projets</h1>
                 <p tabIndex="0" className='description-pages'>Salade suprême est avant tout un réseau d'acteurs et d'actrices de la création qui se sont réuni.e.s sous un même nom afin d'unir leurs compétences pour mener des projets culturels et sociaux dans une approche résolument éthique.</p>
                 <div className="projets-top-duo-div">
                     <ProjetCard className="projet-top-card" link='/projets/supreme-vitrines' cover={projetsData[0].vitrines.cover} coverM={projetsData[0].vitrines.coverM} altCover={projetsData[0].vitrines.altCover} title={projetsData[0].vitrines.title} theme={projetsData[0].vitrines.theme} />

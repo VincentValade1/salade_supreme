@@ -8,7 +8,7 @@
         "portraitM": "/images/portrait_elina_M.jpg",
         "bio1": "Décoratrice, accessoiriste, vidéaste, réalisatrice, artiste illustratrice et même tatoueuse à ses heures perdues, Elina est aussi trésorière et maintenant assistante coordinatrice de projet du collectif Salade Suprême ! Bien qu'elle multiplie les casquettes, sa passion pour la création est loin d'être épuisée. Seule ou en collectif, elle s'investit toujours corps et âme dans tout ce qu'elle entreprend.",
         "bio2": "Fascinée par les monstres, les corps, l'absurde et la fantasy, elle pioche ses influences de tous bords en essayant d'apporter un petit peu d'elle dans chacune de ses créations.",
-        "specialites": "Peinture, sculpture, création en volume.",
+        "specialites": "Peinture, sculpture, création en volume",
         "links": [
             "@elinabrbo",
             "@moustique.tattoo"
@@ -23,7 +23,7 @@
         "portraitM": "/images/portrait_clement_M.jpg",
         "bio1": "Artiste issu du street-art, Clément ouvre sa création vers de nouveaux procédés, soucieux de proposer des œuvres en relation avec l'espace public.",
         "bio2": "Il forme le duo d'artistes Marie&Clément avec sa compagne pour partager leur passion, raconter de nouvelles histoires en travaillant à l'expression des émotions que recueille notre paysage quotidien.",
-        "specialites": "Peinture aérosol, illustration grand format, lettrage.",
+        "specialites": "Peinture aérosol, illustration grand format, lettrage",
         "links": [
             "@le_gaulois.aske",
             "@moustique.tattoo"
@@ -66,7 +66,7 @@
         "portraitM": "/images/portrait_robin_M.jpg",
         "bio1": "Animateur et illustrateur, Robin puise son inspiration dans la SF, dans ce qu'elle a de plus dépaysant ou, au contraire, de plus introspectif.",
         "bio2": "Un univers de science-fiction qui prend vie à travers des pratiques plastiques traditionnelles et digitales, avec un attachement tout particulier à l'animation 2D.",
-        "specialites": "Animation digitale 2D, dessin traditionnel, encre et aquarelle.",
+        "specialites": "Animation digitale 2D, dessin traditionnel, encre et aquarelle",
         "links": [
             "@ca_iir"
         ]
@@ -125,7 +125,7 @@
         "portraitM": "/images/portrait_quentin_M.jpg",
         "bio1": "Quentin est le coordinateur principal du collectif et designer d'objet. Diplômé d'un master en design d'objet, il fonde le collectif avec ses collaborateurs et initie les premiers projets de design global. Parallèlement, il développe plusieurs produits et ameublements écoconçus pour différents clients.",
         "bio2": "Animé par une approche transversale, il aime associer à ses projets des acteur.ice.s locaux afin de leur donner plus d'envergure.",
-        "specialites": "Design d'objet, scénographie, direction artistique et de création.",
+        "specialites": "Design d'objet, scénographie, direction artistique et de création",
         "links": [
             "@quentin_kun_lhommeau"
         ]
@@ -153,7 +153,7 @@
         "portraitM": "/images/portrait_thomas_M.jpg",
         "bio1": "Thomas, c'est le graphiste en chef de notre équipe. Son univers est un capharnaüm graphique, entre design, illustrations, et lettrage.",
         "bio2": "Aujourd'hui, il développe une pratique aussi diversifiée que possible, inspirée autant par les fondamentaux du Bauhaus que par les pionniers de Dogtown, alternant illustration et typographie.",
-        "specialites": " La création d'identité, l'illustration et le lettrage, traditionnels et digitaux.",
+        "specialites": " La création d'identité, l'illustration et le lettrage, traditionnels et digitaux",
         "links": [
             "@el.doble.t"
         ]

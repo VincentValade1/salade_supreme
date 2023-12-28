@@ -4,7 +4,7 @@
             "cover": "/images/vitrines_cover.jpg",
             "coverM": "/images/vitrines_cover_M.jpg",
             "altCover": "Décoration d'une vitrine pour les 400ans de la fête des 400 coups à Montauban",
-            "title": "Suprême vitrines",
+            "title": "Suprêmes vitrines",
             "theme": "Illustration",
             "description": "Depuis 2020, le collectif travaille en collaboration avec la ville de Montauban. Tous les ans, plusieurs artistes ornent les vitriness des commerces pour différentes occasions (Noël, DessIngres, les 400 coups, …)",
 
@@ -14,7 +14,7 @@
 
             "img1": "/images/vitrines_img1.jpg",
             "img1M": "/images/vitrines_img1_M.jpg",
-            "alt1": "Décoration d'une vitrine à Montauban pour les fêtes de Noël, 2020.",
+            "alt1": "Décoration d'une vitrine à Montauban pour les fêtes de Noël, 2020",
 
             "img2": "/images/vitrines_img2.jpg",
             "img2M": "/images/vitrines_img2_M.jpg",
@@ -132,9 +132,9 @@
             "cover": "/images/identite_cover.jpg",
             "coverM": "/images/identite_cover_M.jpg",
             "altCover": "logo salade supreme sur fond rose clair",
-            "title": "Identité visuelle Salade Suprême",
+            "title": "Identité visuelle de Salade Suprême",
             "theme": "Graphisme",
-            "description": "Commande d'une nouvelle identité pour le collectif Salade Suprême, réalisée par notre graphiste en chef Thomas Tavernier. Création de deux déclinaisons de logo, constitution d'une charte graphique et designs de différents supports de communications (cartes de visites, cartes de vœux, …)",
+            "description": "Commande d'une nouvelle identité pour le collectif Salade Suprême, réalisée par notre graphiste en chef Thomas Tavernier. Création de deux déclinaisons de logo, constitution d'une charte graphique et design de différents supports de communication (cartes de visites, cartes de vœux, …)",
 
             "bannerImg": "/images/identite_banner.jpg",
             "bannerImgM": "/images/identite_banner_M.jpg",
@@ -158,7 +158,7 @@
             "altCover": "mise scène salon design au couleurs pastel",
             "title": "Alphabet",
             "theme": "Design d'objet / Scénographie / Photographie",
-            "description": "Mobilier conçu par le designer Quentin Lhommeau. Set design réalisé par Léa Leblanc et photographie par Lisa Macian.",
+            "description": "Mobilier conçu par le designer Quentin Lhommeau. Set design réalisé par Léa Leblanc et photographié par Lisa Macian.",
 
             "bannerImg": "/images/alphabet_banner.jpg",
             "bannerImgM": "/images/alphabet_banner_M.jpg",
@@ -180,7 +180,7 @@
             "cover": "/images/ateliers_cover.jpg",
             "coverM": "/images/ateliers_cover_M.jpg",
             "altCover": "enfants peignant sur un mur",
-            "title": "Ateliers",
+            "title": "Ateliers pédagogiques",
             "theme": "Cinéma d'animation / Illustration / Street Art / Photographie",
             "description": "Le collectif propose des ateliers d'initiations et de découverte de différentes pratiques artistiques. Par le biais d'associations, de CLAE ou encore en cours particuliers, vous pouvez nous contacter directement via notre messagerie ou par téléphone pour avoir plus de renseignements sur nos conditions et nos grilles tarifaires.",
 
@@ -210,11 +210,11 @@
 
             "img7": "/images/ateliers_img7.jpg",
             "img7M": "/images/ateliers_img7_M.jpg",
-            "alt7": "Lampe et tabouret en carton réalisés par deux enfants.",
+            "alt7": "Lampe et tabouret en carton réalisés par deux enfants",
 
             "img8": "/images/ateliers_img8.jpg",
             "img8M": "/images/ateliers_img8_M.jpg",
-            "alt8": "Commode et avion en carton réalisés par deux enfants."
+            "alt8": "Commode et avion en carton réalisés par deux enfants"
         },
         "fancyfuzz": {
             "cover": "/images/fancyfuzz_cover.jpg",
@@ -240,8 +240,8 @@
             "cover": "/images/serigraphie_cover.jpg",
             "coverM": "/images/serigraphie_cover_M.jpg",
             "altCover": "machine de sérigraphie",
-            "title": "Sérigraphies",
-            "theme": "Graphisme / Impressions",
+            "title": "Sérigraphie",
+            "theme": "Graphisme / Impression",
             "description": "Diverse collaborations entre artistes illustrateur.ice.s ou graphistes et le collectif Salade suprême pour la partie impression en sérigraphie.",
 
             "bannerImg": "/images/serigraphie_banner.jpg",
@@ -262,11 +262,11 @@
 
             "img4": "/images/serigraphie_img4.jpg",
             "img4M": "/images/serigraphie_img4_M.jpg",
-            "alt4": "Cartes de visite de Salade Suprême sérigraphiées par Léa Pep.",
+            "alt4": "Cartes de visite de Salade Suprême sérigraphiées par Léa Pep",
 
             "img5": "/images/serigraphie_img5.jpg",
             "img5M": "/images/serigraphie_img5_M.jpg",
-            "alt5": "Packs de stickers sérigraphiées par Léa Pep.",
+            "alt5": "Packs de stickers sérigraphiées par Léa Pep",
 
             "img6": "/images/serigraphie_img6.jpg",
             "img6M": "/images/serigraphie_img6_M.jpg",
@@ -274,11 +274,11 @@
             
             "img7": "/images/serigraphie_img7.jpg",
             "img7M": "/images/serigraphie_img7_M.jpg",
-            "alt7": "Illustration de El.Doble.T sérigraphiée par Léa Pep.",
+            "alt7": "Illustration de El.Doble.T sérigraphiée par Léa Pep",
             
             "img8": "/images/serigraphie_img8.jpg",
             "img8M": "/images/serigraphie_img8_M.jpg",
-            "alt8": "Illustration de El.Doble.T sérigraphiée par Léa Pep.",
+            "alt8": "Illustration de El.Doble.T sérigraphiée par Léa Pep",
 
             "img9": "/images/serigraphie_img9.jpg",
             "img9M": "/images/serigraphie_img9_M.jpg",
@@ -286,19 +286,19 @@
 
             "img10": "/images/serigraphie_img10.jpg",
             "img10M": "/images/serigraphie_img10_M.jpg",
-            "alt10": "Illustration et sérigraphie textile par Léa Pep.",
+            "alt10": "Illustration et sérigraphie textile par Léa Pep",
 
             "img11": "/images/serigraphie_img11.jpg",
             "img11M": "/images/serigraphie_img11_M.jpg",
-            "alt11": "Sérigraphie d’un tote bage par Léa Pep."
+            "alt11": "Sérigraphie d'un tote bage par Léa Pep"
         },
         "biennale": {
             "cover": "/images/biennale_cover.jpg",
             "coverM": "/images/biennale_cover_M.jpg",
             "altCover": "atelier de linogravure",
-            "title": "Biennale Design(s) Verts",
-            "theme": "Impressions / Exposition",
-            "description": "Rétrospective Hayao Miyazaki réalisée au cinéma la Muse à Bressols dans le cadre de la Biennale Design(s) verts, organisée par l'Institut supérieur Couleur, Image, Design. Atelier linogravure dirigé par le collectif.",
+            "title": "Biennale Design(s) Vert(s)",
+            "theme": "Impression / Exposition",
+            "description": "Rétrospective Hayao Miyazaki réalisée au cinéma la Muse à Bressols dans le cadre de la Biennale Design(s) vert(s), organisée par l'Institut supérieur Couleur, Image, Design. Atelier linogravure dirigé par le collectif.",
 
             "bannerImg": "/images/biennale_banner.jpg",
             "bannerImgM": "/images/biennale_banner_M.jpg",
@@ -307,14 +307,14 @@
         "clutch": {
             "cover": "/images/11ansdeClutch_cover.jpg",
             "coverM": "/images/11ansdeClutch_cover_M.jpg",
-            "altCover": "machine de sérigraphie",
+            "altCover": "Arche en forme de chimère",
             "title": "11 ans de Clutch",
             "theme": "Scénographie",
-            "description": "À l'occasion des 11 ans de Clutch, le collectif a sorti le paquet en proposant plusieurs animations : Du tatouage éphémère, une fresque participative animée et une initiation aux bases du cinéma d'animation avec des jeux optiques. En plus de ces trois animations sur place, le collectif a proposé une signalétique imprimée et en volume ainsi qu'une arche aux couleurs de l'événement. Crédits : ©Evan Savy",
+            "description": "À l'occasion des 11 ans de Clutch, le collectif a sorti le paquet en proposant plusieurs animations : Du tatouage éphémère, une fresque participative animée et une initiation aux bases du cinéma d'animation avec des jeux optiques. En plus de ces trois animations sur place, le collectif a proposé une signalétique imprimée et en volume ainsi qu'une arche aux couleurs de l'événement. Crédits : ©Evan Savy et Lisa Macian-Randé",
 
             "bannerImg": "/images/11ansdeClutch_banner.jpg",
             "bannerImgM": "/images/11ansdeClutch_banner_M.jpg",
-            "altBannerImg": "texte alt",
+            "altBannerImg": "Arche en forme de chimère",
 
             "img1": "/images/11ansdeClutch_img1.jpg",
             "img1M": "/images/11ansdeClutch_img1_M.jpg",
