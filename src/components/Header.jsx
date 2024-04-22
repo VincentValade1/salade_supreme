@@ -42,6 +42,7 @@ function Header() {
             </button>
             <nav className={`${showMenu ? 'active-toggle-menu' : 'nav-menu'}`}onClick={toggleMenu}>
                 <div className="active-toggle-menu-links-div">
+                    <NavLink tabIndex="0" aria-label="lien vers page résidences" to='/residences'className="menu-toggle-link">Résidences</NavLink>
                     <NavLink tabIndex="0" aria-label="lien vers page projets" to='/projets'className="menu-toggle-link">Projets</NavLink>
                     <NavLink tabIndex="0" aria-label="lien vers page membres" to='/membres' className="menu-toggle-link">Membres</NavLink>
                     <NavLink tabIndex="0" aria-label="lien vers page services" to='/services' className="menu-toggle-link">Services</NavLink>

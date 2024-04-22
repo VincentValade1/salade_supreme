@@ -1,7 +1,7 @@
 import '../styles/ProjetModel.css';
 import { useEffect, useState } from 'react';
 
-function ProjetModel123 ({ extraTopContent, extraYoutubeImg3, img1, img1M, alt1, img2, img2M, alt2, img3, img3M, alt3}) {
+function ProjetModel123 ({ extraTopContent, extraBottomContent, img1, img1M, alt1, img2, img2M, alt2, img3, img3M, alt3}) {
 
     const [isDesktop, setIsDesktop] = useState(window.innerWidth > 1024);
 
@@ -51,7 +51,7 @@ function ProjetModel123 ({ extraTopContent, extraYoutubeImg3, img1, img1M, alt1,
                     <img tabIndex="0" className='projet-lastImg' src={process.env.PUBLIC_URL + img3} alt={alt3} />
                 )
             ) : (
-                extraYoutubeImg3
+                extraBottomContent
             )}
         </section>
     );

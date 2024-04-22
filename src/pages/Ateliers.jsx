@@ -18,13 +18,13 @@ function Ateliers() {
 
             {projetsData.map(( data ) =>
                 (
-                    <ProjetModel123 key={data.ateliers.title} img1={data.ateliers.img4} img1M={data.ateliers.img4M} alt1={data.ateliers.alt4} img2={data.ateliers.img5} img2M={data.ateliers.img5M} alt2={data.ateliers.alt5} img3={null} extraYoutubeImg3={AtelierVideo1} />
+                    <ProjetModel123 key={data.ateliers.title} img1={data.ateliers.img4} img1M={data.ateliers.img4M} alt1={data.ateliers.alt4} img2={data.ateliers.img5} img2M={data.ateliers.img5M} alt2={data.ateliers.alt5} img3={null} extraBottomContent={AtelierVideo1} />
                 )
             )}
 
             {projetsData.map(( data ) =>
                 (
-                    <ProjetModel123 key={data.ateliers.title} img1={data.ateliers.img7} img1M={data.ateliers.img7M} alt1={data.ateliers.alt7} img2={data.ateliers.img8} img2M={data.ateliers.img8M} alt2={data.ateliers.alt8} img3={null} extraYoutubeImg3={AtelierVideo2} />
+                    <ProjetModel123 key={data.ateliers.title} img1={data.ateliers.img7} img1M={data.ateliers.img7M} alt1={data.ateliers.alt7} img2={data.ateliers.img8} img2M={data.ateliers.img8M} alt2={data.ateliers.alt8} img3={null} extraBottomContent={AtelierVideo2} />
                 )
             )}
         </>

@@ -42,6 +42,10 @@
     font-size: 20px;
 }
 
+.projet-description .creditsPhoto {
+    font-size: 17px;
+}
+
 .projet-duo-images-div {
     display: flex;
     justify-content: space-between;
@@ -91,6 +95,55 @@
     margin-bottom: 80px;
 }
 
+.extraDescription p {
+    font-weight: 600;
+    font-style: italic;
+    font-size: 18px;
+}
+
+.extraDescription p:last-child {
+    margin-bottom: 0;
+}
+
+.extraDescription a, .babayagaInfos a {
+    color: #28338A;
+}
+
+.babayagaInfos {
+    display: flex;
+    justify-content: space-between;
+    gap: min(30px);
+    margin-bottom: 80px;
+}
+
+.babayagaInfos p, .babayagaInfos span {
+    color: black;
+}
+
+.babayagaInfos span {
+    font-size: 14px;
+}
+
+.babayagaInfos a {
+    font-family: "Gotham-HTF-Book";
+}
+
+.babayagaInfos a {
+    text-decoration: underline;
+}
+
+.babayagaInfos a, .babayagaInfos p {
+    font-size: 18px;
+}
+
+.babayagaLeftColumnInfos, .babayagaRightColumnInfos {
+    flex-direction: column;
+}
+
+.babayagaLeftColumnInfos {
+    width: 41%;
+}
+
 @media only screen and (max-width: 1024px) {
     .projet-content {
         align-items: center;
@@ -127,6 +180,14 @@
     .projet-left-image-div::after, .projet-right-image-div::after {
         display: none;
     }
+
+    .babayagaInfos {
+        flex-direction: column;
+    }
+
+    .babayagaInfos, .babayagaLeftColumnInfos, .babayagaRightColumnInfos {
+        width: 100%;
+    }
 }
 
 @media only screen and (max-width: 768px) {
@@ -160,5 +221,14 @@
 
     .projet-duo-images-div {
         width: 100%;
+    }
+
+    .babayagaInfos {
+        padding-inline: 20px;
+    }
+
+    .babayagaInfos p, .babayagaInfos a, .babayagaInfos span {
+        font-size: 16px;
+        word-wrap: break-word;
     }
 }
