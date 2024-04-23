@@ -12,15 +12,17 @@ footer {
 
 footer nav {
     margin-bottom: 36.5px;
-    /* height: 29px; */
     display: flex;
+    width: 100%;
     justify-content: center;
     text-align: center;
 }
 
-footer nav a {
+footer nav a, footer nav a.active {
     color: #FFFFFF;
-    margin-inline: 43.5px;
+    /* margin-inline: 43.5px; */
+    margin-inline: 2%;
+    width: auto;
     font-size: 18px;
 }
 

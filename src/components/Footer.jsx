@@ -24,6 +24,7 @@ function Footer() {
         <footer>
                 {!isMobile && (
                     <nav>
+                        <NavLink tabIndex="0" aria-label="lien vers page résidences" activeclassname='active' to='/residences'>Résidences</NavLink>
                         <NavLink tabIndex="0" aria-label="lien vers page projets" activeclassname='active' to='/projets'>Projets</NavLink>
                         <NavLink tabIndex="0" aria-label="lien vers page membres" activeclassname='active' to='/membres'>Membres</NavLink>
                         <NavLink tabIndex="0" aria-label="lien vers page services" activeclassname='active' to='/services'>Services</NavLink>
