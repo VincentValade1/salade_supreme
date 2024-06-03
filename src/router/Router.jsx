@@ -1,7 +1,7 @@
 import { BrowserRouter as Routing, Routes, Route } from "react-router-dom";
 import React from "react";
 import Accueil from "../pages/Accueil";
-import Residences from "../pages/Residences";
+// import Residences from "../pages/Residences";
 import Projets from "../pages/Projets";
 import Membres from "../pages/Membres"
 import MembreMobile from "../pages/MembreMobile";
@@ -37,7 +37,7 @@ function Router() {
             <Header />
             <Routes>
                 <Route exact path='/' element={<Accueil />} />
-                <Route exact path='/residences' element={<Residences />} />
+                {/* <Route exact path='/residences' element={<Residences />} /> */}
                 <Route exact path='/residences/babayaga' element={<Babayaga />} />
                 <Route exact path='/projets' element={<Projets />} />
                 <Route exact path='/projets/supreme-vitrines' element={<SupremeVitrines />} />

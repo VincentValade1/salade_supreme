@@ -19,7 +19,6 @@ function Babayaga() {
                     Horaires d'ouverture :<br/>
                     Vendredi de 17h à 21h<br/>
                     Samedi de 15h à 21h<br/>
-                    Certains Dimanches de 15h à 21h<br/>
                     114 Rue de Cugnaux - 31300 Toulouse
                 </p>
                 <div className="map" aria-label="Emplacement géographique de Salade Suprême">
