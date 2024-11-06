@@ -1,0 +1,28 @@
+.social-follow-div {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    height: 130px;
+    padding: 10px;
+    margin: 40px 0 20px 0;
+}
+
+.social-follow-div span {
+    color: black;
+    font-size: 20px;
+}
+
+.social-follow-icons-div {
+    font-size: 47px;
+    width: 120px;
+    height: 65px;
+    justify-content: space-between;
+    display: flex;
+}
+
+.social-follow-icons-div a {
+    color: #28338A;
+    height: 45px;
+}

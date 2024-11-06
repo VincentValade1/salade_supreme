@@ -1,0 +1,97 @@
+.supreme-actu-div {
+    display: flex;
+    border: 25px solid pink;
+    padding: 40px;
+    gap: 40px;
+}
+
+.supreme-actu-div img {
+    width: 360px;
+}
+
+.supreme-actu-div p {
+    color: black;
+    font-size: 20px;
+    line-height: 25px;
+}
+
+.supreme-actu-text-div {
+    display: flex;
+    flex-direction: column;
+    justify-content:space-around;
+    padding-inline: 16%;
+}
+
+.supreme-actu-text-div h4 {
+    font-family: "Mango-Black";
+    font-size: clamp(22px, 3.3vw, 32px);
+    color: #28338A;
+    text-align: center;
+    margin: 25px 0 25px 0;
+}
+
+.supreme-actu-text-div .blue-button {
+    font-size: clamp(22px, 3vw, 32px);
+}
+
+
+@media only screen and (max-width: 1500px) {
+    .supreme-actu-text-div {
+        padding-inline: 9%;
+    }
+
+    .supreme-actu-div img {
+        width: 300px;
+    }
+}
+
+@media only screen and (max-width: 1100px) {
+    .supreme-actu-text-div {
+        padding-inline: 6%;
+    }
+
+    .supreme-actu-div img {
+        width: 300px;
+    }
+}
+
+@media only screen and (max-width: 1024px) {
+    .supreme-actu-div {
+        flex-direction: column-reverse;
+    }
+
+    .supreme-actu-picture {
+        display: flex;
+        justify-content: center;
+    }
+
+    .supreme-actu-div img {
+        width: 75%;
+    }
+
+    .supreme-actu-text-div {
+        text-align: center;
+    }
+
+    .supreme-actu-div p {
+        margin-bottom: 40px;
+    }
+
+    .supreme-actu-text-div h4 {
+        font-size: clamp(22px, 4vw, 32px);
+    }
+    
+    .supreme-actu-text-div .blue-button {
+        font-size: clamp(22px, 4vw, 32px);
+    }
+}
+
+@media only screen and (max-width: 768px) {
+    .supreme-actu-div img {
+        width: 100%;
+    }
+
+    .supreme-actu-div {
+        padding: 0;
+    }
+}

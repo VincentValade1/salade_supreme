@@ -31,7 +31,7 @@ function ProjetModel({ className, extraDescription, extraTopContent, extraBottom
     }, []);
 
     // Ajoute un retour à la ligne avant les mots spécifiques dans la description
-    const descriptionWithLineBreaks = description.replace(/(Crédits|Au programme)/g, '\n$1');
+    const descriptionWithLineBreaks = description.replace(/(Crédits|Au programme|Chez Salade)/g, '\n$1');
 
     return (
         <section className={className}>

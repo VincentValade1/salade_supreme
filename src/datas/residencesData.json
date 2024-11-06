@@ -4,20 +4,36 @@
             "cover": "/images/babayaga_cover.jpg",
             "coverM": "/images/babayaga_cover_M.jpg",
             "title": "Chez Babayaga",
-            "theme": "Animation tiers lieu culturel éphémère",
-            "description": "Chez Babayaga, c'est le projet fou que s'est lancé le collectif : transformer une ancienne demeure toulousaine, mise à disposition par l'association Sozinho, en un vrai tiers lieu culturel avant sa destruction prévue après l'été 2024. Après une résidence artistique où une cinquantaine d'artistes, en partenariat avec Mister Freeze, sont venu.e.s investir l'entièreté de la maison, intérieur comme extérieur et son jardin, il vous sera possible de venir profiter de son charme en famille, entre ami.e.s, entre voisins, ... Au programme : visite de la maison et découverte des œuvres*, ateliers d'initiations artistiques, boutique présentant différentes productions des artistes qui sont venus en résidence, concerts, performances et bien évidemment, une buvette pour se désaltérer. Crédits photo : @remysirieix ",
+            "theme": "Tiers-lieu culturel éphémère",
+            "description": "Chez Babayaga, c'était notre pari audacieux : transformer une ancienne demeure toulousaine en un tiers-lieu culturel vivant et ouvert à tous. De mai à septembre 2024, ce lieu a accueilli résidences d'artistes, ateliers, concerts et expositions, avant de fermer définitivement ses portes pour laisser place à la démolition du bâtiment. Chez Salade Suprême, en tant que collectif d'artistes et de designers, nous avons à coeur de créer des espaces où l'art devient un outil de rencontre et de cohésion sociale. Chez Babayaga a été un bel exemple de notre vision : investir des lieux vacants, favoriser l'accès à la culture et promouvoir un engagement artistique, écologique et social. Crédits photo : ©Nikita, ©Elina Barbeau, ©Evan Savy",
         
             "bannerImg": "/images/babayaga_banner.jpg",
             "bannerImgM": "/images/babayaga_banner_M.jpg",
-            "altBannerImg": "Le tiers lieu sera ouvert du 26 avril au 20 juillet 2024",
+            "altBannerImg": "façade colorée de la maison Chez Babayaga le jour de son ouverture",
 
             "img1": "/images/babayaga_img1.jpg",
             "img1M": "/images/babayaga_img1_M.jpg",
-            "alt1": "Bombes de peintures",
+            "alt1": "une visite de la maison expliquée au enfants",
 
             "img2": "/images/babayaga_img2.jpg",
             "img2M": "/images/babayaga_img2_M.jpg",
-            "alt2": "Mur et cheminée peints en rose"
+            "alt2": "La maison colorée et les membres de Salade Suprême aux fenêtres",
+
+            "img3": "/images/babayaga_img3.jpg",
+            "img3M": "/images/babayaga_img3_M.jpg",
+            "alt3": "le jardin de Babayaga durant un concert",
+
+            "img4": "/images/babayaga_img4.jpg",
+            "img4M": "/images/babayaga_img4_M.jpg",
+            "alt4": "L'artiste Swed en train de peindre son oeuvre",
+
+            "img5": "/images/Babayaga_img5.jpg",
+            "img5M": "/images/Babayaga_img5_M.jpg",
+            "alt5": "L'équipe de Salade Suprême à l'entrée de la maison",
+
+            "visiteVirtuelleText": "Bien que Chez Babayaga ait fermé ses portes, nous tenions à ce que son esprit et le travail des artistes qui y ont résidé restent visibles et accessibles. Cette visite virtuelle a été conçue pour laisser une trace de ce lieu unique, un espace de création et d'échange qui a rassemblé artistes, visiteurs et voisins autour d'une vision commune. C'est un moyen pour nous de prolonger l'aventure et de témoigner de ce que Chez Babayaga a représenté : un lieu d'art, de rencontres et de découvertes, éphémère mais profondément marquant.",
+            "projetsRealisesText": "En plus des 50 artistes résidents ayant peint la maison, Chez Babayaga a également accueilli des artistes venus y réaliser divers projets. Ces projets illustrent comment Chez Babayaga a inspiré et servi de décor à des artistes venus y exprimer leur art sous différentes formes.",
+            "enSavoirPlusText": "Pour les plus curieux, retrouvez toutes les informations détaillées sur le tiers-lieu Chez Babayaga dans notre dossier de présentation. Vous y découvrirez l'histoire du projet, les artistes impliqués, et l'ensemble des activités qui ont fait vivre ce lieu éphémère."
         }
     }
 ]

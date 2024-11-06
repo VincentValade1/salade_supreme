@@ -14,17 +14,22 @@ function Accueil() {
     const delayToCheckStyles = 3000;
 
     const checkStyles = () => {
-      const rootElement = document.querySelector(".accueil-main-div"); // Sélectionnez l'élément racine ou l'élément que vous souhaitez inspecter
-      const computedStyles = window.getComputedStyle(rootElement);
-
-      // Vérifiez si les styles sont différents de ceux attendus
-      const backgroundColor = computedStyles.backgroundColor;
-      const expectedBackgroundColor = "rgb(255, 255, 255)"; // Blanc
-
-      if (backgroundColor !== expectedBackgroundColor) {
-        setShowFloatingDiv(true);
+      const rootElement = document.querySelector(".accueil-main-div");
+    
+      // Vérifier si rootElement existe avant d'appeler getComputedStyle
+      if (rootElement) {
+        const computedStyles = window.getComputedStyle(rootElement);
+        const backgroundColor = computedStyles.backgroundColor;
+        const expectedBackgroundColor = "rgb(255, 255, 255)"; // Blanc
+    
+        if (backgroundColor !== expectedBackgroundColor) {
+          setShowFloatingDiv(true);
+        }
+      } else {
+        console.warn("L'élément '.accueil-main-div' n'a pas été trouvé dans le DOM.");
       }
     };
+    
 
     // Attendre 3 secondes après le chargement complet de la page avant de vérifier les styles
     setTimeout(checkStyles, delayToCheckStyles);

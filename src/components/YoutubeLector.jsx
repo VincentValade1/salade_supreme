@@ -9,6 +9,10 @@ function YoutubeLector(props) {
     const opts = {
         playerVars: {
             autoplay: 0,
+            // origin: window.location.origin,
+
+            // origin: process.env.NODE_ENV === 'development' ? "http://localhost:3000" : "https://saladesupreme.fr",
+            // enablejsapi: 1,
         },
     };
 
