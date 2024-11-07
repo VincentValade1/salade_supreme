@@ -4,7 +4,7 @@ import BlueButton from '../components/BlueButton';
 import SupremeActu from '../components/SupremeActu';
 import SocialFollow from '../components/SocialFollow';
 
-function ResidenceModel ({ className, extraDescription, extraTopContent, twinPictures, bannerImg, bannerImgM, altBannerImg, title, theme, description, img1, img1M, alt1, img2, img2M, alt2, img3, img3M, alt3, img4, img4M, alt4, img5, img5M, alt5, Youtube1, visiteVirtuelleText, visiteLinkLign, dossierDownloadLinkLign, projetsRealisesText, enSavoirPlusText, supremeActuPicture, supremeActuPictureAlt, Youtube2, Youtube3, showAltText = true }) {
+function ResidenceModel ({ className, extraDescription, extraTopContent, twinPictures, bannerImg, bannerImgM, altBannerImg, title, theme, description, img1, img1M, alt1, img2, img2M, alt2, img3, img3M, alt3, img4, img4M, alt4, Youtube1, visiteVirtuelleText, visiteLinkLign, dossierDownloadLinkLign, projetsRealisesText, enSavoirPlusText, supremeActuPicture, supremeActuPictureAlt, Youtube2, Youtube3, Youtube4, Youtube5, showAltText = true }) {
     const [isDesktop, setIsDesktop] = useState(window.innerWidth > 1024);
 
     useEffect(() => {
@@ -124,6 +124,10 @@ function ResidenceModel ({ className, extraDescription, extraTopContent, twinPic
                     <div className="projets-realises-videos-div">
                         {Youtube2}
                         {Youtube3}
+                    </div>
+                    <div className="projets-realises-videos-div">
+                        {Youtube4}
+                        {Youtube5}
                     </div>
                 </div>
                 <div className="savoir-plus-div">
