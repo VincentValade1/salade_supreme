@@ -14,6 +14,11 @@
     height: 100%;
 }
 
+.extra-youtube-content.atelier-youtube {
+    margin: 80px 7.4% 80px 7.4%;
+    width: auto;
+}
+
 /* pour adapter la hauteur de la div contenant les 2 videos YT côte à côte en format desktop */
 @media only screen and (min-width: 1025px) {
     .projets-realises-div .extra-youtube-content {
@@ -34,4 +39,9 @@
         height: 360px;
         margin-bottom: 15px;
     }
+
+    .extra-youtube-content.atelier-youtube {
+        margin-inline: 0;
+    }
+
 }

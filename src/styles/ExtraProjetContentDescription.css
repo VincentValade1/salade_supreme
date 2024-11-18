@@ -1,0 +1,30 @@
+.extra-projet-content-description-div {
+    display: flex;
+    flex-direction: column;
+    width: 70%;
+    margin-bottom: 20px;
+}
+
+.extra-projet-content-description-div h3 {
+    font-family: "Mango-Black";
+    font-size: clamp(22px, 4vw, 28px);
+    margin-top: 0;
+    margin-bottom: 10px;
+}
+
+.extra-projet-content-description-div p {
+    color: black;
+    font-size: 20px;
+    text-align: justify;
+}
+
+@media only screen and (max-width: 1024px) {
+    .extra-projet-content-description-div {
+        text-align: center;
+        margin-top: 50px;
+    }
+
+    .extra-projet-content-description-div p {
+        text-align: center;
+    }
+}

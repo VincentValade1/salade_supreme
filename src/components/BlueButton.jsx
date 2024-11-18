@@ -1,8 +1,8 @@
 import '../styles/BlueButton.css';
 
-function BlueButton({blueButtonLinkLign}) {
+function BlueButton({blueButtonLinkLign, className}) {
     return (
-        <div className="blue-button-div">
+        <div className={`blue-button-div ${className ? className : ''}`}>
             <button className="blue-button">
                 {blueButtonLinkLign}
             </button>

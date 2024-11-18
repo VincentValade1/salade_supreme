@@ -1,7 +1,8 @@
 import '../styles/ProjetModel.css';
 import { useEffect, useState } from 'react';
+import ExtraProjetContentDescription from '../components/ExtraProjetContentDescription';
 
-function ProjetModel({ className, extraDescription, extraTopContent, extraBottomContent, twinPictures, bannerImg, bannerImgM, altBannerImg, title, theme, description, img1, img1M, alt1, img2, img2M, alt2, img3, img3M, alt3, showAltText = true }) {
+function ProjetModel({ className, extraDescription, extraTopContent, extraBottomContent, twinPictures, bannerImg, bannerImgM, altBannerImg, title, theme, description, extraProjetContentDescriptionTitle, extraProjetContentDescriptionText, img1, img1M, alt1, img2, img2M, alt2, img3, img3M, alt3, showAltText = true }) {
     const [isDesktop, setIsDesktop] = useState(window.innerWidth > 1024);
 
     useEffect(() => {
@@ -66,6 +67,7 @@ function ProjetModel({ className, extraDescription, extraTopContent, extraBottom
                 </div>
 
                 {extraTopContent}
+                <ExtraProjetContentDescription extraProjetContentDescriptionTitle={extraProjetContentDescriptionTitle} extraProjetContentDescriptionText={extraProjetContentDescriptionText} />
                 {twinPictures !== null ? (
                     <div className="projet-duo-images-div">
                         <div className="projet-left-image-div">

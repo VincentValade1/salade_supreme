@@ -180,21 +180,27 @@
             "cover": "/images/ateliers_cover.jpg",
             "coverM": "/images/ateliers_cover_M.jpg",
             "altCover": "enfants peignant sur un mur",
-            "title": "Ateliers pédagogiques",
+            "title": "Cours et stages créatifs",
             "theme": "Cinéma d'animation / Illustration / Street Art / Photographie",
-            "description": "Le collectif propose des ateliers d'initiations et de découverte de différentes pratiques artistiques. Par le biais d'associations, de CLAE ou encore en cours particuliers, vous pouvez nous contacter directement via notre messagerie ou par téléphone pour avoir plus de renseignements sur nos conditions et nos grilles tarifaires.",
+            "description": "Le collectif Salade Suprême prône l'accessibilité à l'art et à la culture pour toutes et tous, sans distinction d'origine, de statut social ou de genre. Nos cours et stages sont ouverts à tous les publics à partir de 8 ans, afin de permettre au plus grand nombre d'accéder à des pratiques artistiques variées. À travers nos actions pédagogiques, nous encourageons les rencontres artistiques pour partager nos savoir-faire, initier à de nouvelles pratiques et développer la maîtrise des arts. L'art, pour nous, forge l'esprit critique, stimule la créativité, et ouvre à d'autres sensibilités. Crédits : ©Lisa Macian, ©Elina Barbeau et ©Iampphotographie",
 
             "bannerImg": "/images/ateliers_banner.jpg",
             "bannerImgM": "/images/ateliers_banner_M.jpg",
             "altBannerImg": "membre du collectif apprenant à dessiner à une enfant",
 
+            "extraProjetContentDescriptionTitle1": "Nos cours hebdomadaires",
+            "extraProjetContentDescriptionText1": "Chaque semaine, nous proposons des cours en illustration, cinéma d'animation et street art, adaptés à tous les niveaux. Ces séances durent de 1h30 à 2h selon la discipline, offrant un espace pour s'initier ou perfectionner sa pratique artistique.",
+
             "img1": "/images/ateliers_img1.jpg",
             "img1M": "/images/ateliers_img1_M.jpg",
-            "alt1": "Atelier confection de marionnettes",
+            "alt1": "Atelier technique d'animation",
 
             "img2": "/images/ateliers_img2.jpg",
             "img2M": "/images/ateliers_img2_M.jpg",
-            "alt2": "Elina présentant les principes de l'animation de figurines",
+            "alt2": "Atelier technique d'animation",
+
+            "extraProjetContentDescriptionTitle2": "Découverte des techniques d'animation",
+            "extraProjetContentDescriptionText2": "Créez votre propre histoire et animez là grâce aux techniques traditionnelles de l'animation. Nous vous proposons soit de travailler avec des marionnettes déjà existantes ou de créer les vôtres. Papier découpé, pâte à modeler, sable ou encore peinture animée, découvrez le monde merveilleux du cinéma d'animation avec nos intervenants issues des métiers du cinéma d'animation, dans un format court (1 à 2h d'atelier) ou en format workshop (pouvant aller d'une matinée à plusieurs journées)",
 
             "img3": "/images/ateliers_img3.jpg",
             "img3M": "/images/ateliers_img3_M.jpg",
@@ -202,19 +208,48 @@
 
             "img4": "/images/ateliers_img4.jpg",
             "img4M": "/images/ateliers_img4_M.jpg",
-            "alt4": "Enfants participants à un atelier de peinture murale en exterieur",
+            "alt4": "Atelier confection de marionnettes",
+
+            "extraProjetContentDescriptionTitle3": "Découvrez le métier d'illustrateur",
+            "extraProjetContentDescriptionText3": "Sous format court ou format workshop, explorez le métier d'illustrateur aux côtés de nos intervenants, professionnels du milieu de l'illustration ! Explorez différentes techniques de dessin et apprenez à mettre en images un texte, une phrase ou encore à faire prendre vie à un personnage à partir d'une courte description.",
 
             "img5": "/images/ateliers_img5.jpg",
             "img5M": "/images/ateliers_img5_M.jpg",
-            "alt5": "Enfants participants à un atelier de peinture murale en exterieur",
+            "alt5": "Dessin d'observation Chez Babayaga",
+
+            "img6": "/images/ateliers_img6.jpg",
+            "img6M": "/images/ateliers_img6_M.jpg",
+            "alt6": "Dessin d'observation Chez Babayaga",
+
+            "extraProjetContentDescriptionTitle4": "Le street art et son univers riche",
+            "extraProjetContentDescriptionText4": "Nous vous proposons une initiation à l'art du graffiti sous format court : 1h30, deux bombes et toute votre créativité sans limite ! Reproduisez également vos créations à l'infini en découvrant la technique du pochoir dans un format plus long. Un mur vide dans votre structure, des envies de changements et de couleurs vives ? Nous pouvons également venir réaliser sur place une fresque avec une classe ou encore votre équipe !",
 
             "img7": "/images/ateliers_img7.jpg",
             "img7M": "/images/ateliers_img7_M.jpg",
-            "alt7": "Lampe et tabouret en carton réalisés par deux enfants",
+            "alt7": "Enfants participants à un atelier de peinture murale en extérieur",
 
             "img8": "/images/ateliers_img8.jpg",
             "img8M": "/images/ateliers_img8_M.jpg",
-            "alt8": "Commode et avion en carton réalisés par deux enfants"
+            "alt8": "Enfants participants à un atelier de peinture murale en extérieur",
+
+            "extraProjetContentDescriptionTitle5": "Nos stages immersifs pendant les vacances",
+            "extraProjetContentDescriptionText5": "Durant les vacances scolaires, plongez dans une expérience artistique plus intense avec nos stages en illustration, cinéma d'animation et street art. Ces stages, répartis sur une demi-journée, une journée complète ou plusieurs jours, permettent une immersion totale pour explorer en profondeur chaque pratique.",
+
+            "img9": "/images/ateliers_img9.jpg",
+            "img9M": "/images/ateliers_img9_M.jpg",
+            "alt9": "Enfants participants à un atelier de peinture murale en extérieur",
+
+            "img10": "/images/ateliers_img10.jpg",
+            "img10M": "/images/ateliers_img10_M.jpg",
+            "alt10": "Enfants participants à un atelier de peinture murale en extérieur",
+
+            "img11": "/images/ateliers_img11.jpg",
+            "img11M": "/images/ateliers_img11_M.jpg",
+            "alt11": "Lampe et tabouret en carton réalisés par deux enfants",
+
+            "img12": "/images/ateliers_img12.jpg",
+            "img12M": "/images/ateliers_img12_M.jpg",
+            "alt12": "Commode et avion en carton réalisés par deux enfants"
         },
         "fancyfuzz": {
             "cover": "/images/fancyfuzz_cover.jpg",

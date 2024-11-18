@@ -48,6 +48,7 @@
 .projet-description p {
     color: black;
     font-size: 20px;
+    /* text-align: justify; */
 }
 
 .projet-description .creditsPhoto {

@@ -22,6 +22,17 @@
     transition: 0.3s;
 }
 
+.reservation-atelier, .reservation-stage {
+    margin-bottom: 150px;
+}
+
+@media only screen and (max-width: 1024px) {
+    .reservation-atelier, .reservation-stage {
+        margin-top: 20px;
+        margin-bottom: 100px;
+    }
+}
+
 @media only screen and (max-width: 768px) {
     .blue-button {
         padding-inline: 15px;
