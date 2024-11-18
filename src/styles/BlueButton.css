@@ -29,6 +29,13 @@
 @media only screen and (max-width: 1024px) {
     .reservation-atelier, .reservation-stage {
         margin-top: 20px;
+    }
+
+    .reservation-atelier {
+        margin-bottom: 50px;
+    }
+
+    .reservation-stage {
         margin-bottom: 100px;
     }
 }
