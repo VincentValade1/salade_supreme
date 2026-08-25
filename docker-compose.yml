@@ -1,0 +1,32 @@
+services:
+  app-dev:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      target: development
+    ports:
+      - "3000:3000"
+    volumes:
+      - .:/app
+      - /app/node_modules
+    environment:
+      - NODE_ENV=development
+      - CHOKIDAR_USEPOLLING=true
+      - WATCHPACK_POLLING=true
+      - REACT_APP_YOUR_SERVICE_ID=${REACT_APP_YOUR_SERVICE_ID:-dummy-service-id}
+      - REACT_APP_YOUR_TEMPLATE_ID=${REACT_APP_YOUR_TEMPLATE_ID:-dummy-template-id}
+      - REACT_APP_YOUR_PUBLIC_KEY=${REACT_APP_YOUR_PUBLIC_KEY:-dummy-public-key}
+    stdin_open: true
+    tty: true
+
+  app-prod:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      target: production
+      args:
+        REACT_APP_YOUR_SERVICE_ID: ${REACT_APP_YOUR_SERVICE_ID:-dummy-service-id}
+        REACT_APP_YOUR_TEMPLATE_ID: ${REACT_APP_YOUR_TEMPLATE_ID:-dummy-template-id}
+        REACT_APP_YOUR_PUBLIC_KEY: ${REACT_APP_YOUR_PUBLIC_KEY:-dummy-public-key}
+    ports:
+      - "80:80"
