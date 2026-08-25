@@ -34,7 +34,6 @@
         "transport": "À 5min du métro B (Barrière de Paris)",
         "latitude": 43.6257574,
         "longitude": 1.4312442,
-        "mapLink": "https://www.openstreetmap.org/node/1558212272#map=18/43.6257574/1.4312442",
         "transports": [
             { "type": "Métro B", "name": "Barrière de Paris", "distance": "5 min à pied" },
             { "type": "Bus", "name": "Silvio Trentin", "distance": "2 min à pied" },
