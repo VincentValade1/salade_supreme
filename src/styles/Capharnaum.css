@@ -1,0 +1,112 @@
+.capharnaum-page {
+    width: 100%;
+}
+
+.capharnaum-page .projet-content.residence {
+    position: relative;
+    z-index: 1;
+}
+
+.capharnaum-page .projet-description {
+    max-width: 920px;
+}
+
+.capharnaum-intervenants {
+    max-width: 1100px;
+    margin: 0 auto 80px;
+    padding: 0 24px;
+}
+
+.capharnaum-intervenants__title {
+    width: fit-content;
+    margin: 0 0 36px;
+    margin-left: calc(7.4vw - max(24px, (100vw - 1100px) / 2 + 24px));
+    padding: 0 8px;
+    box-shadow: 0 -14px #F8C7CD inset;
+    color: #28338A;
+    font-family: "Mango-Black", sans-serif;
+    font-size: 30px;
+    line-height: 1.2;
+}
+
+.capharnaum-intervenants__grid {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 18px;
+}
+
+.capharnaum-intervenant-card {
+    display: flex;
+    min-height: 190px;
+    flex-direction: column;
+    padding: 22px;
+    border: 1px solid #ead5dc;
+    background: #fffafc;
+}
+
+.capharnaum-intervenant-card__name {
+    margin: 0 0 12px;
+    color: #28338A;
+    font-family: "Mango-Black", sans-serif;
+    font-size: 21px;
+    line-height: 1.2;
+}
+
+.capharnaum-intervenant-card__bio {
+    margin: 0;
+    color: #4d4d4d;
+    font-family: "Gotham-HTF-Book", sans-serif;
+    font-size: 14px;
+    line-height: 1.6;
+}
+
+.capharnaum-intervenant-card__instagram {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    margin-top: auto;
+    padding-top: 18px;
+    color: #DB6D93;
+    font-family: "Gotham-HTF-Book", sans-serif;
+    font-size: 14px;
+    font-weight: 700;
+    text-decoration: none;
+}
+
+.capharnaum-intervenant-card__instagram svg {
+    width: 20px;
+    height: 20px;
+    color: #DB6D93;
+}
+
+.capharnaum-intervenant-card__instagram span {
+    color: #DB6D93;
+    font-family: "Gotham-HTF-Book", sans-serif;
+}
+
+@media (max-width: 900px) {
+    .capharnaum-intervenants__grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+}
+
+@media (max-width: 600px) {
+    .capharnaum-intervenants {
+        margin-bottom: 56px;
+        padding: 0 16px;
+    }
+
+    .capharnaum-intervenants__title {
+        margin-bottom: 26px;
+        margin-right: auto;
+        margin-left: auto;
+        box-shadow: 0 -16px #F8C7CD inset;
+        font-size: clamp(22px, 4vw, 32px);
+        line-height: 35px;
+    }
+
+    .capharnaum-intervenants__grid {
+        grid-template-columns: 1fr;
+    }
+}
+
