@@ -69,7 +69,7 @@ header nav a.active {
     }
 }
 
-@media only screen and (max-width: 930px) {
+@media only screen and (max-width: 1075px) {
     .logo-accueil {
         width: 35px;
         height: 35.06px;

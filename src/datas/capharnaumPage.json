@@ -1,0 +1,43 @@
+{
+    "bannerImg": "/images/capharnaum_banner.jpg",
+    "bannerImgM": "/images/capharnaum_banner_M.jpg",
+    "altBannerImg": "image prototype du capharnaum en attendant la fin des travaux",
+    "openingDate": "2026-09-04T18:00:00+02:00",
+    "img1": "/images/capharnaum_img1.jpg",
+    "img2": "/images/capharnaum_img2.jpg",
+    "img3": "/images/capharnaum_img3.jpg",
+    "img4": "/images/capharnaum_img4.jpg",
+    "alt1": "Vue du projet Capharnaum",
+    "alt2": "Vue intérieure du Capharnaum",
+    "alt3": "Espace culturel du Capharnaum",
+    "alt4": "Aménagement du lieu Capharnaum",
+    "title": "Capharnaum",
+    "description": "Depuis plus d’un an, nous travaillons sur ce projet. Pendant des années, on a investi des lieux. Cette fois, on en ouvre un : Le Capharnaum !\n\nUn café culturel porté par Salade Suprême et le Secours Populaire, à Barrière-de-Paris. Un lieu pour boire un verre, découvrir des artistes, assister à des concerts, participer à des ateliers, rencontrer ses voisins, organiser des projets ou simplement passer du temps ensemble.",
+    "theme": "Tiers-lieu culturel éphémère",
+    "activities": [
+        { "icon": "🎶", "label": "Concerts", "category": "Musique" },
+        { "icon": "🎨", "label": "Expositions", "category": "Arts visuels" },
+        { "icon": "🖌", "label": "Ateliers", "category": "Création" },
+        { "icon": "🫂", "label": "Rencontres", "category": "Échanges" },
+        { "icon": "🎭", "label": "Spectacles", "category": "Scène" },
+        { "icon": "🍻", "label": "Événements toute l’année", "category": "Vie du lieu" }
+    ],
+    "atelierLabel": "🧵 un atelier de couture par",
+    "atelierUrl": "https://www.instagram.com/laretourcherie.toulouse/",
+    "hours": [
+        { "days": "Mardi et Mercredi", "hours": "10h – 21h" },
+        { "days": "Jeudi à Samedi", "hours": "10h – 22h30" },
+        { "days": "Dimanche et Lundi", "hours": "fermé" }
+    ],
+    "location": {
+        "address": "67 bd Silvio Trentin, Barrière de Paris",
+        "transport": "À 5min du métro B (Barrière de Paris)",
+        "latitude": 43.6257574,
+        "longitude": 1.4312442,
+        "transports": [
+            { "type": "Métro B", "name": "Barrière de Paris", "distance": "5 min à pied" },
+            { "type": "Bus", "name": "Silvio Trentin", "distance": "2 min à pied" },
+            { "type": "VélôToulouse", "name": "Barrière de Paris", "distance": "Station à proximité" }
+        ]
+    }
+}

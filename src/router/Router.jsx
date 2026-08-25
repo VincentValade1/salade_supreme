@@ -14,6 +14,7 @@ import ScrollToTop from "../components/ScrollToTop";
 
 //pages résidences
 import Babayaga from "../pages/Babayaga";
+import Capharnaum from "../pages/Capharnaum";
 
 // pages projets
 import SupremeVitrines from "../pages/SupremeVitrines";
@@ -38,6 +39,7 @@ function Router() {
             <Routes>
                 <Route exact path='/' element={<Accueil />} />
                 {/* <Route exact path='/residences' element={<Residences />} /> */}
+                <Route exact path='/lieux/capharnaum' element={<Capharnaum />} />
                 <Route exact path='/residences/babayaga' element={<Babayaga />} />
                 <Route exact path='/projets' element={<Projets />} />
                 <Route exact path='/projets/supreme-vitrines' element={<SupremeVitrines />} />

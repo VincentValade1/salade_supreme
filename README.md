@@ -1,70 +1,181 @@
-# Getting Started with Create React App
+# Salade Suprême
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+Official website for the Salade Suprême creative collective. The site presents the collective's projects, services, members, events, residencies, and contact information through a responsive React application.
 
-## Available Scripts
+## Features
 
-In the project directory, you can run:
+- Responsive pages for the collective, projects, services, members, and contact form.
+- Project and residency pages backed by local JSON content.
+- Capharnaum venue page with:
+	- opening countdown;
+	- activities and opening hours;
+	- interactive event calendar with event details and booking links;
+	- OpenStreetMap embed and Google Maps links for directions;
+	- nearby public transport information.
+- YouTube embeds for selected project and residency content.
+- Social links and accessible navigation components.
+- Static production output suitable for Netlify or Nginx hosting.
 
-### `npm start`
+## Tech Stack
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+- React 18
+- Create React App / `react-scripts`
+- React Router
+- React Icons
+- EmailJS for the contact form
+- React YouTube for video embeds
+- OpenStreetMap for the Capharnaum location map
+- Docker and Nginx for containerized production serving
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+## Requirements
 
-### `npm test`
+- Node.js 22 or a compatible modern Node.js release
+- npm
+- Docker and Docker Compose, only if using the container workflow
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+## Getting Started
 
-### `npm run build`
+Clone the repository and install dependencies:
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+```bash
+git clone <repository-url>
+cd salade_supreme
+npm install
+```
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+Start the development server:
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+```bash
+npm start
+```
 
-### `npm run eject`
+The application is available at [http://localhost:3000](http://localhost:3000). Create React App reloads the page when source files change.
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+## Environment Variables
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+The contact form uses EmailJS. For local development, create a `.env.local` file in the project root:
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+```env
+REACT_APP_YOUR_SERVICE_ID=your_emailjs_service_id
+REACT_APP_YOUR_TEMPLATE_ID=your_emailjs_template_id
+REACT_APP_YOUR_PUBLIC_KEY=your_emailjs_public_key
+```
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+These values are read by `src/pages/Contact.jsx`. Do not commit `.env.local` or production credentials. The Docker configuration falls back to dummy values when these variables are not supplied.
 
-## Learn More
+## Available Commands
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+| Command | Description |
+| --- | --- |
+| `npm start` | Run the development server on port 3000. |
+| `npm test` | Run the Jest and Testing Library test suite in watch mode. |
+| `npm run build` | Create an optimized production build in `build/`. |
+| `npm run deploy` | Publish the `build/` directory using `gh-pages`. |
+| `npm run eject` | Eject from Create React App. This is irreversible and normally unnecessary. |
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+## Docker
 
-### Code Splitting
+Run the development container with hot reload:
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
+```bash
+docker compose up --build app-dev
+```
 
-### Analyzing the Bundle Size
+Open [http://localhost:3000](http://localhost:3000).
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
+Build and run the production image:
 
-### Making a Progressive Web App
+```bash
+docker compose up --build app-prod
+```
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
+The production container serves the compiled application through Nginx on port 80. To provide EmailJS values during the production build:
 
-### Advanced Configuration
+```bash
+REACT_APP_YOUR_SERVICE_ID=... \\
+REACT_APP_YOUR_TEMPLATE_ID=... \\
+REACT_APP_YOUR_PUBLIC_KEY=... \\
+docker compose up --build app-prod
+```
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
+## Deployment
 
-### Deployment
+### Netlify
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
+The repository includes `netlify.toml` with the following build settings:
 
-### `npm run build` fails to minify
+- Build command: `npm run build`
+- Publish directory: `build/`
+- SPA fallback: all routes serve `index.html`
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+Set the three EmailJS environment variables in the Netlify project settings before deploying the contact form.
+
+### GitHub Pages
+
+Build the site and publish the output with:
+
+```bash
+npm run build
+npm run deploy
+```
+
+Configure the repository's GitHub Pages source to use the branch created by `gh-pages`. Because the app uses client-side routing, hosting configuration must preserve the SPA fallback behavior or provide a suitable `404.html` redirect strategy.
+
+## Project Structure
+
+```text
+public/              Static assets and web app metadata
+src/
+	components/        Shared UI components
+	datas/             JSON content for pages and Capharnaum events
+	pages/             Route-level page components
+	router/            React Router configuration
+	styles/            Component and page stylesheets
+	App.js             Application entry component
+	index.js           React DOM entry point
+Dockerfile           Development and production container stages
+
+netlify.toml         Netlify build and SPA routing configuration
+nginx.conf           Production Nginx configuration
+RULES.md             Image/banner dimension guidelines
+```
+
+## Content Updates
+
+Most page content is stored in `src/datas/`. The Capharnaum page is assembled from:
+
+- `src/datas/capharnaumPage.json`: venue information, activities, opening hours, coordinates, and opening date.
+- `src/datas/capharnaumPlanning.json`: calendar months and activities.
+- `src/datas/capharnaumIntervenants.json`: workshop and event speakers.
+
+When changing the Capharnaum location, keep the latitude and longitude in sync with the OpenStreetMap and Google Maps links.
+
+## Main Routes
+
+| Route | Page |
+| --- | --- |
+| `/` | Home |
+| `/projets` | Projects index |
+| `/lieux/capharnaum` | Capharnaum venue |
+| `/residences/babayaga` | Babayaga residency |
+| `/membres` | Members |
+| `/services` | Services |
+| `/contact` | Contact form |
+
+Additional project routes are defined in `src/router/Router.jsx`; unknown routes display the 404 page.
+
+## Validation
+
+Before opening a pull request, run:
+
+```bash
+npm run build
+```
+
+The production build is the quickest way to catch invalid imports, JSX errors, and deployment-time configuration issues.
+
+## External Services and Attribution
+
+- Email delivery is provided by EmailJS.
+- Videos are embedded from YouTube.
+- The Capharnaum map uses OpenStreetMap data. Map data and tiles remain subject to the [OpenStreetMap Foundation attribution requirements](https://www.openstreetmap.org/copyright).

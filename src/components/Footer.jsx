@@ -24,7 +24,8 @@ function Footer() {
         <footer>
                 {!isMobile && (
                     <nav>
-                        <NavLink tabIndex="0" aria-label="lien vers page Chez Babayage" activeclassname='active' to='/residences/babayaga'>Chez Babayaga</NavLink>
+                        <NavLink tabIndex="0" aria-label="lien vers page Capharnaum" activeclassname='active' to='/residences/capharnaum'>Capharnaum</NavLink>
+                        <NavLink tabIndex="0" aria-label="lien vers page Babayaga" activeclassname='active' to='/Lieux/babayaga'>Babayaga</NavLink>
                         <NavLink tabIndex="0" aria-label="lien vers page projets" activeclassname='active' to='/projets'>Projets</NavLink>
                         <NavLink tabIndex="0" aria-label="lien vers page membres" activeclassname='active' to='/membres'>Membres</NavLink>
                         <NavLink tabIndex="0" aria-label="lien vers page services" activeclassname='active' to='/services'>Services</NavLink>

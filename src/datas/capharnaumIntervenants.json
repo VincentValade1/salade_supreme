@@ -1,0 +1,40 @@
+{
+  "intervenants": [
+    {
+      "id": "luzeye",
+      "name": "Luzeye",
+      "instagram": "https://www.instagram.com/luzeye_/",
+      "bio": "Artiste toulousaine spécialisée dans le street-art et le graffiti."
+    },
+    {
+      "id": "ben-brito",
+      "name": "Ben Brito",
+      "instagram": "https://www.instagram.com/ben_brito/",
+      "bio": "Intervenant en peinture et création autour des couleurs et des matières."
+    },
+    {
+      "id": "louis-rodrigues",
+      "name": "Louis Rodrigues",
+      "instagram": "https://www.instagram.com/dessins_a_la_louche/",
+      "bio": "Artiste intéressé par le dessin académique, le graphisme et la mise en page. Il explore le détail, la nuance et l'illustration."
+    },
+    {
+      "id": "kput",
+      "name": "Kput",
+      "instagram": "https://www.instagram.com/kputgraffiti/",
+      "bio": "Intervenant en typographie et lettrage."
+    },
+    {
+      "id": "tom",
+      "name": "Tom",
+      "instagram": "https://www.instagram.com/tomchertier/",
+      "bio": "Intervenant en gravure et techniques d'estampe accessibles et écoresponsables."
+    },
+    {
+      "id": "joann-abadie",
+      "name": "Joann Abadie",
+      "instagram": "https://www.instagram.com/jojopesto/",
+      "bio": "Illustrateur et créateur de BD, Joann explore le digital, le crayon de couleur et l'encre de Chine."
+    }
+  ]
+}
