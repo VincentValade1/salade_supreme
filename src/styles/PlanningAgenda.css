@@ -3,6 +3,7 @@
     max-width: none;
     margin: 48px 7.4% 80px;
     padding: 0;
+    scroll-margin-top: 90px;
 }
 
 .planning-agenda * {
@@ -26,6 +27,36 @@
     font-size: 30px;
     font-family: "Mango-Black", sans-serif;
     line-height: 1.2;
+}
+
+.planning-agenda__title-link {
+    padding: 0;
+    border: 0;
+    background: transparent;
+    color: #28338A;
+    font: inherit;
+    cursor: pointer;
+}
+
+.planning-agenda__title-link:hover,
+.planning-agenda__title-link:focus-visible {
+    color: #DB6D93;
+    outline: none;
+}
+
+.planning-agenda__copy-toast {
+    position: fixed;
+    right: 24px;
+    bottom: 24px;
+    z-index: 10001;
+    padding: 12px 18px;
+    border: 2px solid #F8C7CD;
+    background: #28338A;
+    color: #fff;
+    font-family: "Gotham-HTF-Book", sans-serif;
+    font-size: 13px;
+    font-weight: 700;
+    box-shadow: 0 8px 20px rgba(40, 51, 138, 0.25);
 }
 
 .planning-agenda__month-controls {

@@ -1,4 +1,4 @@
-import { useMemo, useState } from 'react';
+import { useEffect, useMemo, useRef, useState } from 'react';
 import { BsInstagram } from 'react-icons/bs';
 import '../styles/PlanningAgenda.css';
 
@@ -19,13 +19,21 @@ function getInstagramUsername(instagramUrl) {
 }
 
 function PlanningAgenda({ months }) {
+    const sectionRef = useRef(null);
     const [currentMonthIndex, setCurrentMonthIndex] = useState(0);
     const [selectedActivity, setSelectedActivity] = useState(null);
+    const [isAnchorCopied, setIsAnchorCopied] = useState(false);
     const currentMonth = useMemo(() => months[currentMonthIndex] || months[0], [months, currentMonthIndex]);
     const currentMonthDate = useMemo(() => {
         const firstActivity = currentMonth?.activities?.find((activity) => activity.date);
         return firstActivity ? new Date(`${firstActivity.date}T00:00:00`) : new Date(2026, currentMonthIndex, 1);
     }, [currentMonth, currentMonthIndex]);
+
+    useEffect(() => {
+        if (window.location.hash === '#cours-ateliers') {
+            window.requestAnimationFrame(() => sectionRef.current?.scrollIntoView({ behavior: 'auto', block: 'start' }));
+        }
+    }, []);
 
     const calendarWeeks = useMemo(() => {
         const firstDay = new Date(currentMonthDate.getFullYear(), currentMonthDate.getMonth(), 1);
@@ -47,6 +55,27 @@ function PlanningAgenda({ months }) {
         setSelectedActivity(null);
     };
 
+    const copySectionUrl = async () => {
+        const sectionUrl = new URL(window.location.href);
+        sectionUrl.hash = 'cours-ateliers';
+
+        try {
+            await navigator.clipboard.writeText(sectionUrl.href);
+        } catch {
+            const temporaryInput = document.createElement('input');
+            temporaryInput.value = sectionUrl.href;
+            document.body.appendChild(temporaryInput);
+            temporaryInput.select();
+            document.execCommand('copy');
+            document.body.removeChild(temporaryInput);
+        }
+
+        window.location.hash = 'cours-ateliers';
+        window.requestAnimationFrame(() => sectionRef.current?.scrollIntoView({ behavior: 'auto', block: 'start' }));
+        setIsAnchorCopied(true);
+        window.setTimeout(() => setIsAnchorCopied(false), 1800);
+    };
+
     const hasPreviousMonth = currentMonthIndex > 0;
     const hasNextMonth = currentMonthIndex < months.length - 1;
 
@@ -56,10 +85,14 @@ function PlanningAgenda({ months }) {
     const eventFieldLabels = { date: 'Date', time: 'Horaire' };
 
     return (
-        <section className="planning-agenda">
+        <section ref={sectionRef} id="cours-ateliers" className="planning-agenda" aria-labelledby="cours-ateliers-title">
             <div className="planning-agenda__header">
                 <div>
-                    <h3 className="planning-agenda__title">Cours et Ateliers</h3>
+                    <h3 id="cours-ateliers-title" className="planning-agenda__title">
+                        <button type="button" className="planning-agenda__title-link" onClick={copySectionUrl} title="Copier le lien de cette section" aria-label="Copier le lien vers la section Cours et Ateliers">
+                            Cours et Ateliers
+                        </button>
+                    </h3>
                 </div>
                 <div className="planning-agenda__month-controls">
                     {hasPreviousMonth && (
@@ -71,6 +104,11 @@ function PlanningAgenda({ months }) {
                     )}
                 </div>
             </div>
+            {isAnchorCopied && (
+                <div className="planning-agenda__copy-toast" role="status" aria-live="polite">
+                    URL copiée
+                </div>
+            )}
 
             <div className={`planning-agenda__desktop-layout ${selectedActivity ? 'planning-agenda__desktop-layout--selected' : ''}`}>
                 <div className="planning-agenda__board">
