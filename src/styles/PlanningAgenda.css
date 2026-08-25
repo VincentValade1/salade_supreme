@@ -1,7 +1,8 @@
 .planning-agenda {
-    max-width: 1100px;
-    margin: 48px auto 80px;
-    padding: 0 24px;
+    width: auto;
+    max-width: none;
+    margin: 48px 7.4% 80px;
+    padding: 0;
 }
 
 .planning-agenda * {
@@ -17,7 +18,7 @@
 
 .planning-agenda__title {
     margin: 8px 0 0;
-    margin-left: calc(7.4vw - max(24px, (100vw - 1100px) / 2 + 24px));
+    margin-left: 0;
     width: fit-content;
     padding: 0 8px;
     box-shadow: 0 -14px #F8C7CD inset;
@@ -53,11 +54,100 @@
     text-align: center;
 }
 
+.planning-agenda__desktop-layout {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    gap: 18px;
+    align-items: stretch;
+}
+
+.planning-agenda__desktop-layout--selected {
+    grid-template-columns: minmax(0, 1.55fr) minmax(280px, 0.75fr);
+}
+
 .planning-agenda__board {
+    min-width: 0;
     padding: 28px;
     border: 1px solid #ead5dc;
     background: #fffafc;
     box-shadow: 0 12px 30px rgba(108, 54, 76, 0.06);
+}
+
+.planning-agenda__side-panel {
+    position: relative;
+    min-width: 0;
+    max-height: 100%;
+    overflow-y: auto;
+    padding: 24px;
+    background: #28338A;
+    color: #fff;
+}
+
+.planning-agenda__side-panel-close {
+    position: absolute;
+    top: 16px;
+    right: 16px;
+    width: 32px;
+    height: 32px;
+    border: 1px solid rgba(255, 255, 255, 0.7);
+    background: transparent;
+    color: #fff;
+    font-family: "Gotham-HTF-Book", sans-serif;
+    font-size: 22px;
+    line-height: 1;
+    cursor: pointer;
+}
+
+.planning-agenda__side-panel-close:hover,
+.planning-agenda__side-panel-close:focus-visible {
+    background: #F8C7CD;
+    color: #28338A;
+    outline: 2px solid #fff;
+    outline-offset: 2px;
+}
+
+.planning-agenda__side-panel .planning-agenda__modal-title {
+    margin: 0 0 22px;
+    padding-right: 0;
+    color: #fff;
+    font-size: 26px;
+}
+
+.planning-agenda__side-panel .planning-agenda__details {
+    margin: 0 0 22px;
+    border-color: rgba(255, 255, 255, 0.35);
+    background: rgba(255, 255, 255, 0.12);
+}
+
+.planning-agenda__side-panel .planning-agenda__detail-label,
+.planning-agenda__side-panel .planning-agenda__speaker-label {
+    color: #F8C7CD;
+}
+
+.planning-agenda__side-panel .planning-agenda__detail-value,
+.planning-agenda__side-panel .planning-agenda__modal-description,
+.planning-agenda__side-panel .planning-agenda__speaker-name,
+.planning-agenda__side-panel .planning-agenda__speaker-bio {
+    color: #fff;
+}
+
+.planning-agenda__side-panel .planning-agenda__speaker {
+    border-color: rgba(255, 255, 255, 0.35);
+    background: rgba(255, 255, 255, 0.12);
+}
+
+.planning-agenda__side-panel .planning-agenda__speaker-link,
+.planning-agenda__side-panel .planning-agenda__instagram-link {
+    color: #F8C7CD;
+}
+
+.planning-agenda__side-panel .planning-agenda__reservation-link {
+    background: #F8C7CD;
+    color: #28338A;
+}
+
+.planning-agenda__side-panel .planning-agenda__no-reservation {
+    color: #F8C7CD;
 }
 
 .planning-agenda__legend {
@@ -204,6 +294,7 @@
     overflow-y: auto;
     background: rgba(34, 24, 29, 0.48);
     backdrop-filter: blur(3px);
+    display: none;
 }
 
 .planning-agenda__modal {
@@ -356,7 +447,7 @@
 
 
 
-@media (max-width: 700px) {
+@media (max-width: 1199px) {
     .planning-agenda {
         margin: 32px auto 56px;
         padding: 0 12px;
@@ -393,6 +484,15 @@
 
     .planning-agenda__board {
         padding: 14px;
+    }
+
+    .planning-agenda__desktop-layout,
+    .planning-agenda__desktop-layout--selected {
+        display: block;
+    }
+
+    .planning-agenda__side-panel {
+        display: none;
     }
 
     .planning-agenda__legend {
@@ -457,6 +557,7 @@
     }
 
     .planning-agenda__modal-overlay {
+        display: flex;
         align-items: flex-start;
         padding: 12px;
     }

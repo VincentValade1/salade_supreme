@@ -72,19 +72,20 @@ function PlanningAgenda({ months }) {
                 </div>
             </div>
 
-            <div className="planning-agenda__board">
-                <div className="planning-agenda__legend">
+            <div className={`planning-agenda__desktop-layout ${selectedActivity ? 'planning-agenda__desktop-layout--selected' : ''}`}>
+                <div className="planning-agenda__board">
+                    <div className="planning-agenda__legend">
                     {Object.entries(eventTypeStyles).map(([label, style]) => (
                         <div key={label} className="planning-agenda__legend-item">
                             <span className="planning-agenda__legend-swatch" style={{ '--event-background': style.background, '--event-border': style.border }} />
                             {label}
                         </div>
                     ))}
-                </div>
-                <div className="planning-agenda__weekdays">
+                    </div>
+                    <div className="planning-agenda__weekdays">
                     {weekdayLabels.map((day) => <div key={day} className="planning-agenda__weekday">{day}</div>)}
-                </div>
-                <div className="planning-agenda__weeks">
+                    </div>
+                    <div className="planning-agenda__weeks">
                     {calendarWeeks.map((week, weekIndex) => (
                         <div key={`week-${weekIndex}`} className="planning-agenda__week">
                             {week.map((date) => {
@@ -125,54 +126,79 @@ function PlanningAgenda({ months }) {
                             })}
                         </div>
                     ))}
+                    </div>
                 </div>
+                {selectedActivity && (
+                    <aside className="planning-agenda__side-panel" aria-label="Détail de l’activité sélectionnée">
+                        <button type="button" className="planning-agenda__side-panel-close" onClick={() => setSelectedActivity(null)} aria-label="Fermer le détail de l’activité">×</button>
+                        <ActivityDetails selectedActivity={selectedActivity} eventDetails={eventDetails} eventFieldLabels={eventFieldLabels} />
+                    </aside>
+                )}
             </div>
 
             {selectedActivity && (
                 <div className="planning-agenda__modal-overlay" onClick={() => setSelectedActivity(null)}>
                     <div className="planning-agenda__modal" onClick={(event) => event.stopPropagation()}>
                         <button type="button" className="planning-agenda__modal-close" onClick={() => setSelectedActivity(null)} aria-label="Fermer le détail">×</button>
-                        <h4 className="planning-agenda__modal-title">{selectedActivity.title}</h4>
-                        <div className="planning-agenda__details">
-                            {eventDetails.map(([key, value]) => (
-                                <div key={key} className="planning-agenda__detail">
-                                    <div className="planning-agenda__detail-label">{eventFieldLabels[key] || key}</div>
-                                    <div className="planning-agenda__detail-value">{String(value)}</div>
-                                </div>
-                            ))}
-                        </div>
-                        <p className="planning-agenda__modal-description">{selectedActivity.description || 'Aucune description disponible pour cet événement.'}</p>
-                        {selectedActivity.intervenant && (
-                            <div className="planning-agenda__speaker">
-                                <div className="planning-agenda__speaker-label">Intervenant</div>
-                                <div className="planning-agenda__speaker-name">{selectedActivity.intervenant.name}</div>
-                                <p className="planning-agenda__speaker-bio">{selectedActivity.intervenant.bio}</p>
-                                {selectedActivity.intervenant.instagram && (
-                                    <a
-                                        className="planning-agenda__speaker-link"
-                                        href={selectedActivity.intervenant.instagram}
-                                        target="_blank"
-                                        rel="noreferrer noopener"
-                                        aria-label={`Instagram de ${selectedActivity.intervenant.name}`}
-                                    >
-                                        <BsInstagram aria-hidden="true" />
-                                        <span className="planning-agenda__instagram-link">
-                                            {getInstagramUsername(selectedActivity.intervenant.instagram)}
-                                        </span>
-                                    </a>
-                                )}
-                            </div>
-                        )}
-                        {selectedActivity.link ? (
-                            <a className="planning-agenda__reservation-link" href={selectedActivity.link} target="_blank" rel="noreferrer noopener">Réserver</a>
-                        ) : (
-                            <div className="planning-agenda__no-reservation">Aucun lien de réservation disponible.</div>
-                        )}
+                        <ActivityDetails selectedActivity={selectedActivity} eventDetails={eventDetails} eventFieldLabels={eventFieldLabels} />
                     </div>
                 </div>
             )}
         </section>
     );
+}
+
+function ActivityDetails({ selectedActivity, eventDetails, eventFieldLabels }) {
+    return (
+        <>
+            <h4 className="planning-agenda__modal-title">{selectedActivity.title}</h4>
+            <div className="planning-agenda__details">
+                {eventDetails.map(([key, value]) => (
+                    <div key={key} className="planning-agenda__detail">
+                        <div className="planning-agenda__detail-label">{eventFieldLabels[key] || key}</div>
+                        <div className="planning-agenda__detail-value">{formatEventDetailValue(key, value)}</div>
+                    </div>
+                ))}
+            </div>
+            <p className="planning-agenda__modal-description">{selectedActivity.description || 'Aucune description disponible pour cet événement.'}</p>
+            {selectedActivity.intervenant && (
+                <div className="planning-agenda__speaker">
+                    <div className="planning-agenda__speaker-label">Intervenant</div>
+                    <div className="planning-agenda__speaker-name">{selectedActivity.intervenant.name}</div>
+                    <p className="planning-agenda__speaker-bio">{selectedActivity.intervenant.bio}</p>
+                    {selectedActivity.intervenant.instagram && (
+                        <a
+                            className="planning-agenda__speaker-link"
+                            href={selectedActivity.intervenant.instagram}
+                            target="_blank"
+                            rel="noreferrer noopener"
+                            aria-label={`Instagram de ${selectedActivity.intervenant.name}`}
+                        >
+                            <BsInstagram aria-hidden="true" />
+                            <span className="planning-agenda__instagram-link">
+                                {getInstagramUsername(selectedActivity.intervenant.instagram)}
+                            </span>
+                        </a>
+                    )}
+                </div>
+            )}
+            {selectedActivity.link ? (
+                <a className="planning-agenda__reservation-link" href={selectedActivity.link} target="_blank" rel="noreferrer noopener">Réserver</a>
+            ) : (
+                <div className="planning-agenda__no-reservation">Aucun lien de réservation disponible.</div>
+            )}
+        </>
+    );
+}
+
+function formatEventDetailValue(key, value) {
+    if (key !== 'date') {
+        return String(value);
+    }
+
+    const [year, month, day] = String(value).split('-');
+    const monthLabels = ['jan', 'fev', 'mar', 'avr', 'mai', 'juin', 'juil', 'aout', 'sept', 'oct', 'nov', 'dec'];
+    return `${Number(day)} ${monthLabels[Number(month) - 1]} ${year}`;
 }
 
 export default PlanningAgenda;
