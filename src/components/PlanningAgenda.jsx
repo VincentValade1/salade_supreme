@@ -113,57 +113,57 @@ function PlanningAgenda({ months }) {
             <div className={`planning-agenda__desktop-layout ${selectedActivity ? 'planning-agenda__desktop-layout--selected' : ''}`}>
                 <div className="planning-agenda__board">
                     <div className="planning-agenda__legend">
-                    {Object.entries(eventTypeStyles).map(([label, style]) => (
-                        <div key={label} className="planning-agenda__legend-item">
-                            <span className="planning-agenda__legend-swatch" style={{ '--event-background': style.background, '--event-border': style.border }} />
-                            {label}
-                        </div>
-                    ))}
+                        {Object.entries(eventTypeStyles).map(([label, style]) => (
+                            <div key={label} className="planning-agenda__legend-item">
+                                <span className="planning-agenda__legend-swatch" style={{ '--event-background': style.background, '--event-border': style.border }} />
+                                {label}
+                            </div>
+                        ))}
                     </div>
                     <div className="planning-agenda__weekdays">
-                    {weekdayLabels.map((day) => <div key={day} className="planning-agenda__weekday">{day}</div>)}
+                        {weekdayLabels.map((day) => <div key={day} className="planning-agenda__weekday">{day}</div>)}
                     </div>
                     <div className="planning-agenda__weeks">
-                    {calendarWeeks.map((week, weekIndex) => (
-                        <div key={`week-${weekIndex}`} className="planning-agenda__week">
-                            {week.map((date) => {
-                                const dateKey = [
-                                    date.getFullYear(),
-                                    String(date.getMonth() + 1).padStart(2, '0'),
-                                    String(date.getDate()).padStart(2, '0')
-                                ].join('-');
-                                const dayEvents = currentMonth.activities.filter((activity) => activity.date === dateKey);
-                                const isCurrentMonth = date.getFullYear() === currentMonthDate.getFullYear() && date.getMonth() === currentMonthDate.getMonth();
-                                const weekdayLabel = weekdayLabels[(date.getDay() + 6) % 7];
-                                return (
-                                    <div key={dateKey} className={`planning-agenda__day ${isCurrentMonth ? '' : 'planning-agenda__day--outside'} ${dayEvents.length === 0 ? 'planning-agenda__day--empty' : ''}`}>
-                                        <div className="planning-agenda__day-heading">
-                                            <span className="planning-agenda__day-name">{weekdayLabel}</span>
-                                            <span className="planning-agenda__day-number">{date.getDate()}</span>
+                        {calendarWeeks.map((week, weekIndex) => (
+                            <div key={`week-${weekIndex}`} className="planning-agenda__week">
+                                {week.map((date) => {
+                                    const dateKey = [
+                                        date.getFullYear(),
+                                        String(date.getMonth() + 1).padStart(2, '0'),
+                                        String(date.getDate()).padStart(2, '0')
+                                    ].join('-');
+                                    const dayEvents = currentMonth.activities.filter((activity) => activity.date === dateKey);
+                                    const isCurrentMonth = date.getFullYear() === currentMonthDate.getFullYear() && date.getMonth() === currentMonthDate.getMonth();
+                                    const weekdayLabel = weekdayLabels[(date.getDay() + 6) % 7];
+                                    return (
+                                        <div key={dateKey} className={`planning-agenda__day ${isCurrentMonth ? '' : 'planning-agenda__day--outside'} ${dayEvents.length === 0 ? 'planning-agenda__day--empty' : ''}`}>
+                                            <div className="planning-agenda__day-heading">
+                                                <span className="planning-agenda__day-name">{weekdayLabel}</span>
+                                                <span className="planning-agenda__day-number">{date.getDate()}</span>
+                                            </div>
+                                            <div className="planning-agenda__events">
+                                                {dayEvents.slice(0, 3).map((activity) => {
+                                                    const typeStyle = eventTypeStyles[activity.type] || eventTypeStyles['Cours hebdomadaire'];
+                                                    return (
+                                                        <button
+                                                            type="button"
+                                                            key={activity.id}
+                                                            className="planning-agenda__event"
+                                                            style={{ '--event-background': typeStyle.background, '--event-border': typeStyle.border, '--event-text': typeStyle.text }}
+                                                            onClick={() => setSelectedActivity(activity)}
+                                                        >
+                                                            <div className="planning-agenda__event-title">{activity.title}</div>
+                                                            <div className="planning-agenda__event-time">{activity.time}</div>
+                                                        </button>
+                                                    );
+                                                })}
+                                                {dayEvents.length > 3 && <div className="planning-agenda__more-events">+{dayEvents.length - 3} de plus</div>}
+                                            </div>
                                         </div>
-                                        <div className="planning-agenda__events">
-                                            {dayEvents.slice(0, 3).map((activity) => {
-                                                const typeStyle = eventTypeStyles[activity.type] || eventTypeStyles['Cours hebdomadaire'];
-                                                return (
-                                                    <button
-                                                        type="button"
-                                                        key={activity.id}
-                                                        className="planning-agenda__event"
-                                                        style={{ '--event-background': typeStyle.background, '--event-border': typeStyle.border, '--event-text': typeStyle.text }}
-                                                        onClick={() => setSelectedActivity(activity)}
-                                                    >
-                                                        <div className="planning-agenda__event-title">{activity.title}</div>
-                                                        <div className="planning-agenda__event-time">{activity.time}</div>
-                                                    </button>
-                                                );
-                                            })}
-                                            {dayEvents.length > 3 && <div className="planning-agenda__more-events">+{dayEvents.length - 3} de plus</div>}
-                                        </div>
-                                    </div>
-                                );
-                            })}
-                        </div>
-                    ))}
+                                    );
+                                })}
+                            </div>
+                        ))}
                     </div>
                 </div>
                 {selectedActivity && (
@@ -182,6 +182,16 @@ function PlanningAgenda({ months }) {
                     </div>
                 </div>
             )}
+
+            <div className="planning-agenda__helper" role="status">
+                <span className="planning-agenda__helper-hand" aria-hidden="true">👆</span>
+                <span>
+                    <strong className="planning-agenda__closing-message">
+                        Cliquez sur un événement pour réserver votre créneau. Attention les places sont limitées.{' '}
+                        On a hâte de vous y voir !
+                    </strong>
+                </span>
+            </div>
         </section>
     );
 }

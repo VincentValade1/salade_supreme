@@ -329,7 +329,7 @@
 
 .capharnaum-transport {
     display: grid;
-    grid-template-columns: minmax(0, 58px) minmax(0, 1fr);
+    grid-template-columns: minmax(0, 90px) minmax(0, 1fr);
     gap: 8px;
     align-items: center;
     min-width: 0;

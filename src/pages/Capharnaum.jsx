@@ -2,7 +2,6 @@ import caphData from '../datas/capharnaumPage.json';
 import planningData from '../datas/capharnaumPlanning.json';
 import intervenantsData from '../datas/capharnaumIntervenants.json';
 import CapharnaumIntro from '../components/CapharnaumIntro';
-import IntervenantsSection from '../components/IntervenantsSection';
 import PlanningAgenda from '../components/PlanningAgenda';
 import '../styles/Capharnaum.css';
 
@@ -41,7 +40,6 @@ function Capharnaum() {
                 alt4={caph.alt4}
             />
             <PlanningAgenda months={planningMonths} />
-            <IntervenantsSection intervenants={intervenantsData.intervenants} />
         </section>
     );
 }

@@ -79,7 +79,7 @@
 .planning-agenda__month-name {
     min-width: 180px;
     margin: 0;
-    color: #2E2E2E;
+    color: #28338A;
     font-size: 28px;
     font-family: "Mango-Black", sans-serif;
     text-align: center;
@@ -102,6 +102,44 @@
     border: 1px solid #ead5dc;
     background: #fffafc;
     box-shadow: 0 12px 30px rgba(108, 54, 76, 0.06);
+}
+
+.planning-agenda__helper {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    width: fit-content;
+    margin: 18px 0 0;
+    padding: 8px 12px;
+    border-left: 3px solid #DB6D93;
+    background: #F8C7CD;
+    color: #28338A;
+    font-family: "Gotham-HTF-Book", sans-serif;
+    font-size: 13px;
+    font-weight: 700;
+}
+
+.planning-agenda__helper-hand {
+    display: inline-block;
+    font-size: 20px;
+    line-height: 1;
+    animation: planning-agenda-helper-point 1.2s ease-in-out infinite;
+}
+
+.planning-agenda__closing-message {
+    color: #28338A;
+    font-weight: 700;
+}
+
+@keyframes planning-agenda-helper-point {
+    0%,
+    100% {
+        transform: translateX(0);
+    }
+
+    50% {
+        transform: translateX(4px);
+    }
 }
 
 .planning-agenda__side-panel {

@@ -12,8 +12,8 @@
     "alt3": "Espace culturel du Capharnaum",
     "alt4": "Aménagement du lieu Capharnaum",
     "title": "Capharnaum",
-    "description": "Depuis plus d’un an, nous travaillons sur ce projet. Pendant des années, on a investi des lieux. Cette fois, on en ouvre un : Le Capharnaum !\n\nUn café culturel porté par Salade Suprême et le Secours Populaire, à Barrière-de-Paris. Un lieu pour boire un verre, découvrir des artistes, assister à des concerts, participer à des ateliers, rencontrer ses voisins, organiser des projets ou simplement passer du temps ensemble.",
-    "theme": "Tiers-lieu culturel éphémère",
+    "description": "Depuis plus d’un an, nous travaillons sur ce projet. Pendant des années, on a investi des lieux. Cette fois, on en ouvre un : Le Capharnaum !\n\nUn café culturel porté par Salade Suprême et le Secours Populaire, à Barrière-de-Paris.\nUn lieu pour boire un verre, découvrir des artistes, assister à des concerts, participer à des ateliers, rencontrer ses voisins, organiser des projets ou simplement passer du temps ensemble.",
+    "theme": "Tiers-lieu culturel",
     "activities": [
         { "icon": "🎶", "label": "Concerts", "category": "Musique" },
         { "icon": "🎨", "label": "Expositions", "category": "Arts visuels" },
@@ -22,7 +22,7 @@
         { "icon": "🎭", "label": "Spectacles", "category": "Scène" },
         { "icon": "🍻", "label": "Événements toute l’année", "category": "Vie du lieu" }
     ],
-    "atelierLabel": "🧵 un atelier de couture par",
+    "atelierLabel": "🧵 Un atelier de couture par",
     "atelierUrl": "https://www.instagram.com/laretourcherie.toulouse/",
     "hours": [
         { "days": "Mardi et Mercredi", "hours": "10h – 21h" },

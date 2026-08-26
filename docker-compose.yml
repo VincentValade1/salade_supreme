@@ -18,6 +18,7 @@ services:
       - REACT_APP_YOUR_PUBLIC_KEY=${REACT_APP_YOUR_PUBLIC_KEY:-dummy-public-key}
     stdin_open: true
     tty: true
+    network_mode: host
 
   app-prod:
     build:
