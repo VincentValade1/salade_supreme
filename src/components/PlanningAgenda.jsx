@@ -202,6 +202,9 @@ function PlanningAgenda({ months }) {
 }
 
 function ActivityDetails({ selectedActivity, eventDetails, eventFieldLabels }) {
+    const eventDate = selectedActivity?.date;
+    const isPastEvent = eventDate ? new Date(`${eventDate}T23:59:59`) < new Date() : false;
+
     return (
         <>
             <h4 className="planning-agenda__modal-title">{selectedActivity.title}</h4>
@@ -235,7 +238,9 @@ function ActivityDetails({ selectedActivity, eventDetails, eventFieldLabels }) {
                     )}
                 </div>
             )}
-            {selectedActivity.link ? (
+            {isPastEvent ? (
+                <div className="planning-agenda__no-reservation" aria-disabled="true">Événement terminé</div>
+            ) : selectedActivity.link ? (
                 <a className="planning-agenda__reservation-link" href={selectedActivity.link} target="_blank" rel="noreferrer noopener">Réserver</a>
             ) : (
                 <div className="planning-agenda__no-reservation">Aucun lien de réservation disponible.</div>
