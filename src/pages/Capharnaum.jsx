@@ -7,15 +7,8 @@ import '../styles/Capharnaum.css';
 const API_EVENTS_URL = 'https://api.saladesupreme.tarrieu.fr/api/events?refresh=false';
 const API_INTERVENANTS_URL = 'https://api.saladesupreme.tarrieu.fr/api/intervenants?refresh=false';
 
-function formatMonthLabel(value) {
-    if (!value) {
-        return 'Mois';
-    }
-
-    return String(value)
-        .split(' ')
-        .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
-        .join(' ');
+function getEventDate(event) {
+    return String(event.date || '').slice(0, 10);
 }
 
 function normalizePlanningData(events = [], intervenants = []) {
@@ -23,9 +16,14 @@ function normalizePlanningData(events = [], intervenants = []) {
 
     const allIntervenants = Array.isArray(intervenants) ? intervenants : [];
 
-    (Array.isArray(events) ? events : []).forEach((event) => {
-        const monthId = event.month_id || event.monthId || event.month || `month-${event.date || event.id}`;
-        const monthName = formatMonthLabel(event.month_name || event.monthName || event.month || monthId);
+    (Array.isArray(events) ? events : []).forEach((event, eventIndex) => {
+        const eventDate = getEventDate(event);
+        const monthId = event.month_id || event.monthId || event.month || eventDate.slice(0, 7) || `month-${eventIndex}`;
+        const monthName = event.month_name || event.monthName || event.month || (
+            eventDate
+                ? new Intl.DateTimeFormat('fr-FR', { month: 'long', year: 'numeric' }).format(new Date(`${eventDate}T00:00:00`))
+                : monthId
+        );
 
         if (!monthMap.has(monthId)) {
             monthMap.set(monthId, {
@@ -37,6 +35,8 @@ function normalizePlanningData(events = [], intervenants = []) {
 
         monthMap.get(monthId).activities.push({
             ...event,
+            id: event.id || `${eventDate}-${event.time || ''}-${event.title || ''}-${eventIndex}`,
+            date: eventDate,
             intervenant: allIntervenants.find((intervenant) => intervenant.id === event.intervenantId) || null
         });
     });

@@ -19,7 +19,7 @@ function getInstagramUsername(instagramUrl) {
 }
 
 function PlanningAgenda({ months }) {
-    const safeMonths = months || [];
+    const safeMonths = useMemo(() => months || [], [months]);
     const sectionRef = useRef(null);
     const [currentMonthIndex, setCurrentMonthIndex] = useState(0);
     const [selectedActivity, setSelectedActivity] = useState(null);
