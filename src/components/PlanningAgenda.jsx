@@ -19,11 +19,12 @@ function getInstagramUsername(instagramUrl) {
 }
 
 function PlanningAgenda({ months }) {
+    const safeMonths = months || [];
     const sectionRef = useRef(null);
     const [currentMonthIndex, setCurrentMonthIndex] = useState(0);
     const [selectedActivity, setSelectedActivity] = useState(null);
     const [isAnchorCopied, setIsAnchorCopied] = useState(false);
-    const currentMonth = useMemo(() => months[currentMonthIndex] || months[0], [months, currentMonthIndex]);
+    const currentMonth = useMemo(() => safeMonths[currentMonthIndex] || safeMonths[0], [safeMonths, currentMonthIndex]);
     const currentMonthDate = useMemo(() => {
         const firstActivity = currentMonth?.activities?.find((activity) => activity.date);
         return firstActivity ? new Date(`${firstActivity.date}T00:00:00`) : new Date(2026, currentMonthIndex, 1);
@@ -77,12 +78,16 @@ function PlanningAgenda({ months }) {
     };
 
     const hasPreviousMonth = currentMonthIndex > 0;
-    const hasNextMonth = currentMonthIndex < months.length - 1;
+    const hasNextMonth = currentMonthIndex < safeMonths.length - 1;
 
     const eventDetails = selectedActivity
-        ? Object.entries(selectedActivity).filter(([key]) => !['id', 'intervenantId', 'day', 'type', 'category', 'title', 'description', 'link', 'intervenant'].includes(key))
+        ? Object.entries(selectedActivity).filter(([key]) => !['id', 'month_id', 'month_name', 'intervenantId', 'day', 'type', 'category', 'title', 'description', 'link', 'intervenant'].includes(key))
         : [];
     const eventFieldLabels = { date: 'Date', time: 'Horaire' };
+
+    if (!safeMonths.length) {
+        return null;
+    }
 
     return (
         <section ref={sectionRef} id="cours-ateliers" className="planning-agenda" aria-labelledby="cours-ateliers-title">

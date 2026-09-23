@@ -1,19 +1,96 @@
+import { useEffect, useState } from 'react';
 import caphData from '../datas/capharnaumPage.json';
-import planningData from '../datas/capharnaumPlanning.json';
-import intervenantsData from '../datas/capharnaumIntervenants.json';
 import CapharnaumIntro from '../components/CapharnaumIntro';
 import PlanningAgenda from '../components/PlanningAgenda';
 import '../styles/Capharnaum.css';
 
+const API_EVENTS_URL = 'https://api.saladesupreme.tarrieu.fr/api/events?refresh=false';
+const API_INTERVENANTS_URL = 'https://api.saladesupreme.tarrieu.fr/api/intervenants?refresh=false';
+
+function formatMonthLabel(value) {
+    if (!value) {
+        return 'Mois';
+    }
+
+    return String(value)
+        .split(' ')
+        .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
+        .join(' ');
+}
+
+function normalizePlanningData(events = [], intervenants = []) {
+    const monthMap = new Map();
+
+    const allIntervenants = Array.isArray(intervenants) ? intervenants : [];
+
+    (Array.isArray(events) ? events : []).forEach((event) => {
+        const monthId = event.month_id || event.monthId || event.month || `month-${event.date || event.id}`;
+        const monthName = formatMonthLabel(event.month_name || event.monthName || event.month || monthId);
+
+        if (!monthMap.has(monthId)) {
+            monthMap.set(monthId, {
+                id: monthId,
+                name: monthName,
+                activities: []
+            });
+        }
+
+        monthMap.get(monthId).activities.push({
+            ...event,
+            intervenant: allIntervenants.find((intervenant) => intervenant.id === event.intervenantId) || null
+        });
+    });
+
+    return Array.from(monthMap.values());
+}
+
 function Capharnaum() {
     const caph = caphData;
-    const planningMonths = planningData.months.map((month) => ({
-        ...month,
-        activities: month.activities.map((activity) => ({
-            ...activity,
-            intervenant: intervenantsData.intervenants.find((intervenant) => intervenant.id === activity.intervenantId)
-        }))
-    }));
+    const [planningMonths, setPlanningMonths] = useState([]);
+    const [apiError, setApiError] = useState(false);
+
+    useEffect(() => {
+        let isMounted = true;
+
+        const loadPlanningData = async () => {
+            try {
+                const [eventsResponse, intervenantsResponse] = await Promise.all([
+                    fetch(API_EVENTS_URL),
+                    fetch(API_INTERVENANTS_URL)
+                ]);
+
+                if (!eventsResponse.ok || !intervenantsResponse.ok) {
+                    throw new Error('Unexpected response from the Capharnaüm API');
+                }
+
+                const [events, intervenants] = await Promise.all([
+                    eventsResponse.json(),
+                    intervenantsResponse.json()
+                ]);
+
+                if (!isMounted) {
+                    return;
+                }
+
+                setApiError(false);
+                setPlanningMonths(normalizePlanningData(events, intervenants));
+            } catch (error) {
+                console.error('Unable to fetch Capharnaüm events from API, using the fallback data instead.', error);
+
+                if (!isMounted) {
+                    return;
+                }
+
+                setApiError(true);
+            }
+        };
+
+        loadPlanningData();
+
+        return () => {
+            isMounted = false;
+        };
+    }, []);
 
     return (
         <section className="capharnaum-page">
@@ -39,7 +116,23 @@ function Capharnaum() {
                 alt3={caph.alt3}
                 alt4={caph.alt4}
             />
-            <PlanningAgenda months={planningMonths} />
+            {apiError ? (
+                <div className="capharnaum-page__error" role="alert" style={{
+                    margin: '2rem auto',
+                    maxWidth: '720px',
+                    padding: '1.5rem',
+                    border: '1px solid #d8b4b4',
+                    background: '#fff4f4',
+                    color: '#4b2d2d',
+                    borderRadius: '12px',
+                    textAlign: 'center',
+                    fontSize: '1rem'
+                }}>
+                    Le calendrier est temporairement indisponible. Merci de réessayer plus tard.
+                </div>
+            ) : (
+                <PlanningAgenda months={planningMonths} />
+            )}
         </section>
     );
 }
