@@ -3,7 +3,7 @@ import projetsData from '../datas/projetsData.json';
 import ActuData from '../datas/residencesData.json';
 import ProjetModel123 from "../components/ProjetModel123";
 import YoutubeLector from "../components/YoutubeLector";
-import BlueButton from "../components/BlueButton";
+//import BlueButton from "../components/BlueButton";
 import SupremeActu from "../components/SupremeActu";
 
 
@@ -15,8 +15,8 @@ function Ateliers() {
     // const NewsLetter = <SupremeActu supremeActuPicture={ActuData[0].babayaga.img5} supremeActuPictureAlt={ActuData[0].babayaga.alt5}/>
              
 
-    const AtelierReservationLinkLign = <a tabIndex="0" aria-label="lien vers bookeo pour réservation atelier" href="https://bookeo.com/saladesupreme" target="_blank" rel="noreferrer noopener" >Réserver mon atelier</a>;
-    const StageReservationLinkLign = <a tabIndex="0" aria-label="lien vers bookeo pour réservation stage" href="https://bookeo.com/saladesupreme" target="_blank" rel="noreferrer noopener" >Réserver mon stage</a>;
+    // const AtelierReservationLinkLign = <a tabIndex="0" aria-label="lien vers bookeo pour réservation atelier" href="https://bookeo.com/saladesupreme" target="_blank" rel="noreferrer noopener" >Réserver mon atelier</a>;
+    // const StageReservationLinkLign = <a tabIndex="0" aria-label="lien vers bookeo pour réservation stage" href="https://bookeo.com/saladesupreme" target="_blank" rel="noreferrer noopener" >Réserver mon stage</a>;
 
 
 
