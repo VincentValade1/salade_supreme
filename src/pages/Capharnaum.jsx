@@ -1,5 +1,5 @@
 import { useEffect, useMemo, useState } from 'react';
-import { BsArrowUp, BsCalendar3, BsInfoCircle } from 'react-icons/bs';
+import { BsArrowUp, BsCalendar3, BsFacebook, BsInfoCircle, BsInstagram } from 'react-icons/bs';
 import caphData from '../datas/capharnaumPage.json';
 import CapharnaumIntro from '../components/CapharnaumIntro';
 import PlanningAgenda from '../components/PlanningAgenda';
@@ -7,6 +7,18 @@ import '../styles/Capharnaum.css';
 
 const API_EVENTS_URL = 'https://api.saladesupreme.tarrieu.fr/api/events?refresh=false';
 const API_INTERVENANTS_URL = 'https://api.saladesupreme.tarrieu.fr/api/intervenants?refresh=false';
+const SOCIAL_PAGES = {
+    instagram: {
+        name: 'Instagram',
+        label: '@capharnaum_cafe',
+        url: 'https://www.instagram.com/capharnaum_cafe/'
+    },
+    facebook: {
+        name: 'Facebook',
+        label: '@collectifsaladesupreme',
+        url: 'https://www.facebook.com/collectifsaladesupreme'
+    }
+};
 
 function getEventDate(event) {
     return String(event.date || '').slice(0, 10);
@@ -81,6 +93,7 @@ function Capharnaum() {
     const [planningMonths, setPlanningMonths] = useState([]);
     const [isLoading, setIsLoading] = useState(true);
     const [apiError, setApiError] = useState(false);
+    const [socialDialog, setSocialDialog] = useState(null);
     const [selectedActivity, setSelectedActivity] = useState(null);
     const handleSelectedActivityChange = (activity) => setSelectedActivity(activity);
     const nextActivity = useMemo(() => {
@@ -96,6 +109,7 @@ function Capharnaum() {
             .filter((activity) => getActivityKind(activity) && !isActivityCanceled(activity) && activity.date >= todayDateKey)
             .sort((first, second) => first.date.localeCompare(second.date) || String(first.time || '').localeCompare(String(second.time || ''), 'fr', { numeric: true }))[0] || null;
     }, [planningMonths]);
+    const activeSocialPage = socialDialog ? SOCIAL_PAGES[socialDialog] : null;
 
     useEffect(() => {
         let isMounted = true;
@@ -147,6 +161,21 @@ function Capharnaum() {
         };
     }, []);
 
+    useEffect(() => {
+        if (!socialDialog) {
+            return undefined;
+        }
+
+        const closeOnEscape = (event) => {
+            if (event.key === 'Escape') {
+                setSocialDialog(null);
+            }
+        };
+
+        window.addEventListener('keydown', closeOnEscape);
+        return () => window.removeEventListener('keydown', closeOnEscape);
+    }, [socialDialog]);
+
     return (
         <section className={`capharnaum-page ${!apiError && nextActivity ? 'capharnaum-page--with-upcoming' : ''}`}>
             <nav className="capharnaum-quick-navigation" aria-label="Navigation rapide dans le Capharnaüm">
@@ -173,7 +202,41 @@ function Capharnaum() {
                 >
                     <BsCalendar3 aria-hidden="true" />
                 </button>
+                <button
+                    type="button"
+                    aria-label="Instagram du Capharnaüm"
+                    title="Instagram du Capharnaüm"
+                    onClick={() => setSocialDialog('instagram')}
+                >
+                    <BsInstagram aria-hidden="true" />
+                </button>
+                <button
+                    type="button"
+                    aria-label="Facebook du collectif Salade Suprême"
+                    title="Facebook du collectif Salade Suprême"
+                    onClick={() => setSocialDialog('facebook')}
+                >
+                    <BsFacebook aria-hidden="true" />
+                </button>
             </nav>
+            {activeSocialPage && (
+                <div className="capharnaum-social-dialog-overlay" onClick={() => setSocialDialog(null)}>
+                    <section
+                        className="capharnaum-social-dialog"
+                        role="dialog"
+                        aria-modal="true"
+                        aria-labelledby="capharnaum-social-dialog-title"
+                        onClick={(event) => event.stopPropagation()}
+                    >
+                        <h2 id="capharnaum-social-dialog-title">{activeSocialPage.name}</h2>
+                        <p>Retrouvez plus d’informations sur les événements organisés au café sur la page {activeSocialPage.name} du Capharnaüm.</p>
+                        <div className="capharnaum-social-dialog__actions">
+                            <button type="button" onClick={() => setSocialDialog(null)}>Annuler</button>
+                            <a href={activeSocialPage.url} target="_blank" rel="noreferrer noopener">{activeSocialPage.label}</a>
+                        </div>
+                    </section>
+                </div>
+            )}
             {!apiError && nextActivity && (
                 <button
                     type="button"

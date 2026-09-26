@@ -12,7 +12,8 @@
     gap: 8px;
 }
 
-.capharnaum-quick-navigation button {
+.capharnaum-quick-navigation button,
+.capharnaum-quick-navigation a {
     display: grid;
     width: 44px;
     height: 44px;
@@ -21,11 +22,14 @@
     background: #F8C7CD;
     color: #28338A;
     cursor: pointer;
+    text-decoration: none;
     transition: background-color 160ms ease, color 160ms ease;
 }
 
 .capharnaum-quick-navigation button:hover,
-.capharnaum-quick-navigation button:focus-visible {
+.capharnaum-quick-navigation button:focus-visible,
+.capharnaum-quick-navigation a:hover,
+.capharnaum-quick-navigation a:focus-visible {
     background: #28338A;
     color: #fff;
     outline: 2px solid #F8C7CD;
@@ -37,10 +41,88 @@
     height: 19px;
 }
 
+.capharnaum-social-dialog-overlay {
+    position: fixed;
+    inset: 0;
+    z-index: 10002;
+    display: grid;
+    place-items: center;
+    background: rgba(40, 51, 138, 0.45);
+}
+
+.capharnaum-social-dialog {
+    width: min(440px, 100%);
+    margin: 0;
+    padding: 28px;
+    border: 2px solid #DB6D93;
+    background: #F8C7CD;
+    box-shadow: 0 16px 48px rgba(31, 34, 84, 0.28);
+}
+
+.capharnaum-social-dialog h2 {
+    margin: 0 0 12px;
+    color: #28338A;
+    font-family: "Mango-Black", sans-serif;
+    font-size: 24px;
+    line-height: 1.25;
+}
+
+.capharnaum-social-dialog p {
+    margin: 0;
+    color: #28338A;
+    font-family: "Gotham-HTF-Book", sans-serif;
+    font-size: 15px;
+    line-height: 1.6;
+}
+
+.capharnaum-social-dialog__actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 10px;
+    margin-top: 24px;
+}
+
+.capharnaum-social-dialog__actions button,
+.capharnaum-social-dialog__actions a {
+    display: inline-flex;
+    min-width: 88px;
+    min-height: 42px;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid #28338A;
+    padding: 8px 16px;
+    background: #fffafc;
+    color: #28338A;
+    cursor: pointer;
+    font-family: "Gotham-HTF-Book", sans-serif;
+    font-size: 14px;
+    font-weight: 700;
+    text-decoration: none;
+}
+
+.capharnaum-social-dialog__actions a {
+    background: #28338A;
+    color: #fff;
+}
+
+.capharnaum-social-dialog__actions button:hover,
+.capharnaum-social-dialog__actions button:focus-visible {
+    background: #f1a4b1;
+}
+
+.capharnaum-social-dialog__actions a:hover,
+.capharnaum-social-dialog__actions a:focus-visible {
+    background: #1f2254;
+}
+
 @media (max-width: 600px) {
     .capharnaum-quick-navigation {
+        left: 12px;
         right: 12px;
         bottom: calc(12px + env(safe-area-inset-bottom));
+        flex-direction: row;
+        justify-content: center;
+        gap: 6px;
     }
 }
 
