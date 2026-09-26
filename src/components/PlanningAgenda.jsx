@@ -18,6 +18,10 @@ function getInstagramUsername(instagramUrl) {
     }
 }
 
+function isActivityCanceled(activity) {
+    return String(activity?.canceled || '').trim().toLowerCase() === 'oui';
+}
+
 function PlanningAgenda({ months, activityDescriptions = [], isLoading = false, errorMessage = null }) {
     const safeMonths = useMemo(() => months || [], [months]);
     const sectionRef = useRef(null);
@@ -99,7 +103,7 @@ function PlanningAgenda({ months, activityDescriptions = [], isLoading = false, 
     const hasNextMonth = currentMonthIndex < safeMonths.length - 1;
 
     const eventDetails = selectedActivity
-        ? Object.entries(selectedActivity).filter(([key]) => !['id', 'month_id', 'month_name', 'intervenantId', 'day', 'type', 'category', 'title', 'description', 'link', 'intervenant'].includes(key))
+        ? Object.entries(selectedActivity).filter(([key]) => !['id', 'month_id', 'month_name', 'intervenantId', 'day', 'type', 'category', 'title', 'description', 'link', 'intervenant', 'canceled'].includes(key))
         : [];
     const eventFieldLabels = { date: 'Date', time: 'Horaire' };
 
@@ -214,11 +218,12 @@ function PlanningAgenda({ months, activityDescriptions = [], isLoading = false, 
                                             <div className="planning-agenda__events">
                                                 {dayEvents.slice(0, 3).map((activity) => {
                                                     const typeStyle = eventTypeStyles[activity.type] || eventTypeStyles.Stages;
+                                                    const isCanceled = isActivityCanceled(activity);
                                                     return (
                                                         <button
                                                             type="button"
                                                             key={activity.id}
-                                                            className="planning-agenda__event"
+                                                            className={`planning-agenda__event ${isCanceled ? 'planning-agenda__event--canceled' : ''}`}
                                                             style={{ '--event-background': typeStyle.background, '--event-border': typeStyle.border, '--event-text': typeStyle.text }}
                                                             onClick={() => setSelectedActivity(activity)}
                                                         >
@@ -271,6 +276,7 @@ function PlanningAgenda({ months, activityDescriptions = [], isLoading = false, 
 function ActivityDetails({ selectedActivity, eventDetails, eventFieldLabels }) {
     const eventDate = selectedActivity?.date;
     const isPastEvent = eventDate ? new Date(`${eventDate}T23:59:59`) < new Date() : false;
+    const isCanceled = isActivityCanceled(selectedActivity);
 
     return (
         <>
@@ -305,7 +311,9 @@ function ActivityDetails({ selectedActivity, eventDetails, eventFieldLabels }) {
                     )}
                 </div>
             )}
-            {isPastEvent ? (
+            {isCanceled ? (
+                <div className="planning-agenda__no-reservation" aria-disabled="true">Événement annulé</div>
+            ) : isPastEvent ? (
                 <div className="planning-agenda__no-reservation" aria-disabled="true">Événement terminé</div>
             ) : selectedActivity.link ? (
                 <a className="planning-agenda__reservation-link" href={selectedActivity.link} target="_blank" rel="noreferrer noopener">Réserver</a>

@@ -466,6 +466,12 @@
     filter: grayscale(1);
 }
 
+.planning-agenda__event--canceled,
+.planning-agenda__event--canceled:hover,
+.planning-agenda__event--canceled:focus-visible {
+    filter: grayscale(1);
+}
+
 .planning-agenda__event-title {
     color: #2E2E2E;
     font-weight: 700;
