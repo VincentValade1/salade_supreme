@@ -154,13 +154,12 @@ function Capharnaum() {
             <nav className="capharnaum-quick-navigation" aria-label="Navigation rapide dans le Capharnaüm">
                 <button
                     type="button"
-                    aria-label="Aller au calendrier"
-                    title="Calendrier"
-                    onClick={() => document.getElementById('cours-ateliers')?.scrollIntoView({ behavior: 'smooth', block: 'start' })}
+                    aria-label="Remonter en haut de page"
+                    title="Haut de page"
+                    onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
                 >
-                    <BsCalendar3 aria-hidden="true" />
-                </button>
-                <button
+                    <BsArrowUp aria-hidden="true" />
+                </button><button
                     type="button"
                     aria-label="Aller aux informations"
                     title="Informations"
@@ -170,11 +169,11 @@ function Capharnaum() {
                 </button>
                 <button
                     type="button"
-                    aria-label="Remonter en haut de page"
-                    title="Haut de page"
-                    onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
+                    aria-label="Aller au calendrier"
+                    title="Calendrier"
+                    onClick={() => document.getElementById('cours-ateliers')?.scrollIntoView({ behavior: 'smooth', block: 'start' })}
                 >
-                    <BsArrowUp aria-hidden="true" />
+                    <BsCalendar3 aria-hidden="true" />
                 </button>
             </nav>
             {!apiError && nextActivity && (
