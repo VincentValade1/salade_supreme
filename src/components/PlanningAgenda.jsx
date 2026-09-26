@@ -22,6 +22,11 @@ function isActivityCanceled(activity) {
     return String(activity?.canceled || '').trim().toLowerCase() === 'oui';
 }
 
+function getStartTimeMinutes(time) {
+    const match = String(time || '').match(/(\d{1,2})\s*(?:h|:)\s*(\d{2})?/i);
+    return match ? Number(match[1]) * 60 + Number(match[2] || 0) : Number.POSITIVE_INFINITY;
+}
+
 function PlanningAgenda({ months, activityDescriptions = [], isLoading = false, errorMessage = null, selectedActivity: selectedActivityProp, onSelectedActivityChange }) {
     const safeMonths = useMemo(() => months || [], [months]);
     const sectionRef = useRef(null);
@@ -218,7 +223,9 @@ function PlanningAgenda({ months, activityDescriptions = [], isLoading = false, 
                                         String(date.getMonth() + 1).padStart(2, '0'),
                                         String(date.getDate()).padStart(2, '0')
                                     ].join('-');
-                                    const dayEvents = currentMonth.activities.filter((activity) => activity.date === dateKey);
+                                    const dayEvents = currentMonth.activities
+                                        .filter((activity) => activity.date === dateKey)
+                                        .sort((first, second) => getStartTimeMinutes(first.time) - getStartTimeMinutes(second.time));
                                     const isCurrentMonth = date.getFullYear() === currentMonthDate.getFullYear() && date.getMonth() === currentMonthDate.getMonth();
                                     const isToday = dateKey === todayDateKey;
                                     const isPastDate = dateKey < todayDateKey;
