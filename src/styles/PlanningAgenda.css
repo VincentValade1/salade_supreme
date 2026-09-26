@@ -62,7 +62,9 @@
 .planning-agenda__month-controls {
     display: flex;
     align-items: center;
+    justify-content: center;
     gap: 8px;
+    margin-bottom: 16px;
 }
 
 .planning-agenda__month-button {
@@ -85,6 +87,49 @@
     text-align: center;
 }
 
+.planning-agenda__loading {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    z-index: 2;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 10px 16px;
+    border: 1px solid #DB6D93;
+    background: rgba(255, 250, 252, 0.94);
+    color: #28338A;
+    font-family: "Gotham-HTF-Book", sans-serif;
+    font-size: 14px;
+    text-align: center;
+    max-width: calc(100% - 24px);
+    white-space: normal;
+    pointer-events: none;
+    transform: translate(-50%, -50%);
+}
+
+.planning-agenda__loading span {
+    color: #28338A;
+    animation: planning-agenda-loading-float 2.2s ease-in-out infinite;
+}
+
+@keyframes planning-agenda-loading-float {
+    0%,
+    100% {
+        transform: translateY(0);
+    }
+
+    50% {
+        transform: translateY(-3px);
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .planning-agenda__loading span {
+        animation: none;
+    }
+}
+
 .planning-agenda__desktop-layout {
     display: grid;
     grid-template-columns: minmax(0, 1fr);
@@ -97,6 +142,7 @@
 }
 
 .planning-agenda__board {
+    position: relative;
     min-width: 0;
     padding: 28px;
     border: 1px solid #ead5dc;
@@ -231,10 +277,33 @@
     display: flex;
     align-items: center;
     gap: 8px;
+    border: 0;
+    padding: 0;
+    background: transparent;
     color: #4d4d4d;
     font-size: 12px;
     font-weight: 600;
     font-family: "Gotham-HTF-Book", sans-serif;
+    text-align: left;
+}
+
+.planning-agenda__legend-item--toggle {
+    cursor: pointer;
+}
+
+.planning-agenda__legend-label {
+    color: inherit;
+}
+
+.planning-agenda__legend-item--toggle:hover,
+.planning-agenda__legend-item--toggle:focus-visible,
+.planning-agenda__legend-item--toggle[aria-expanded="true"] {
+    color: #28338A;
+}
+
+.planning-agenda__legend-item--toggle:focus-visible {
+    outline: 2px solid #DB6D93;
+    outline-offset: 4px;
 }
 
 .planning-agenda__legend-swatch {
@@ -245,30 +314,38 @@
     background: var(--event-background);
 }
 
-.planning-agenda__activity-descriptions {
-    display: grid;
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-    gap: 16px 24px;
-    margin: 0 0 24px;
-    padding: 16px 0;
-    border-top: 1px solid #ead5dc;
-    border-bottom: 1px solid #ead5dc;
+.planning-agenda__legend-indicator {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 14px;
+    color: #28338A;
+    font-size: 16px;
+    font-weight: 700;
+    text-align: center;
 }
 
-.planning-agenda__activity-description {
-    padding-left: 12px;
+.planning-agenda__legend-indicator svg {
+    width: 14px;
+    height: 14px;
+}
+
+.planning-agenda__activity-description-panel {
+    margin: 0 0 16px;
+    padding: 12px 16px;
     border-left: 3px solid var(--event-border);
+    background: #fff;
+    animation: planning-agenda-description-open 180ms ease-out both;
 }
 
-.planning-agenda__activity-description h4 {
+.planning-agenda__activity-description-panel h4 {
     margin: 0 0 6px;
     color: #28338A;
     font-family: "Mango-Black", sans-serif;
-    font-size: 18px;
+    font-size: 17px;
 }
 
-.planning-agenda__activity-description p,
-.planning-agenda__activity-note {
+.planning-agenda__activity-description-panel p {
     margin: 0;
     color: #4d4d4d;
     font-family: "Gotham-HTF-Book", sans-serif;
@@ -276,10 +353,16 @@
     line-height: 1.6;
 }
 
-.planning-agenda__activity-note {
-    grid-column: 1 / -1;
-    color: #8A6473;
-    font-size: 12px;
+@keyframes planning-agenda-description-open {
+    from {
+        opacity: 0;
+        transform: translateY(-4px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
 }
 
 .planning-agenda__weekdays,
@@ -622,12 +705,6 @@
     .planning-agenda__legend {
         justify-content: flex-start;
         gap: 12px;
-    }
-
-    .planning-agenda__activity-descriptions {
-        grid-template-columns: 1fr;
-        gap: 14px;
-        margin-bottom: 18px;
     }
 
     .planning-agenda__weekdays {

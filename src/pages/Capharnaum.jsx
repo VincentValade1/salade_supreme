@@ -75,6 +75,7 @@ function normalizePlanningData(events = [], intervenants = []) {
 function Capharnaum() {
     const caph = caphData;
     const [planningMonths, setPlanningMonths] = useState([]);
+    const [isLoading, setIsLoading] = useState(true);
     const [apiError, setApiError] = useState(false);
     const [selectedActivity, setSelectedActivity] = useState(null);
     const [modalActivityId, setModalActivityId] = useState(null);
@@ -128,6 +129,7 @@ function Capharnaum() {
 
                 setApiError(false);
                 setPlanningMonths(normalizePlanningData(events, intervenants));
+                setIsLoading(false);
             } catch (error) {
                 console.error('Unable to fetch Capharnaüm events from API, using the fallback data instead.', error);
 
@@ -136,6 +138,7 @@ function Capharnaum() {
                 }
 
                 setApiError(true);
+                setIsLoading(false);
             }
         };
 
@@ -230,40 +233,26 @@ function Capharnaum() {
                 alt3={caph.alt3}
                 alt4={caph.alt4}
             />
-            {apiError ? (
-                <div className="capharnaum-page__error" role="alert" style={{
-                    margin: '2rem auto',
-                    maxWidth: '720px',
-                    padding: '1.5rem',
-                    border: '1px solid #d8b4b4',
-                    background: '#fff4f4',
-                    color: '#4b2d2d',
-                    borderRadius: '12px',
-                    textAlign: 'center',
-                    fontSize: '1rem'
-                }}>
-                    Le calendrier est temporairement indisponible. Merci de réessayer plus tard.
-                </div>
-            ) : (
-                <PlanningAgenda
-                    months={planningMonths}
-                    selectedActivity={selectedActivity}
-                    onSelectedActivityChange={handleSelectedActivityChange}
-                    modalActivityId={modalActivityId}
-                    activityDescriptions={[
-                        {
-                            type: 'Atelier Créatif',
-                            title: 'Ateliers créatifs',
-                            description: 'Des rendez-vous pour explorer une pratique artistique, expérimenter et réaliser une création.'
-                        },
-                        {
-                            type: 'Stages',
-                            title: 'Stages',
-                            description: 'Des temps dédiés pour approfondir une pratique et développer un projet créatif.'
-                        }
-                    ]}
-                />
-            )}
+            <PlanningAgenda
+                months={planningMonths}
+                isLoading={isLoading}
+                errorMessage={apiError ? 'Le calendrier est temporairement indisponible. Merci de réessayer plus tard.' : null}
+                selectedActivity={selectedActivity}
+                onSelectedActivityChange={handleSelectedActivityChange}
+                modalActivityId={modalActivityId}
+                activityDescriptions={[
+                    {
+                        type: 'Atelier Créatif',
+                        title: 'Ateliers créatifs',
+                        description: 'Des rendez-vous pour explorer une pratique artistique, expérimenter et réaliser une création.'
+                    },
+                    {
+                        type: 'Stages',
+                        title: 'Stages',
+                        description: 'Des temps dédiés pour approfondir une pratique et développer un projet créatif.'
+                    }
+                ]}
+            />
         </section>
     );
 }

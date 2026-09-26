@@ -1,5 +1,5 @@
 import { useEffect, useMemo, useRef, useState } from 'react';
-import { BsInstagram } from 'react-icons/bs';
+import { BsInfoCircle, BsInstagram } from 'react-icons/bs';
 import '../styles/PlanningAgenda.css';
 
 const weekdayLabels = ['Lun', 'Mar', 'Mer', 'Jeu', 'Ven', 'Sam', 'Dim'];
@@ -18,36 +18,29 @@ function getInstagramUsername(instagramUrl) {
     }
 }
 
-function PlanningAgenda({ months, activityDescriptions = [], selectedActivity: selectedActivityProp, onSelectedActivityChange, modalActivityId }) {
+function PlanningAgenda({ months, activityDescriptions = [], isLoading = false, errorMessage = null }) {
     const safeMonths = useMemo(() => months || [], [months]);
     const sectionRef = useRef(null);
     const [currentMonthIndex, setCurrentMonthIndex] = useState(0);
-    const [internalSelectedActivity, setInternalSelectedActivity] = useState(null);
-    const selectedActivity = selectedActivityProp === undefined ? internalSelectedActivity : selectedActivityProp;
-    const setSelectedActivity = onSelectedActivityChange || setInternalSelectedActivity;
+    const [selectedActivity, setSelectedActivity] = useState(null);
+    const [expandedActivityType, setExpandedActivityType] = useState(null);
     const [isAnchorCopied, setIsAnchorCopied] = useState(false);
-    const currentMonth = useMemo(() => safeMonths[currentMonthIndex] || safeMonths[0], [safeMonths, currentMonthIndex]);
+    const fallbackMonth = useMemo(() => {
+        const today = new Date();
+        return {
+            name: new Intl.DateTimeFormat('fr-FR', { month: 'long', year: 'numeric' }).format(today),
+            activities: []
+        };
+    }, []);
+    const currentMonth = useMemo(() => safeMonths[currentMonthIndex] || safeMonths[0] || fallbackMonth, [safeMonths, currentMonthIndex, fallbackMonth]);
     const currentMonthDate = useMemo(() => {
         const firstActivity = currentMonth?.activities?.find((activity) => activity.date);
-        return firstActivity ? new Date(`${firstActivity.date}T00:00:00`) : new Date(2026, currentMonthIndex, 1);
-    }, [currentMonth, currentMonthIndex]);
-
-    useEffect(() => {
-        if (!selectedActivity) {
-            return;
+        if (firstActivity) {
+            return new Date(`${firstActivity.date}T00:00:00`);
         }
 
-        const selectedMonthIndex = safeMonths.findIndex((month) => month.activities.some((activity) => activity.id === selectedActivity.id));
-        if (selectedMonthIndex >= 0) {
-            setCurrentMonthIndex(selectedMonthIndex);
-        }
-    }, [safeMonths, selectedActivity]);
-    const today = new Date();
-    const todayDateKey = [
-        today.getFullYear(),
-        String(today.getMonth() + 1).padStart(2, '0'),
-        String(today.getDate()).padStart(2, '0')
-    ].join('-');
+        return safeMonths.length ? new Date(2026, currentMonthIndex, 1) : new Date();
+    }, [currentMonth, currentMonthIndex, safeMonths.length]);
 
     useEffect(() => {
         if (window.location.hash === '#cours-ateliers') {
@@ -104,28 +97,15 @@ function PlanningAgenda({ months, activityDescriptions = [], selectedActivity: s
         : [];
     const eventFieldLabels = { date: 'Date', time: 'Horaire' };
 
-    if (!safeMonths.length) {
-        return null;
-    }
-
     return (
         <section ref={sectionRef} id="cours-ateliers" className="planning-agenda" aria-labelledby="cours-ateliers-title">
             <div className="planning-agenda__header">
                 <div>
                     <h3 id="cours-ateliers-title" className="planning-agenda__title">
                         <button type="button" className="planning-agenda__title-link" onClick={copySectionUrl} title="Copier le lien de cette section" aria-label="Copier le lien vers la section Cours et Ateliers">
-                            Cours et Ateliers
+                            Ateliers & Stages
                         </button>
                     </h3>
-                </div>
-                <div className="planning-agenda__month-controls">
-                    {hasPreviousMonth && (
-                        <button type="button" className="planning-agenda__month-button" onClick={() => moveMonth(-1)} aria-label="Mois précédent">‹</button>
-                    )}
-                    <h4 className="planning-agenda__month-name">{currentMonth.name}</h4>
-                    {hasNextMonth && (
-                        <button type="button" className="planning-agenda__month-button" onClick={() => moveMonth(1)} aria-label="Mois suivant">›</button>
-                    )}
                 </div>
             </div>
             {isAnchorCopied && (
@@ -134,27 +114,74 @@ function PlanningAgenda({ months, activityDescriptions = [], selectedActivity: s
                 </div>
             )}
 
+            <div className="planning-agenda__month-controls">
+                {hasPreviousMonth && (
+                    <button type="button" className="planning-agenda__month-button" onClick={() => moveMonth(-1)} aria-label="Mois précédent">‹</button>
+                )}
+                <h4 className="planning-agenda__month-name">{currentMonth.name}</h4>
+                {hasNextMonth && (
+                    <button type="button" className="planning-agenda__month-button" onClick={() => moveMonth(1)} aria-label="Mois suivant">›</button>
+                )}
+            </div>
             <div className={`planning-agenda__desktop-layout ${selectedActivity ? 'planning-agenda__desktop-layout--selected' : ''}`}>
                 <div className="planning-agenda__board">
                     <div className="planning-agenda__legend">
-                        {Object.entries(eventTypeStyles).map(([label, style]) => (
-                            <div key={label} className="planning-agenda__legend-item">
-                                <span className="planning-agenda__legend-swatch" style={{ '--event-background': style.background, '--event-border': style.border }} />
-                                {label}
-                            </div>
-                        ))}
+                        {Object.entries(eventTypeStyles).map(([label, style]) => {
+                            const activityDescription = activityDescriptions.find((activity) => activity.type === label);
+                            const descriptionId = `planning-agenda-description-${label.toLowerCase().replace(/[^a-z0-9]+/g, '-')}`;
+                            const isExpanded = expandedActivityType === label;
+                            const legendContent = (
+                                <>
+                                    <span className="planning-agenda__legend-swatch" style={{ '--event-background': style.background, '--event-border': style.border }} />
+                                    <span className="planning-agenda__legend-label">{label}</span>
+                                    {activityDescription && (
+                                        <span className="planning-agenda__legend-indicator" aria-hidden="true">
+                                            {isExpanded ? '−' : <BsInfoCircle />}
+                                        </span>
+                                    )}
+                                </>
+                            );
+
+                            return activityDescription ? (
+                                <button
+                                    type="button"
+                                    key={label}
+                                    className="planning-agenda__legend-item planning-agenda__legend-item--toggle"
+                                    aria-expanded={isExpanded}
+                                    aria-controls={descriptionId}
+                                    onClick={() => setExpandedActivityType(isExpanded ? null : label)}
+                                >
+                                    {legendContent}
+                                </button>
+                            ) : (
+                                <div key={label} className="planning-agenda__legend-item">{legendContent}</div>
+                            );
+                        })}
                     </div>
-                    {activityDescriptions.length > 0 && (
-                        <div className="planning-agenda__activity-descriptions" aria-label="À propos des activités du Capharnaüm">
-                            {activityDescriptions.map((activity) => (
-                                <section key={activity.type} className="planning-agenda__activity-description" style={{ '--event-border': eventTypeStyles[activity.type]?.border || '#DB6D93' }}>
-                                    <h4>{activity.title}</h4>
-                                    <p>{activity.description}</p>
-                                </section>
-                            ))}
-                            <p className="planning-agenda__activity-note">Le programme et les modalités sont indiqués dans chaque événement. Cliquez sur un événement pour en savoir plus.</p>
+                    {(isLoading || errorMessage) && (
+                        <div className="planning-agenda__loading" role={errorMessage ? 'alert' : 'status'}>
+                            <span>{errorMessage || 'Chargement du planning…'}</span>
                         </div>
                     )}
+                    {activityDescriptions.map((activity) => {
+                        if (activity.type !== expandedActivityType) {
+                            return null;
+                        }
+
+                        const descriptionId = `planning-agenda-description-${activity.type.toLowerCase().replace(/[^a-z0-9]+/g, '-')}`;
+                        return (
+                            <section
+                                key={activity.type}
+                                id={descriptionId}
+                                className="planning-agenda__activity-description-panel"
+                                aria-labelledby={`${descriptionId}-title`}
+                                style={{ '--event-border': eventTypeStyles[activity.type]?.border || '#DB6D93' }}
+                            >
+                                <h4 id={`${descriptionId}-title`}>{activity.title}</h4>
+                                <p>{activity.description}</p>
+                            </section>
+                        );
+                    })}
                     <div className="planning-agenda__weekdays">
                         {weekdayLabels.map((day) => <div key={day} className="planning-agenda__weekday">{day}</div>)}
                     </div>
@@ -169,11 +196,9 @@ function PlanningAgenda({ months, activityDescriptions = [], selectedActivity: s
                                     ].join('-');
                                     const dayEvents = currentMonth.activities.filter((activity) => activity.date === dateKey);
                                     const isCurrentMonth = date.getFullYear() === currentMonthDate.getFullYear() && date.getMonth() === currentMonthDate.getMonth();
-                                    const isToday = dateKey === todayDateKey;
-                                    const isPastDate = dateKey < todayDateKey;
                                     const weekdayLabel = weekdayLabels[(date.getDay() + 6) % 7];
                                     return (
-                                        <div key={dateKey} className={`planning-agenda__day ${isCurrentMonth ? '' : 'planning-agenda__day--outside'} ${dayEvents.length === 0 ? 'planning-agenda__day--empty' : ''} ${isToday ? 'planning-agenda__day--today' : ''} ${isPastDate ? 'planning-agenda__day--past' : ''}`}>
+                                        <div key={dateKey} className={`planning-agenda__day ${isCurrentMonth ? '' : 'planning-agenda__day--outside'} ${dayEvents.length === 0 ? 'planning-agenda__day--empty' : ''}`}>
                                             <div className="planning-agenda__day-heading">
                                                 <span className="planning-agenda__day-name">{weekdayLabel}</span>
                                                 <span className="planning-agenda__day-number">{date.getDate()}</span>
@@ -212,7 +237,7 @@ function PlanningAgenda({ months, activityDescriptions = [], selectedActivity: s
             </div>
 
             {selectedActivity && (
-                <div className={`planning-agenda__modal-overlay ${modalActivityId === selectedActivity.id ? 'planning-agenda__modal-overlay--visible' : ''}`} onClick={() => setSelectedActivity(null)}>
+                <div className="planning-agenda__modal-overlay" onClick={() => setSelectedActivity(null)}>
                     <div className="planning-agenda__modal" onClick={(event) => event.stopPropagation()}>
                         <button type="button" className="planning-agenda__modal-close" onClick={() => setSelectedActivity(null)} aria-label="Fermer le détail">×</button>
                         <ActivityDetails selectedActivity={selectedActivity} eventDetails={eventDetails} eventFieldLabels={eventFieldLabels} />
@@ -220,15 +245,17 @@ function PlanningAgenda({ months, activityDescriptions = [], selectedActivity: s
                 </div>
             )}
 
-            <div className="planning-agenda__helper" role="status">
-                <span className="planning-agenda__helper-hand" aria-hidden="true">👆</span>
-                <span>
-                    <strong className="planning-agenda__closing-message">
-                        Cliquez sur un événement pour réserver votre créneau. Attention les places sont limitées.{' '}
-                        On a hâte de vous y voir !
-                    </strong>
-                </span>
-            </div>
+            {!isLoading && safeMonths.length > 0 && (
+                <div className="planning-agenda__helper" role="status">
+                    <span className="planning-agenda__helper-hand" aria-hidden="true">👆</span>
+                    <span>
+                        <strong className="planning-agenda__closing-message">
+                            Cliquez sur un événement pour réserver votre créneau. Attention les places sont limitées.{' '}
+                            On a hâte de vous y voir !
+                        </strong>
+                    </span>
+                </div>
+            )}
         </section>
     );
 }
