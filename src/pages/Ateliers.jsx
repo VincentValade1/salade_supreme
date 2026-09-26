@@ -46,7 +46,7 @@ function Ateliers() {
                 )
             )}
 
-            <BlueButton className="reservation-atelier" blueButtonLinkLign={AtelierReservationLinkLign} />
+            {/*<BlueButton className="reservation-atelier" blueButtonLinkLign={AtelierReservationLinkLign} />*/}
 
             {projetsData.map(( data ) =>
                 (
@@ -54,7 +54,7 @@ function Ateliers() {
                 )
             )}
 
-            <BlueButton className="reservation-stage" blueButtonLinkLign={StageReservationLinkLign} />
+            {/* <BlueButton className="reservation-stage" blueButtonLinkLign={StageReservationLinkLign} /> */}
             {/* <YoutubeLector videoId= 'Aaf-2S7YKv8' className="atelier-youtube" /> */}
 
             {projetsData.map(( data ) =>
@@ -63,7 +63,7 @@ function Ateliers() {
                 )
             )}
 
-            <SupremeActu className='hors-projet-section' supremeActuPicture={ActuData[0].babayaga.img5} supremeActuPictureAlt={ActuData[0].babayaga.alt5}/>
+            <SupremeActu className='hors-projet-section' supremeActuPicture={ActuData[0]?.babayaga.img5} supremeActuPictureAlt={ActuData[0]?.babayaga.alt5}/>
         </>
     )
 }
