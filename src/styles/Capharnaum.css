@@ -2,6 +2,61 @@
     width: 100%;
 }
 
+.capharnaum-quick-navigation {
+    position: fixed;
+    right: 20px;
+    bottom: calc(20px + env(safe-area-inset-bottom));
+    z-index: 30;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    animation: capharnaum-quick-navigation-enter 180ms ease-out both;
+}
+
+.capharnaum-quick-navigation button {
+    display: grid;
+    width: 44px;
+    height: 44px;
+    place-items: center;
+    border: 1px solid #DB6D93;
+    background: #F8C7CD;
+    color: #28338A;
+    cursor: pointer;
+    transition: background-color 160ms ease, color 160ms ease;
+}
+
+.capharnaum-quick-navigation button:hover,
+.capharnaum-quick-navigation button:focus-visible {
+    background: #28338A;
+    color: #fff;
+    outline: 2px solid #F8C7CD;
+    outline-offset: 2px;
+}
+
+.capharnaum-quick-navigation svg {
+    width: 19px;
+    height: 19px;
+}
+
+@keyframes capharnaum-quick-navigation-enter {
+    from {
+        opacity: 0;
+        transform: translateY(8px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@media (max-width: 600px) {
+    .capharnaum-quick-navigation {
+        right: 12px;
+        bottom: calc(12px + env(safe-area-inset-bottom));
+    }
+}
+
 .capharnaum-page--with-upcoming {
     position: relative;
 }
@@ -228,6 +283,7 @@
     gap: 18px;
     width: 100%;
     margin-bottom: 48px;
+    scroll-margin-top: 150px;
 }
 
 .capharnaum-info__section {

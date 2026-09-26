@@ -1,4 +1,5 @@
 import { useEffect, useMemo, useState } from 'react';
+import { BsArrowUp, BsCalendar3, BsInfoCircle } from 'react-icons/bs';
 import caphData from '../datas/capharnaumPage.json';
 import CapharnaumIntro from '../components/CapharnaumIntro';
 import PlanningAgenda from '../components/PlanningAgenda';
@@ -104,17 +105,22 @@ function Capharnaum() {
             try {
                 const [eventsResponse, intervenantsResponse] = await Promise.all([
                     fetch(API_EVENTS_URL),
-                    fetch(API_INTERVENANTS_URL)
+                    fetch(API_INTERVENANTS_URL).catch((error) => {
+                        console.warn('Unable to load Capharnaüm intervenants; events will be shown without speaker details.', error);
+                        return null;
+                    })
                 ]);
 
-                if (!eventsResponse.ok || !intervenantsResponse.ok) {
-                    throw new Error('Unexpected response from the Capharnaüm API');
+                if (!eventsResponse.ok) {
+                    throw new Error(`Unexpected response from the Capharnaüm events API (${eventsResponse.status})`);
                 }
 
-                const [events, intervenants] = await Promise.all([
-                    eventsResponse.json(),
-                    intervenantsResponse.json()
-                ]);
+                const events = await eventsResponse.json();
+                const intervenants = intervenantsResponse?.ok ? await intervenantsResponse.json() : [];
+
+                if (!intervenantsResponse?.ok) {
+                    console.warn('Capharnaüm intervenants are temporarily unavailable; events will be shown without speaker details.');
+                }
 
                 if (!isMounted) {
                     return;
@@ -142,6 +148,32 @@ function Capharnaum() {
 
     return (
         <section className={`capharnaum-page ${!apiError && nextActivity ? 'capharnaum-page--with-upcoming' : ''}`}>
+            <nav className="capharnaum-quick-navigation" aria-label="Navigation rapide dans le Capharnaüm">
+                <button
+                    type="button"
+                    aria-label="Aller au calendrier"
+                    title="Calendrier"
+                    onClick={() => document.getElementById('cours-ateliers')?.scrollIntoView({ behavior: 'smooth', block: 'start' })}
+                >
+                    <BsCalendar3 aria-hidden="true" />
+                </button>
+                <button
+                    type="button"
+                    aria-label="Aller aux informations"
+                    title="Informations"
+                    onClick={() => document.getElementById('capharnaum-info')?.scrollIntoView({ behavior: 'smooth', block: 'start' })}
+                >
+                    <BsInfoCircle aria-hidden="true" />
+                </button>
+                <button
+                    type="button"
+                    aria-label="Remonter en haut de page"
+                    title="Haut de page"
+                    onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
+                >
+                    <BsArrowUp aria-hidden="true" />
+                </button>
+            </nav>
             {!apiError && nextActivity && (
                 <button
                     type="button"

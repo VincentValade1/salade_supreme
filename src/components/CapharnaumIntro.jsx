@@ -33,7 +33,7 @@ function CapharnaumIntro({ className, title, theme, description, bannerImg, bann
                         </div>
                     ))}
                 </div>
-                <div className="capharnaum-info">
+                <div id="capharnaum-info" className="capharnaum-info">
                     <section className="capharnaum-info__section" aria-labelledby="capharnaum-activities-title">
                         <h3 id="capharnaum-activities-title" className="pink-titles capharnaum-info__title">On y fera quoi ?</h3>
                         <ul className="capharnaum-activities">
