@@ -326,9 +326,9 @@
 }
 
 .planning-agenda__day--today {
-    border-color: #DB6D93;
+    /* border-color: #DB6D93; */
     background: #F8C7CD;
-    box-shadow: inset 0 0 0 1px #DB6D93;
+    /* box-shadow: inset 0 0 0 1px #DB6D93; */
 }
 
 .planning-agenda__day-number {
@@ -375,6 +375,12 @@
     filter: brightness(0.97);
     outline: 2px solid var(--event-border);
     outline-offset: 1px;
+}
+
+.planning-agenda__day--past .planning-agenda__event,
+.planning-agenda__day--past .planning-agenda__event:hover,
+.planning-agenda__day--past .planning-agenda__event:focus-visible {
+    filter: grayscale(1);
 }
 
 .planning-agenda__event-title {
