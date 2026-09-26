@@ -41,6 +41,12 @@ function PlanningAgenda({ months, activityDescriptions = [], isLoading = false, 
 
         return safeMonths.length ? new Date(2026, currentMonthIndex, 1) : new Date();
     }, [currentMonth, currentMonthIndex, safeMonths.length]);
+    const today = new Date();
+    const todayDateKey = [
+        today.getFullYear(),
+        String(today.getMonth() + 1).padStart(2, '0'),
+        String(today.getDate()).padStart(2, '0')
+    ].join('-');
 
     useEffect(() => {
         if (window.location.hash === '#cours-ateliers') {
@@ -196,9 +202,11 @@ function PlanningAgenda({ months, activityDescriptions = [], isLoading = false, 
                                     ].join('-');
                                     const dayEvents = currentMonth.activities.filter((activity) => activity.date === dateKey);
                                     const isCurrentMonth = date.getFullYear() === currentMonthDate.getFullYear() && date.getMonth() === currentMonthDate.getMonth();
+                                    const isToday = dateKey === todayDateKey;
+                                    const isPastDate = dateKey < todayDateKey;
                                     const weekdayLabel = weekdayLabels[(date.getDay() + 6) % 7];
                                     return (
-                                        <div key={dateKey} className={`planning-agenda__day ${isCurrentMonth ? '' : 'planning-agenda__day--outside'} ${dayEvents.length === 0 ? 'planning-agenda__day--empty' : ''}`}>
+                                        <div key={dateKey} className={`planning-agenda__day ${isCurrentMonth ? '' : 'planning-agenda__day--outside'} ${dayEvents.length === 0 ? 'planning-agenda__day--empty' : ''} ${isToday ? 'planning-agenda__day--today' : ''} ${isPastDate ? 'planning-agenda__day--past' : ''}`}>
                                             <div className="planning-agenda__day-heading">
                                                 <span className="planning-agenda__day-name">{weekdayLabel}</span>
                                                 <span className="planning-agenda__day-number">{date.getDate()}</span>
