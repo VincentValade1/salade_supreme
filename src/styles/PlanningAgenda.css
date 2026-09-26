@@ -506,10 +506,6 @@
     display: none;
 }
 
-.planning-agenda__modal-overlay--visible {
-    display: flex;
-}
-
 .planning-agenda__modal {
     position: relative;
     width: min(560px, 100%);

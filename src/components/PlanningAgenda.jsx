@@ -22,11 +22,13 @@ function isActivityCanceled(activity) {
     return String(activity?.canceled || '').trim().toLowerCase() === 'oui';
 }
 
-function PlanningAgenda({ months, activityDescriptions = [], isLoading = false, errorMessage = null }) {
+function PlanningAgenda({ months, activityDescriptions = [], isLoading = false, errorMessage = null, selectedActivity: selectedActivityProp, onSelectedActivityChange }) {
     const safeMonths = useMemo(() => months || [], [months]);
     const sectionRef = useRef(null);
     const [currentMonthIndex, setCurrentMonthIndex] = useState(0);
-    const [selectedActivity, setSelectedActivity] = useState(null);
+    const [internalSelectedActivity, setInternalSelectedActivity] = useState(null);
+    const selectedActivity = selectedActivityProp === undefined ? internalSelectedActivity : selectedActivityProp;
+    const setSelectedActivity = onSelectedActivityChange || setInternalSelectedActivity;
     const [expandedActivityType, setExpandedActivityType] = useState(null);
     const [isAnchorCopied, setIsAnchorCopied] = useState(false);
     const fallbackMonth = useMemo(() => {
@@ -45,6 +47,18 @@ function PlanningAgenda({ months, activityDescriptions = [], isLoading = false, 
 
         return safeMonths.length ? new Date(2026, currentMonthIndex, 1) : new Date();
     }, [currentMonth, currentMonthIndex, safeMonths.length]);
+
+    useEffect(() => {
+        if (!selectedActivity) {
+            return;
+        }
+
+        const selectedMonthIndex = safeMonths.findIndex((month) => month.activities.some((activity) => activity.id === selectedActivity.id));
+        if (selectedMonthIndex >= 0) {
+            setCurrentMonthIndex(selectedMonthIndex);
+        }
+    }, [safeMonths, selectedActivity]);
+
     const today = new Date();
     const todayDateKey = [
         today.getFullYear(),

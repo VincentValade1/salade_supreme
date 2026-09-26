@@ -29,6 +29,10 @@ function getActivityKind(activity) {
     return null;
 }
 
+function isActivityCanceled(activity) {
+    return String(activity.canceled || '').trim().toLowerCase() === 'oui';
+}
+
 function formatActivityDate(dateValue) {
     const formattedDate = new Intl.DateTimeFormat('fr-FR', {
         weekday: 'long',
@@ -78,13 +82,7 @@ function Capharnaum() {
     const [isLoading, setIsLoading] = useState(true);
     const [apiError, setApiError] = useState(false);
     const [selectedActivity, setSelectedActivity] = useState(null);
-    const [modalActivityId, setModalActivityId] = useState(null);
-    const handleSelectedActivityChange = (activity) => {
-        setSelectedActivity(activity);
-        if (!activity) {
-            setModalActivityId(null);
-        }
-    };
+    const handleSelectedActivityChange = (activity) => setSelectedActivity(activity);
     const nextActivity = useMemo(() => {
         const today = new Date();
         const todayDateKey = [
@@ -95,7 +93,7 @@ function Capharnaum() {
 
         return planningMonths
             .flatMap((month) => month.activities)
-            .filter((activity) => getActivityKind(activity) && activity.date >= todayDateKey)
+            .filter((activity) => getActivityKind(activity) && !isActivityCanceled(activity) && activity.date >= todayDateKey)
             .sort((first, second) => first.date.localeCompare(second.date) || String(first.time || '').localeCompare(String(second.time || ''), 'fr', { numeric: true }))[0] || null;
     }, [planningMonths]);
 
@@ -184,7 +182,6 @@ function Capharnaum() {
                     title="Cliquer pour afficher le planning et les détails de l’activité"
                     onClick={() => {
                         setSelectedActivity(nextActivity);
-                        setModalActivityId(nextActivity.id);
                         window.requestAnimationFrame(() => document.getElementById('cours-ateliers')?.scrollIntoView({ behavior: 'smooth', block: 'start' }));
                     }}
                 >
@@ -238,7 +235,6 @@ function Capharnaum() {
                 errorMessage={apiError ? 'Le calendrier est temporairement indisponible. Merci de réessayer plus tard.' : null}
                 selectedActivity={selectedActivity}
                 onSelectedActivityChange={handleSelectedActivityChange}
-                modalActivityId={modalActivityId}
                 activityDescriptions={[
                     {
                         type: 'Atelier Créatif',
