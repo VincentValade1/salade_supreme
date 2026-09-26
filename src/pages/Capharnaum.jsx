@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import caphData from '../datas/capharnaumPage.json';
 import CapharnaumIntro from '../components/CapharnaumIntro';
 import PlanningAgenda from '../components/PlanningAgenda';
@@ -9,6 +9,33 @@ const API_INTERVENANTS_URL = 'https://api.saladesupreme.tarrieu.fr/api/intervena
 
 function getEventDate(event) {
     return String(event.date || '').slice(0, 10);
+}
+
+function getActivityKind(activity) {
+    const normalizedTypes = [activity.type, activity.category].map((value) => {
+        const type = String(value || '').normalize('NFD').replace(/[\u0300-\u036f]/g, '').trim().toLowerCase();
+        return type;
+    });
+
+    if (normalizedTypes.some((type) => type.includes('atelier'))) {
+        return 'atelier créatif';
+    }
+
+    if (normalizedTypes.some((type) => type.includes('stage'))) {
+        return 'stage';
+    }
+
+    return null;
+}
+
+function formatActivityDate(dateValue) {
+    const formattedDate = new Intl.DateTimeFormat('fr-FR', {
+        weekday: 'long',
+        day: 'numeric',
+        month: 'long'
+    }).format(new Date(`${dateValue}T00:00:00`));
+
+    return formattedDate.charAt(0).toUpperCase() + formattedDate.slice(1);
 }
 
 function normalizePlanningData(events = [], intervenants = []) {
@@ -48,6 +75,27 @@ function Capharnaum() {
     const caph = caphData;
     const [planningMonths, setPlanningMonths] = useState([]);
     const [apiError, setApiError] = useState(false);
+    const [selectedActivity, setSelectedActivity] = useState(null);
+    const [modalActivityId, setModalActivityId] = useState(null);
+    const handleSelectedActivityChange = (activity) => {
+        setSelectedActivity(activity);
+        if (!activity) {
+            setModalActivityId(null);
+        }
+    };
+    const nextActivity = useMemo(() => {
+        const today = new Date();
+        const todayDateKey = [
+            today.getFullYear(),
+            String(today.getMonth() + 1).padStart(2, '0'),
+            String(today.getDate()).padStart(2, '0')
+        ].join('-');
+
+        return planningMonths
+            .flatMap((month) => month.activities)
+            .filter((activity) => getActivityKind(activity) && activity.date >= todayDateKey)
+            .sort((first, second) => first.date.localeCompare(second.date) || String(first.time || '').localeCompare(String(second.time || ''), 'fr', { numeric: true }))[0] || null;
+    }, [planningMonths]);
 
     useEffect(() => {
         let isMounted = true;
@@ -93,7 +141,41 @@ function Capharnaum() {
     }, []);
 
     return (
-        <section className="capharnaum-page">
+        <section className={`capharnaum-page ${!apiError && nextActivity ? 'capharnaum-page--with-upcoming' : ''}`}>
+            {!apiError && nextActivity && (
+                <button
+                    type="button"
+                    className="capharnaum-upcoming-banner"
+                    aria-label={`Afficher le planning : ${nextActivity.title}, ${formatActivityDate(nextActivity.date)}`}
+                    title="Cliquer pour afficher le planning et les détails de l’activité"
+                    onClick={() => {
+                        setSelectedActivity(nextActivity);
+                        setModalActivityId(nextActivity.id);
+                        window.requestAnimationFrame(() => document.getElementById('cours-ateliers')?.scrollIntoView({ behavior: 'smooth', block: 'start' }));
+                    }}
+                >
+                    <span className="capharnaum-upcoming-banner__entrance" aria-hidden="true">
+                        <span className="capharnaum-upcoming-banner__track">
+                            {Array.from({ length: 16 }, (_, copy) => (
+                                <span className="capharnaum-upcoming-banner__message" key={copy}>
+                                    Prochain {getActivityKind(nextActivity)}
+                                    <span className="capharnaum-upcoming-banner__separator">·</span>
+                                    {formatActivityDate(nextActivity.date)}
+                                    {nextActivity.time && (
+                                        <>
+                                            <span className="capharnaum-upcoming-banner__separator">·</span>
+                                            {nextActivity.time}
+                                        </>
+                                    )}
+                                    <span className="capharnaum-upcoming-banner__separator">·</span>
+                                    {nextActivity.title}
+                                    <span className="capharnaum-upcoming-banner__separator">·</span>
+                                </span>
+                            ))}
+                        </span>
+                    </span>
+                </button>
+            )}
             <CapharnaumIntro
                 title={caph.title}
                 theme={caph.theme}
@@ -131,7 +213,24 @@ function Capharnaum() {
                     Le calendrier est temporairement indisponible. Merci de réessayer plus tard.
                 </div>
             ) : (
-                <PlanningAgenda months={planningMonths} />
+                <PlanningAgenda
+                    months={planningMonths}
+                    selectedActivity={selectedActivity}
+                    onSelectedActivityChange={handleSelectedActivityChange}
+                    modalActivityId={modalActivityId}
+                    activityDescriptions={[
+                        {
+                            type: 'Atelier Créatif',
+                            title: 'Ateliers créatifs',
+                            description: 'Des rendez-vous pour explorer une pratique artistique, expérimenter et réaliser une création.'
+                        },
+                        {
+                            type: 'Stages',
+                            title: 'Stages',
+                            description: 'Des temps dédiés pour approfondir une pratique et développer un projet créatif.'
+                        }
+                    ]}
+                />
             )}
         </section>
     );

@@ -2,6 +2,108 @@
     width: 100%;
 }
 
+.capharnaum-page--with-upcoming {
+    position: relative;
+}
+
+.capharnaum-page--with-upcoming .capharnaum-upcoming-banner {
+    position: absolute;
+    top: 70px;
+    left: 0;
+    z-index: 10;
+    margin-top: 0;
+}
+
+.capharnaum-upcoming-banner {
+    display: flex;
+    width: 100%;
+    height: 52px;
+    overflow: hidden;
+    align-items: center;
+    border: 0;
+    padding: 0;
+    background: #F8C7CD;
+    color: #111;
+    cursor: pointer;
+    text-align: left;
+    transition: background-color 180ms ease, box-shadow 180ms ease;
+}
+
+.capharnaum-upcoming-banner:hover,
+.capharnaum-upcoming-banner:focus-visible {
+    background: #F1A4B1;
+    box-shadow: inset 0 0 0 2px #111;
+}
+
+.capharnaum-upcoming-banner:focus-visible {
+    outline: 3px solid #111;
+    outline-offset: -4px;
+}
+
+.capharnaum-upcoming-banner__entrance {
+    display: flex;
+    width: max-content;
+    animation: capharnaum-marquee-enter 1.6s ease-out both;
+}
+
+.capharnaum-upcoming-banner__track {
+    display: flex;
+    width: max-content;
+    animation: capharnaum-marquee 24s linear 1.6s infinite;
+}
+
+.capharnaum-upcoming-banner__message {
+    display: inline-flex;
+    flex: none;
+    align-items: center;
+    gap: 24px;
+    padding-right: 24px;
+    color: #111;
+    font-family: "Gotham-HTF-Book", sans-serif;
+    font-size: 16px;
+    font-weight: 700;
+    white-space: nowrap;
+}
+
+.capharnaum-upcoming-banner__separator {
+    color: #111;
+    font: inherit;
+}
+
+.capharnaum-upcoming-banner:hover .capharnaum-upcoming-banner__entrance,
+.capharnaum-upcoming-banner:focus-visible .capharnaum-upcoming-banner__entrance,
+.capharnaum-upcoming-banner:hover .capharnaum-upcoming-banner__track,
+.capharnaum-upcoming-banner:focus-visible .capharnaum-upcoming-banner__track {
+    animation-play-state: paused;
+}
+
+@keyframes capharnaum-marquee-enter {
+    from {
+        transform: translateX(100vw);
+    }
+
+    to {
+        transform: translateX(10vw);
+    }
+}
+
+@keyframes capharnaum-marquee {
+    from {
+        transform: translateX(0);
+    }
+
+    to {
+        transform: translateX(-10%);
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .capharnaum-upcoming-banner__entrance,
+    .capharnaum-upcoming-banner__track {
+        animation: none;
+    }
+}
+
 .capharnaum-banner {
     position: relative;
     overflow: hidden;

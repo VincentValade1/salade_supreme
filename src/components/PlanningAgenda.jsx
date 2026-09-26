@@ -5,7 +5,7 @@ import '../styles/PlanningAgenda.css';
 const weekdayLabels = ['Lun', 'Mar', 'Mer', 'Jeu', 'Ven', 'Sam', 'Dim'];
 
 const eventTypeStyles = {
-    'Cours hebdomadaire': { background: '#fdeaf2', border: '#DB6D93', text: '#4d4d4d' },
+    'Stages': { background: '#fdeaf2', border: '#DB6D93', text: '#4d4d4d' },
     'Atelier Créatif': { background: '#edf4ff', border: '#6f9ae8', text: '#2f3f5f' }
 };
 
@@ -18,17 +18,36 @@ function getInstagramUsername(instagramUrl) {
     }
 }
 
-function PlanningAgenda({ months }) {
+function PlanningAgenda({ months, activityDescriptions = [], selectedActivity: selectedActivityProp, onSelectedActivityChange, modalActivityId }) {
     const safeMonths = useMemo(() => months || [], [months]);
     const sectionRef = useRef(null);
     const [currentMonthIndex, setCurrentMonthIndex] = useState(0);
-    const [selectedActivity, setSelectedActivity] = useState(null);
+    const [internalSelectedActivity, setInternalSelectedActivity] = useState(null);
+    const selectedActivity = selectedActivityProp === undefined ? internalSelectedActivity : selectedActivityProp;
+    const setSelectedActivity = onSelectedActivityChange || setInternalSelectedActivity;
     const [isAnchorCopied, setIsAnchorCopied] = useState(false);
     const currentMonth = useMemo(() => safeMonths[currentMonthIndex] || safeMonths[0], [safeMonths, currentMonthIndex]);
     const currentMonthDate = useMemo(() => {
         const firstActivity = currentMonth?.activities?.find((activity) => activity.date);
         return firstActivity ? new Date(`${firstActivity.date}T00:00:00`) : new Date(2026, currentMonthIndex, 1);
     }, [currentMonth, currentMonthIndex]);
+
+    useEffect(() => {
+        if (!selectedActivity) {
+            return;
+        }
+
+        const selectedMonthIndex = safeMonths.findIndex((month) => month.activities.some((activity) => activity.id === selectedActivity.id));
+        if (selectedMonthIndex >= 0) {
+            setCurrentMonthIndex(selectedMonthIndex);
+        }
+    }, [safeMonths, selectedActivity]);
+    const today = new Date();
+    const todayDateKey = [
+        today.getFullYear(),
+        String(today.getMonth() + 1).padStart(2, '0'),
+        String(today.getDate()).padStart(2, '0')
+    ].join('-');
 
     useEffect(() => {
         if (window.location.hash === '#cours-ateliers') {
@@ -125,6 +144,17 @@ function PlanningAgenda({ months }) {
                             </div>
                         ))}
                     </div>
+                    {activityDescriptions.length > 0 && (
+                        <div className="planning-agenda__activity-descriptions" aria-label="À propos des activités du Capharnaüm">
+                            {activityDescriptions.map((activity) => (
+                                <section key={activity.type} className="planning-agenda__activity-description" style={{ '--event-border': eventTypeStyles[activity.type]?.border || '#DB6D93' }}>
+                                    <h4>{activity.title}</h4>
+                                    <p>{activity.description}</p>
+                                </section>
+                            ))}
+                            <p className="planning-agenda__activity-note">Le programme et les modalités sont indiqués dans chaque événement. Cliquez sur un événement pour en savoir plus.</p>
+                        </div>
+                    )}
                     <div className="planning-agenda__weekdays">
                         {weekdayLabels.map((day) => <div key={day} className="planning-agenda__weekday">{day}</div>)}
                     </div>
@@ -139,16 +169,18 @@ function PlanningAgenda({ months }) {
                                     ].join('-');
                                     const dayEvents = currentMonth.activities.filter((activity) => activity.date === dateKey);
                                     const isCurrentMonth = date.getFullYear() === currentMonthDate.getFullYear() && date.getMonth() === currentMonthDate.getMonth();
+                                    const isToday = dateKey === todayDateKey;
+                                    const isPastDate = dateKey < todayDateKey;
                                     const weekdayLabel = weekdayLabels[(date.getDay() + 6) % 7];
                                     return (
-                                        <div key={dateKey} className={`planning-agenda__day ${isCurrentMonth ? '' : 'planning-agenda__day--outside'} ${dayEvents.length === 0 ? 'planning-agenda__day--empty' : ''}`}>
+                                        <div key={dateKey} className={`planning-agenda__day ${isCurrentMonth ? '' : 'planning-agenda__day--outside'} ${dayEvents.length === 0 ? 'planning-agenda__day--empty' : ''} ${isToday ? 'planning-agenda__day--today' : ''} ${isPastDate ? 'planning-agenda__day--past' : ''}`}>
                                             <div className="planning-agenda__day-heading">
                                                 <span className="planning-agenda__day-name">{weekdayLabel}</span>
                                                 <span className="planning-agenda__day-number">{date.getDate()}</span>
                                             </div>
                                             <div className="planning-agenda__events">
                                                 {dayEvents.slice(0, 3).map((activity) => {
-                                                    const typeStyle = eventTypeStyles[activity.type] || eventTypeStyles['Cours hebdomadaire'];
+                                                    const typeStyle = eventTypeStyles[activity.type] || eventTypeStyles.Stages;
                                                     return (
                                                         <button
                                                             type="button"
@@ -180,7 +212,7 @@ function PlanningAgenda({ months }) {
             </div>
 
             {selectedActivity && (
-                <div className="planning-agenda__modal-overlay" onClick={() => setSelectedActivity(null)}>
+                <div className={`planning-agenda__modal-overlay ${modalActivityId === selectedActivity.id ? 'planning-agenda__modal-overlay--visible' : ''}`} onClick={() => setSelectedActivity(null)}>
                     <div className="planning-agenda__modal" onClick={(event) => event.stopPropagation()}>
                         <button type="button" className="planning-agenda__modal-close" onClick={() => setSelectedActivity(null)} aria-label="Fermer le détail">×</button>
                         <ActivityDetails selectedActivity={selectedActivity} eventDetails={eventDetails} eventFieldLabels={eventFieldLabels} />
