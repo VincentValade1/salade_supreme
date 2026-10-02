@@ -6,7 +6,7 @@ import PlanningAgenda from '../components/PlanningAgenda';
 import '../styles/Capharnaum.css';
 
 const DIRECTUS_URL = process.env.REACT_APP_DIRECTUS_URL || 'https://directus.saladesupreme.tarrieu.fr';
-const DIRECTUS_EVENTS_URL = `${DIRECTUS_URL}/items/caphEvent?fields=id,title,description,startDate,canceled,link,eventType.id,eventType.name,intervenant.id,intervenant.name,intervenant.instagram,intervenant.bio&sort=startDate`;
+const DIRECTUS_EVENTS_URL = `${DIRECTUS_URL}/items/caphEvent?fields=id,title,description,startDate,endDate,canceled,link,eventType.id,eventType.name,intervenant.id,intervenant.name,intervenant.instagram,intervenant.bio&sort=startDate`;
 const SOCIAL_PAGES = {
     instagram: {
         name: 'Instagram',
@@ -79,22 +79,11 @@ function normalizeDirectusEvents(events = []) {
     const monthMap = new Map();
     (Array.isArray(events) ? events : []).forEach((event, eventIndex) => {
         const eventDate = getEventDate(event);
-        const monthId = eventDate.slice(0, 7) || `month-${eventIndex}`;
-        const monthName = eventDate
-            ? new Intl.DateTimeFormat('fr-FR', { month: 'long', year: 'numeric' }).format(new Date(`${eventDate}T00:00:00`))
-            : monthId;
-
-        if (!monthMap.has(monthId)) {
-            monthMap.set(monthId, {
-                id: monthId,
-                name: monthName,
-                activities: []
-            });
-        }
-
-        monthMap.get(monthId).activities.push({
+        const endDate = String(event.endDate || '').slice(0, 10);
+        const activity = {
             id: event.id,
             date: eventDate,
+            endDate,
             time: String(event.startDate || '').slice(11, 16),
             title: event.title,
             description: event.description,
@@ -102,10 +91,35 @@ function normalizeDirectusEvents(events = []) {
             canceled: event.canceled,
             link: event.link,
             intervenant: event.intervenant && typeof event.intervenant === 'object' ? event.intervenant : null
-        });
+        };
+
+        if (!eventDate) {
+            const monthId = `month-${eventIndex}`;
+            monthMap.set(monthId, { id: monthId, name: monthId, activities: [activity] });
+            return;
+        }
+
+        const firstMonth = new Date(`${eventDate}T00:00:00`);
+        const lastMonth = new Date(`${(endDate >= eventDate ? endDate : eventDate)}T00:00:00`);
+        const monthCursor = new Date(firstMonth.getFullYear(), firstMonth.getMonth(), 1);
+        const lastMonthIndex = lastMonth.getFullYear() * 12 + lastMonth.getMonth();
+
+        while (monthCursor.getFullYear() * 12 + monthCursor.getMonth() <= lastMonthIndex) {
+            const monthId = `${monthCursor.getFullYear()}-${String(monthCursor.getMonth() + 1).padStart(2, '0')}`;
+            if (!monthMap.has(monthId)) {
+                monthMap.set(monthId, {
+                    id: monthId,
+                    name: new Intl.DateTimeFormat('fr-FR', { month: 'long', year: 'numeric' }).format(monthCursor),
+                    activities: []
+                });
+            }
+
+            monthMap.get(monthId).activities.push(activity);
+            monthCursor.setMonth(monthCursor.getMonth() + 1);
+        }
     });
 
-    return Array.from(monthMap.values());
+    return Array.from(monthMap.values()).sort((first, second) => first.id.localeCompare(second.id));
 }
 
 function Capharnaum() {
