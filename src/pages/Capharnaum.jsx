@@ -5,8 +5,8 @@ import CapharnaumIntro from '../components/CapharnaumIntro';
 import PlanningAgenda from '../components/PlanningAgenda';
 import '../styles/Capharnaum.css';
 
-const API_EVENTS_URL = 'https://api.saladesupreme.tarrieu.fr/api/events?refresh=false';
-const API_INTERVENANTS_URL = 'https://api.saladesupreme.tarrieu.fr/api/intervenants?refresh=false';
+const DIRECTUS_URL = process.env.REACT_APP_DIRECTUS_URL || 'https://directus.saladesupreme.tarrieu.fr';
+const DIRECTUS_EVENTS_URL = `${DIRECTUS_URL}/items/caphEvent?fields=id,title,description,startDate,canceled,link,eventType.id,eventType.name,intervenant.id,intervenant.name,intervenant.instagram,intervenant.bio&sort=startDate`;
 const SOCIAL_PAGES = {
     instagram: {
         name: 'Instagram',
@@ -21,24 +21,21 @@ const SOCIAL_PAGES = {
 };
 
 function getEventDate(event) {
-    return String(event.date || '').slice(0, 10);
+    return String(event.startDate || '').slice(0, 10);
 }
 
 function getActivityKind(activity) {
-    const normalizedTypes = [activity.type, activity.category].map((value) => {
-        const type = String(value || '').normalize('NFD').replace(/[\u0300-\u036f]/g, '').trim().toLowerCase();
-        return type;
-    });
+    const type = String(activity.type || '').normalize('NFD').replace(/[\u0300-\u036f]/g, '').trim().toLowerCase();
 
-    if (normalizedTypes.some((type) => type.includes('couture'))) {
+    if (type.includes('couture')) {
         return null;
     }
 
-    if (normalizedTypes.some((type) => type.includes('atelier'))) {
+    if (type.includes('atelier')) {
         return 'atelier créatif';
     }
 
-    if (normalizedTypes.some((type) => type.includes('stage'))) {
+    if (type.includes('stage')) {
         return 'stage';
     }
 
@@ -46,7 +43,26 @@ function getActivityKind(activity) {
 }
 
 function isActivityCanceled(activity) {
-    return String(activity.canceled || '').trim().toLowerCase() === 'oui';
+    return activity.canceled === true;
+}
+
+function getEventTypeLabel(event) {
+    const eventType = String(event.eventType?.name || '').trim();
+    const normalizedType = eventType.normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLowerCase();
+
+    if (normalizedType.includes('atelier')) {
+        return 'Atelier Créatif';
+    }
+
+    if (normalizedType.includes('stage')) {
+        return 'Stages';
+    }
+
+    if (normalizedType.includes('couture')) {
+        return 'Cours de couture';
+    }
+
+    return eventType;
 }
 
 function formatActivityDate(dateValue) {
@@ -59,19 +75,14 @@ function formatActivityDate(dateValue) {
     return formattedDate.charAt(0).toUpperCase() + formattedDate.slice(1);
 }
 
-function normalizePlanningData(events = [], intervenants = []) {
+function normalizeDirectusEvents(events = []) {
     const monthMap = new Map();
-
-    const allIntervenants = Array.isArray(intervenants) ? intervenants : [];
-
     (Array.isArray(events) ? events : []).forEach((event, eventIndex) => {
         const eventDate = getEventDate(event);
-        const monthId = event.month_id || event.monthId || event.month || eventDate.slice(0, 7) || `month-${eventIndex}`;
-        const monthName = event.month_name || event.monthName || event.month || (
-            eventDate
-                ? new Intl.DateTimeFormat('fr-FR', { month: 'long', year: 'numeric' }).format(new Date(`${eventDate}T00:00:00`))
-                : monthId
-        );
+        const monthId = eventDate.slice(0, 7) || `month-${eventIndex}`;
+        const monthName = eventDate
+            ? new Intl.DateTimeFormat('fr-FR', { month: 'long', year: 'numeric' }).format(new Date(`${eventDate}T00:00:00`))
+            : monthId;
 
         if (!monthMap.has(monthId)) {
             monthMap.set(monthId, {
@@ -82,10 +93,15 @@ function normalizePlanningData(events = [], intervenants = []) {
         }
 
         monthMap.get(monthId).activities.push({
-            ...event,
-            id: event.id || `${eventDate}-${event.time || ''}-${event.title || ''}-${eventIndex}`,
+            id: event.id,
             date: eventDate,
-            intervenant: allIntervenants.find((intervenant) => intervenant.id === event.intervenantId) || null
+            time: String(event.startDate || '').slice(11, 16),
+            title: event.title,
+            description: event.description,
+            type: getEventTypeLabel(event),
+            canceled: event.canceled,
+            link: event.link,
+            intervenant: event.intervenant && typeof event.intervenant === 'object' ? event.intervenant : null
         });
     });
 
@@ -120,23 +136,15 @@ function Capharnaum() {
 
         const loadPlanningData = async () => {
             try {
-                const [eventsResponse, intervenantsResponse] = await Promise.all([
-                    fetch(API_EVENTS_URL),
-                    fetch(API_INTERVENANTS_URL).catch((error) => {
-                        console.warn('Unable to load Capharnaüm intervenants; events will be shown without speaker details.', error);
-                        return null;
-                    })
-                ]);
+                const eventsResponse = await fetch(DIRECTUS_EVENTS_URL);
 
                 if (!eventsResponse.ok) {
-                    throw new Error(`Unexpected response from the Capharnaüm events API (${eventsResponse.status})`);
+                    throw new Error(`Unexpected response from Directus (${eventsResponse.status})`);
                 }
 
-                const events = await eventsResponse.json();
-                const intervenants = intervenantsResponse?.ok ? await intervenantsResponse.json() : [];
-
-                if (!intervenantsResponse?.ok) {
-                    console.warn('Capharnaüm intervenants are temporarily unavailable; events will be shown without speaker details.');
+                const eventsPayload = await eventsResponse.json();
+                if (!Array.isArray(eventsPayload.data)) {
+                    throw new Error('Unexpected Directus response: expected a data array');
                 }
 
                 if (!isMounted) {
@@ -144,10 +152,10 @@ function Capharnaum() {
                 }
 
                 setApiError(false);
-                setPlanningMonths(normalizePlanningData(events, intervenants));
+                setPlanningMonths(normalizeDirectusEvents(eventsPayload.data));
                 setIsLoading(false);
             } catch (error) {
-                console.error('Unable to fetch Capharnaüm events from API, using the fallback data instead.', error);
+                console.error('Unable to fetch Capharnaüm events from Directus.', error);
 
                 if (!isMounted) {
                     return;

@@ -20,7 +20,7 @@ function getInstagramUsername(instagramUrl) {
 }
 
 function isActivityCanceled(activity) {
-    return String(activity?.canceled || '').trim().toLowerCase() === 'oui';
+    return activity?.canceled === true;
 }
 
 function getStartTimeMinutes(time) {
