@@ -92,6 +92,10 @@ function PlanningAgenda({ months, activityDescriptions = [], isLoading = false, 
             return;
         }
 
+        if (window.matchMedia('(min-width: 1200px)').matches) {
+            return;
+        }
+
         const previousOverflow = document.body.style.overflow;
         document.body.style.overflow = 'hidden';
 
