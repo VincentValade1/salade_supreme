@@ -27,6 +27,17 @@ function getStartTimeMinutes(time) {
     return match ? Number(match[1]) * 60 + Number(match[2] || 0) : Number.POSITIVE_INFINITY;
 }
 
+function monthMatchesDate(month, date) {
+    const firstActivityDate = month?.activities?.find((activity) => activity.date)?.date;
+    if (firstActivityDate) {
+        const [year, monthNumber] = String(firstActivityDate).split('-').map(Number);
+        return year === date.getFullYear() && monthNumber - 1 === date.getMonth();
+    }
+
+    const monthLabel = new Intl.DateTimeFormat('fr-FR', { month: 'long', year: 'numeric' }).format(new Date(date.getFullYear(), date.getMonth(), 1));
+    return String(month?.name || '').trim().toLowerCase() === monthLabel.toLowerCase();
+}
+
 function PlanningAgenda({ months, activityDescriptions = [], isLoading = false, errorMessage = null, selectedActivity: selectedActivityProp, onSelectedActivityChange }) {
     const safeMonths = useMemo(() => months || [], [months]);
     const sectionRef = useRef(null);
@@ -52,6 +63,17 @@ function PlanningAgenda({ months, activityDescriptions = [], isLoading = false, 
 
         return safeMonths.length ? new Date(2026, currentMonthIndex, 1) : new Date();
     }, [currentMonth, currentMonthIndex, safeMonths.length]);
+
+    useEffect(() => {
+        if (!safeMonths.length || selectedActivity) {
+            return;
+        }
+
+        const todayIndex = safeMonths.findIndex((month) => monthMatchesDate(month, new Date()));
+        if (todayIndex >= 0) {
+            setCurrentMonthIndex(todayIndex);
+        }
+    }, [safeMonths, selectedActivity]);
 
     useEffect(() => {
         if (!selectedActivity) {
