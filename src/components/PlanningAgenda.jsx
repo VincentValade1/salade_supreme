@@ -151,7 +151,7 @@ function PlanningAgenda({ months, activityDescriptions = [], isLoading = false, 
         if (selectedMonthIndex >= 0) {
             setCurrentMonthIndex(selectedMonthIndex);
         }
-    }, [safeMonths, selectedActivity]);
+    }, [safeMonths, selectedActivity, currentMonthIndex]);
 
     useEffect(() => {
         if (!selectedActivity) {
