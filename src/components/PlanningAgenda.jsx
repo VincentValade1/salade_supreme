@@ -6,7 +6,8 @@ const weekdayLabels = ['Lun', 'Mar', 'Mer', 'Jeu', 'Ven', 'Sam', 'Dim'];
 
 const eventTypeStyles = {
     'Stages': { background: '#fdeaf2', border: '#DB6D93', text: '#4d4d4d' },
-    'Atelier Créatif': { background: '#edf4ff', border: '#6f9ae8', text: '#2f3f5f' }
+    'Atelier Créatif': { background: '#edf4ff', border: '#6f9ae8', text: '#2f3f5f' },
+    'Cours de couture': { background: '#fff3bf', border: '#d4a017', text: '#3f3400' }
 };
 
 function getInstagramUsername(instagramUrl) {

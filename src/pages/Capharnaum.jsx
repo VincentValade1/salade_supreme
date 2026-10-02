@@ -30,6 +30,10 @@ function getActivityKind(activity) {
         return type;
     });
 
+    if (normalizedTypes.some((type) => type.includes('couture'))) {
+        return null;
+    }
+
     if (normalizedTypes.some((type) => type.includes('atelier'))) {
         return 'atelier créatif';
     }
@@ -308,6 +312,11 @@ function Capharnaum() {
                         type: 'Stages',
                         title: 'Stages',
                         description: 'Des temps dédiés pour approfondir une pratique et développer un projet créatif.'
+                    },
+                    {
+                        type: 'Cours de couture',
+                        title: 'Cours de couture',
+                        description: 'Des cours de couture pour apprendre et pratiquer la confection et la création textile.'
                     }
                 ]}
             />
