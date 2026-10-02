@@ -1,4 +1,4 @@
-import { BrowserRouter as Routing, Routes, Route } from "react-router-dom";
+import { BrowserRouter as Routing, Routes, Route, useLocation } from "react-router-dom";
 import React from "react";
 import Accueil from "../pages/Accueil";
 // import Residences from "../pages/Residences";
@@ -30,13 +30,18 @@ import Clutch from "../pages/Clutch";
 import EcoConception from "../pages/EcoConception";
 import OzOccitanie from "../pages/OzOccitanie";
 import StreetArt from "../pages/StreetArt";
+import Admin from "../pages/Admin";
 
-function Router() {
+function RouterContent() {
+    const location = useLocation();
+    const isAdminPage = location.pathname === '/admin';
+
     return (
-        <Routing>
+        <>
             <ScrollToTop />
-            <Header />
+            {!isAdminPage && <Header />}
             <Routes>
+                <Route exact path='/admin' element={<Admin />} />
                 <Route exact path='/' element={<Accueil />} />
                 {/* <Route exact path='/residences' element={<Residences />} /> */}
                 <Route exact path='/lieux/capharnaum' element={<Capharnaum />} />
@@ -64,7 +69,15 @@ function Router() {
                 <Route exact path='*' element={<Erreur />} />
                 <Route exact path='/pageError404'element={<Erreur />} />
             </Routes>
-            <Footer />
+            {!isAdminPage && <Footer />}
+        </>
+    )
+}
+
+function Router() {
+    return (
+        <Routing>
+            <RouterContent />
         </Routing>
     )
 }
