@@ -87,6 +87,19 @@ function PlanningAgenda({ months, activityDescriptions = [], isLoading = false, 
         }
     }, [safeMonths, selectedActivity]);
 
+    useEffect(() => {
+        if (!selectedActivity) {
+            return;
+        }
+
+        const previousOverflow = document.body.style.overflow;
+        document.body.style.overflow = 'hidden';
+
+        return () => {
+            document.body.style.overflow = previousOverflow;
+        };
+    }, [selectedActivity]);
+
     const today = new Date();
     const todayDateKey = [
         today.getFullYear(),
