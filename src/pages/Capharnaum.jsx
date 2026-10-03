@@ -6,7 +6,7 @@ import PlanningAgenda from '../components/PlanningAgenda';
 import '../styles/Capharnaum.css';
 
 const DIRECTUS_URL = process.env.REACT_APP_DIRECTUS_URL || 'https://directus.saladesupreme.tarrieu.fr';
-const DIRECTUS_EVENTS_URL = `${DIRECTUS_URL}/items/caphEvent?fields=id,title,description,startDate,endDate,canceled,link,eventType.id,eventType.name,intervenant.id,intervenant.name,intervenant.instagram,intervenant.bio&sort=startDate`;
+const DIRECTUS_EVENTS_URL = `${DIRECTUS_URL}/items/caphEvent?fields=id,title,description,startDate,endDate,canceled,link,tarifNormal,tarifSoutien,eventType.id,eventType.name,intervenant.id,intervenant.name,intervenant.instagram,intervenant.bio&sort=startDate`;
 const SOCIAL_PAGES = {
     instagram: {
         name: 'Instagram',
@@ -90,6 +90,8 @@ function normalizeDirectusEvents(events = []) {
             type: getEventTypeLabel(event),
             canceled: event.canceled,
             link: event.link,
+            tarifNormal: event.tarifNormal,
+            tarifSoutien: event.tarifSoutien,
             intervenant: event.intervenant && typeof event.intervenant === 'object' ? event.intervenant : null
         };
 

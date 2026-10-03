@@ -23,6 +23,23 @@ function isActivityCanceled(activity) {
     return activity?.canceled === true;
 }
 
+function hasPrice(value) {
+    return value !== null && value !== undefined;
+}
+
+function EventHeading({ activity, title = activity.title }) {
+    return (
+        <div className="planning-agenda__event-heading">
+            <span className="planning-agenda__event-title">{title}</span>
+            {hasPrice(activity.tarifNormal) && (
+                <span className="planning-agenda__event-price" aria-label={`Tarif normal : ${activity.tarifNormal} euros`}>
+                    {activity.tarifNormal} €
+                </span>
+            )}
+        </div>
+    );
+}
+
 function getStartTimeMinutes(time) {
     const match = String(time || '').match(/(\d{1,2})\s*(?:h|:)\s*(\d{2})?/i);
     return match ? Number(match[1]) * 60 + Number(match[2] || 0) : Number.POSITIVE_INFINITY;
@@ -279,7 +296,7 @@ function PlanningAgenda({ months, activityDescriptions = [], isLoading = false, 
 
     const eventDetails = selectedActivity
         ? Object.entries(selectedActivity).filter(([key]) => (
-            !['id', 'month_id', 'month_name', 'intervenantId', 'day', 'type', 'category', 'title', 'description', 'link', 'intervenant', 'canceled', 'endDate'].includes(key)
+            !['id', 'month_id', 'month_name', 'intervenantId', 'day', 'type', 'category', 'title', 'description', 'link', 'intervenant', 'canceled', 'endDate', 'tarifNormal', 'tarifSoutien'].includes(key)
             && !(key === 'time' && selectedActivity.endDate > selectedActivity.date)
         ))
         : [];
@@ -422,11 +439,11 @@ function PlanningAgenda({ months, activityDescriptions = [], isLoading = false, 
                                                         <button
                                                             type="button"
                                                             key={activity.id}
-                                                            className={`planning-agenda__event ${isMultiDay ? 'planning-agenda__event--multi-day' : ''} ${isCanceled ? 'planning-agenda__event--canceled' : ''}`}
+                                                            className={`planning-agenda__event ${isMultiDay ? 'planning-agenda__event--multi-day' : ''} ${selectedActivity?.id === activity.id ? 'planning-agenda__event--selected' : ''} ${isCanceled ? 'planning-agenda__event--canceled' : ''}`}
                                                             style={{ '--event-background': typeStyle.background, '--event-border': typeStyle.border, '--event-text': typeStyle.text }}
                                                             onClick={() => setSelectedActivity(activity)}
                                                         >
-                                                            <div className="planning-agenda__event-title">{activity.title}</div>
+                                                            <EventHeading activity={activity} />
                                                             <div className="planning-agenda__event-time">{activity.time}</div>
                                                         </button>
                                                     );
@@ -445,7 +462,7 @@ function PlanningAgenda({ months, activityDescriptions = [], isLoading = false, 
                                                         <button
                                                             type="button"
                                                             key={`mobile-${activity.id}`}
-                                                            className={`planning-agenda__event planning-agenda__mobile-event ${isMultiDay ? 'planning-agenda__mobile-event--multi-day' : ''} ${isEndDay ? 'planning-agenda__mobile-event--continuation' : ''} ${isLinkedHover ? 'planning-agenda__span-event--linked-hover' : ''} ${isCanceled ? 'planning-agenda__event--canceled' : ''}`}
+                                                            className={`planning-agenda__event planning-agenda__mobile-event ${isMultiDay ? 'planning-agenda__mobile-event--multi-day' : ''} ${isEndDay ? 'planning-agenda__mobile-event--continuation' : ''} ${isLinkedHover ? 'planning-agenda__span-event--linked-hover' : ''} ${selectedActivity?.id === activity.id ? 'planning-agenda__event--selected' : ''} ${isCanceled ? 'planning-agenda__event--canceled' : ''}`}
                                                             style={{ '--event-background': typeStyle.background, '--event-border': typeStyle.border, '--event-text': typeStyle.text, '--rail-offset': `${15 + Math.max(railIndex, 0) * 12}px` }}
                                                             aria-label={`${isEndDay ? `Fin de ${activity.title}` : activity.title}, ${formatEventDetailValue('date', dateKey)}`}
                                                             onMouseEnter={() => isMultiDay && setHoveredMultiDayActivityId(activity.id)}
@@ -454,7 +471,7 @@ function PlanningAgenda({ months, activityDescriptions = [], isLoading = false, 
                                                             onBlur={() => setHoveredMultiDayActivityId(null)}
                                                             onClick={() => setSelectedActivity(activity)}
                                                         >
-                                                            <div className="planning-agenda__event-title">{isEndDay ? `Fin : ${activity.title}` : activity.title}</div>
+                                                            <EventHeading activity={activity} title={isEndDay ? `Fin : ${activity.title}` : activity.title} />
                                                             {!isMultiDay && <div className="planning-agenda__event-time">{activity.time}</div>}
                                                         </button>
                                                     );
@@ -484,7 +501,7 @@ function PlanningAgenda({ months, activityDescriptions = [], isLoading = false, 
                                             <button
                                                 type="button"
                                                 key={`span-${activity.id}`}
-                                                className={`planning-agenda__event planning-agenda__span-event ${hoveredMultiDayActivityId === activity.id ? 'planning-agenda__span-event--linked-hover' : ''} ${isCanceled ? 'planning-agenda__event--canceled' : ''}`}
+                                                className={`planning-agenda__event planning-agenda__span-event ${hoveredMultiDayActivityId === activity.id ? 'planning-agenda__span-event--linked-hover' : ''} ${selectedActivity?.id === activity.id ? 'planning-agenda__event--selected' : ''} ${isCanceled ? 'planning-agenda__event--canceled' : ''}`}
                                                 style={{ '--event-background': typeStyle.background, '--event-border': typeStyle.border, '--event-text': typeStyle.text, '--span-start': startColumn, '--span-end': endColumn + 1, '--span-lane': lane }}
                                                 aria-label={`${activity.title}, du ${formatEventDetailValue('date', activity.date)} au ${formatEventDetailValue('date', activity.endDate)}`}
                                                 onMouseEnter={() => setHoveredMultiDayActivityId(activity.id)}
@@ -493,7 +510,7 @@ function PlanningAgenda({ months, activityDescriptions = [], isLoading = false, 
                                                 onBlur={() => setHoveredMultiDayActivityId(null)}
                                                 onClick={() => setSelectedActivity(activity)}
                                             >
-                                                <span className="planning-agenda__event-title">{activity.title}</span>
+                                                <EventHeading activity={activity} />
                                             </button>
                                         );
                                     })}
@@ -555,8 +572,25 @@ function ActivityDetails({ selectedActivity, eventDetails, eventFieldLabels }) {
                         </div>
                     </div>
                 ))}
+                {hasPrice(selectedActivity.tarifNormal) && (
+                    <div className="planning-agenda__detail">
+                        <div className="planning-agenda__detail-label">Tarif normal</div>
+                        <div className="planning-agenda__detail-value">{selectedActivity.tarifNormal} €</div>
+                    </div>
+                )}
+                {hasPrice(selectedActivity.tarifSoutien) && (
+                    <div className="planning-agenda__detail">
+                        <div className="planning-agenda__detail-label">Tarif soutien</div>
+                        <div className="planning-agenda__detail-value">{selectedActivity.tarifSoutien} €</div>
+                    </div>
+                )}
             </div>
-            <p className="planning-agenda__modal-description">{selectedActivity.description || 'Aucune description disponible pour cet événement.'}</p>
+            <div className={`planning-agenda__description-layout ${hasPrice(selectedActivity.tarifNormal) || hasPrice(selectedActivity.tarifSoutien) ? 'planning-agenda__description-layout--with-prices' : ''}`}>
+                <p className="planning-agenda__modal-description">{selectedActivity.description || 'Aucune description disponible pour cet événement.'}</p>
+                {(hasPrice(selectedActivity.tarifNormal) || hasPrice(selectedActivity.tarifSoutien)) && (
+                    <p className="planning-agenda__tariff-note">Le tarif normal est le prix de référence. Le tarif soutien permet de contribuer davantage aux activités du Capharnaüm.</p>
+                )}
+            </div>
             {selectedActivity.intervenant && (
                 <div className="planning-agenda__speaker">
                     <div className="planning-agenda__speaker-label">Intervenant</div>

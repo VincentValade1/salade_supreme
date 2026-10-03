@@ -529,12 +529,57 @@
     filter: grayscale(1);
 }
 
+.planning-agenda__event--selected {
+    border-color: #5c1731;
+    background: #8a294d;
+    color: #fff;
+}
+
+.planning-agenda__event--selected .planning-agenda__event-title,
+.planning-agenda__event--selected .planning-agenda__event-price,
+.planning-agenda__event--selected .planning-agenda__event-time {
+    color: #fff;
+}
+
+@media (min-width: 1200px) {
+    .planning-agenda__event--selected {
+        border-color: #28338A;
+        background: #28338A;
+        color: #fff;
+    }
+
+    .planning-agenda__event--selected .planning-agenda__event-title,
+    .planning-agenda__event--selected .planning-agenda__event-price,
+    .planning-agenda__event--selected .planning-agenda__event-time {
+        color: #fff;
+    }
+}
+
 .planning-agenda__event-title {
+    min-width: 0;
     color: #2E2E2E;
     font-weight: 700;
     font-family: "Gotham-HTF-Book", sans-serif;
     font-size: 11px;
     line-height: 1.4;
+}
+
+.planning-agenda__event-heading {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 4px;
+    width: 100%;
+    min-width: 0;
+}
+
+.planning-agenda__event-price {
+    flex: 0 0 auto;
+    color: #000;
+    font-family: "Gotham-HTF-Book", sans-serif;
+    font-size: 10px;
+    line-height: 1.4;
+    white-space: nowrap;
 }
 
 .planning-agenda__event-time {
@@ -660,6 +705,21 @@
     color: #4d4d4d;
     font-size: 16px;
     line-height: 1.7;
+    font-family: "Gotham-HTF-Book", sans-serif;
+}
+
+.planning-agenda__description-layout--with-prices {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(150px, 0.38fr);
+    align-items: start;
+    gap: 18px;
+}
+
+.planning-agenda__tariff-note {
+    margin: 2px 0 0;
+    color: #555;
+    font-size: 12px;
+    line-height: 1.5;
     font-family: "Gotham-HTF-Book", sans-serif;
 }
 
@@ -910,5 +970,10 @@
 
     .planning-agenda__modal-description {
         font-size: 15px;
+    }
+
+    .planning-agenda__description-layout--with-prices {
+        grid-template-columns: minmax(0, 1fr);
+        gap: 8px;
     }
 }
