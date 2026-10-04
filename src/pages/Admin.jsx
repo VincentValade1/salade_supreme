@@ -70,6 +70,7 @@ function Admin() {
     const [isLoggingIn, setIsLoggingIn] = useState(false);
     const [isLoading, setIsLoading] = useState(false);
     const [isSaving, setIsSaving] = useState(false);
+    const [isLogoutConfirmationOpen, setIsLogoutConfirmationOpen] = useState(false);
     const [isEditorOpen, setIsEditorOpen] = useState(false);
     const [editor, setEditor] = useState(null);
     const [formValues, setFormValues] = useState({});
@@ -235,6 +236,7 @@ function Admin() {
         setToken('');
         setCollectionData({});
         setPageError('');
+        setIsLogoutConfirmationOpen(false);
         closeEditor();
     };
 
@@ -368,7 +370,7 @@ function Admin() {
                 </nav>
                 <div className="admin-sidebar__bottom">
                     <Link to="/lieux/capharnaum"><BsArrowLeft aria-hidden="true" /> Voir le site</Link>
-                    <button type="button" onClick={logout}><BsBoxArrowRight aria-hidden="true" /> Se déconnecter</button>
+                    <button type="button" onClick={() => setIsLogoutConfirmationOpen(true)}><BsBoxArrowRight aria-hidden="true" /> Se déconnecter</button>
                     <button type="button" onClick={refreshCollection} title="Actualiser la collection" aria-label="Actualiser la collection">
                         <BsArrowRepeat aria-hidden="true" /> Actualiser
                     </button>
@@ -451,6 +453,19 @@ function Admin() {
                     </section>
                 </div>
             ) : null}
+
+            {isLogoutConfirmationOpen && (
+                <div className="admin-dialog-backdrop" onMouseDown={(event) => { if (event.target === event.currentTarget) setIsLogoutConfirmationOpen(false); }}>
+                    <section className="admin-dialog admin-dialog--logout" role="dialog" aria-modal="true" aria-labelledby="admin-logout-title">
+                        <h2 id="admin-logout-title">Confirmer la déconnexion</h2>
+                        <p>Êtes-vous sûr de vouloir vous déconnecter de l’administration ?</p>
+                        <footer className="admin-dialog__footer">
+                            <button type="button" className="admin-button admin-button--quiet" onClick={() => setIsLogoutConfirmationOpen(false)}>Annuler</button>
+                            <button type="button" className="admin-button admin-button--primary" onClick={logout}>Se déconnecter</button>
+                        </footer>
+                    </section>
+                </div>
+            )}
         </main>
     );
 }

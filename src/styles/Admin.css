@@ -531,6 +531,26 @@
     animation: admin-arrive 200ms ease-out both;
 }
 
+.admin-dialog--logout {
+    width: min(100%, 420px);
+    padding: 26px;
+}
+
+.admin-dialog--logout h2 {
+    margin: 0;
+    color: var(--admin-ink);
+    font-family: "Mango-Black", sans-serif;
+    font-size: 22px;
+    font-weight: 400;
+}
+
+.admin-dialog--logout p {
+    margin: 12px 0 0;
+    color: #73758c;
+    font-size: 13px;
+    line-height: 1.6;
+}
+
 .admin-dialog__header {
     display: flex;
     position: static;
