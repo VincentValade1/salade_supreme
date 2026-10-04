@@ -1,5 +1,6 @@
-import { useEffect, useMemo, useRef, useState } from 'react';
+import { useEffect, useId, useMemo, useRef, useState } from 'react';
 import { BsInfoCircle, BsInstagram } from 'react-icons/bs';
+import AdminRecordEditorModal from './AdminRecordEditorModal';
 import '../styles/PlanningAgenda.css';
 
 const weekdayLabels = ['Lun', 'Mar', 'Mer', 'Jeu', 'Ven', 'Sam', 'Dim'];
@@ -109,7 +110,7 @@ function monthMatchesDate(month, date) {
     return String(month?.name || '').trim().toLowerCase() === monthLabel.toLowerCase();
 }
 
-function PlanningAgenda({ months, activityDescriptions = [], isLoading = false, errorMessage = null, selectedActivity: selectedActivityProp, onSelectedActivityChange }) {
+function PlanningAgenda({ months, activityDescriptions = [], isLoading = false, errorMessage = null, selectedActivity: selectedActivityProp, onSelectedActivityChange, isAdmin = false, adminToken, onActivitySaved, onUnauthorized }) {
     const safeMonths = useMemo(() => months || [], [months]);
     const sectionRef = useRef(null);
     const touchStartRef = useRef(null);
@@ -122,6 +123,7 @@ function PlanningAgenda({ months, activityDescriptions = [], isLoading = false, 
     const [expandedActivityType, setExpandedActivityType] = useState(null);
     const [isAnchorCopied, setIsAnchorCopied] = useState(false);
     const [hoveredMultiDayActivityId, setHoveredMultiDayActivityId] = useState(null);
+    const [isEditingActivity, setIsEditingActivity] = useState(false);
     const fallbackMonth = useMemo(() => {
         const today = new Date();
         return {
@@ -268,6 +270,15 @@ function PlanningAgenda({ months, activityDescriptions = [], isLoading = false, 
         suppressTouchClickRef.current = false;
         event.preventDefault();
         event.stopPropagation();
+    };
+
+    const startEditingActivity = () => {
+        setIsEditingActivity(true);
+    };
+
+    const closeActivityDetails = () => {
+        setSelectedActivity(null);
+        setIsEditingActivity(false);
     };
 
     const copySectionUrl = async () => {
@@ -523,19 +534,36 @@ function PlanningAgenda({ months, activityDescriptions = [], isLoading = false, 
                 </div>
                 {selectedActivity && (
                     <aside className="planning-agenda__side-panel" aria-label="Détail de l’activité sélectionnée">
-                        <button type="button" className="planning-agenda__side-panel-close" onClick={() => setSelectedActivity(null)} aria-label="Fermer le détail de l’activité">×</button>
+                        <button type="button" className="planning-agenda__side-panel-close" onClick={closeActivityDetails} aria-label="Fermer le détail de l’activité">×</button>
                         <ActivityDetails selectedActivity={selectedActivity} eventDetails={eventDetails} eventFieldLabels={eventFieldLabels} />
+                        {isAdmin && <button type="button" className="planning-agenda__edit-button" onClick={startEditingActivity}>Modifier</button>}
                     </aside>
                 )}
             </div>
 
             {selectedActivity && (
-                <div className="planning-agenda__modal-overlay" onClick={() => setSelectedActivity(null)}>
+                <div className="planning-agenda__modal-overlay" onClick={closeActivityDetails}>
                     <div className="planning-agenda__modal" onClick={(event) => event.stopPropagation()}>
-                        <button type="button" className="planning-agenda__modal-close" onClick={() => setSelectedActivity(null)} aria-label="Fermer le détail">×</button>
+                        <button type="button" className="planning-agenda__modal-close" onClick={closeActivityDetails} aria-label="Fermer le détail">×</button>
                         <ActivityDetails selectedActivity={selectedActivity} eventDetails={eventDetails} eventFieldLabels={eventFieldLabels} />
+                        {isAdmin && <button type="button" className="planning-agenda__edit-button" onClick={startEditingActivity}>Modifier</button>}
                     </div>
                 </div>
+            )}
+
+            {selectedActivity && isEditingActivity && isAdmin && (
+                <AdminRecordEditorModal
+                    key={`caphEvent-${selectedActivity.id}`}
+                    collection="caphEvent"
+                    collectionLabel="Événements"
+                    singular="événement"
+                    token={adminToken}
+                    record={selectedActivity}
+                    onClose={() => setIsEditingActivity(false)}
+                    onSaved={onActivitySaved}
+                    onUnauthorized={onUnauthorized}
+                    isOverlayAbovePage
+                />
             )}
 
             {!isLoading && safeMonths.length > 0 && (
@@ -554,6 +582,8 @@ function PlanningAgenda({ months, activityDescriptions = [], isLoading = false, 
 }
 
 function ActivityDetails({ selectedActivity, eventDetails, eventFieldLabels }) {
+    const tariffNoteId = useId();
+    const [isTariffNoteVisible, setIsTariffNoteVisible] = useState(false);
     const eventDate = selectedActivity?.date;
     const isPastEvent = eventDate ? new Date(`${eventDate}T23:59:59`) < new Date() : false;
     const isCanceled = isActivityCanceled(selectedActivity);
@@ -580,16 +610,30 @@ function ActivityDetails({ selectedActivity, eventDetails, eventFieldLabels }) {
                 )}
                 {hasPrice(selectedActivity.tarifSoutien) && (
                     <div className="planning-agenda__detail">
-                        <div className="planning-agenda__detail-label">Tarif soutien</div>
+                        <div className="planning-agenda__detail-label">
+                            Tarif soutien
+                            <button
+                                type="button"
+                                className="planning-agenda__tariff-info-toggle"
+                                aria-label="Afficher l’explication du tarif soutien"
+                                aria-expanded={isTariffNoteVisible}
+                                aria-controls={tariffNoteId}
+                                onClick={() => setIsTariffNoteVisible((visible) => !visible)}
+                            >
+                                <BsInfoCircle aria-hidden="true" />
+                            </button>
+                        </div>
                         <div className="planning-agenda__detail-value">{selectedActivity.tarifSoutien} €</div>
                     </div>
                 )}
-            </div>
-            <div className={`planning-agenda__description-layout ${hasPrice(selectedActivity.tarifNormal) || hasPrice(selectedActivity.tarifSoutien) ? 'planning-agenda__description-layout--with-prices' : ''}`}>
-                <p className="planning-agenda__modal-description">{selectedActivity.description || 'Aucune description disponible pour cet événement.'}</p>
-                {(hasPrice(selectedActivity.tarifNormal) || hasPrice(selectedActivity.tarifSoutien)) && (
-                    <p className="planning-agenda__tariff-note">Le tarif normal est le prix de référence. Le tarif soutien permet de contribuer davantage aux activités du Capharnaüm.</p>
+                {hasPrice(selectedActivity.tarifSoutien) && (
+                    <p id={tariffNoteId} className="planning-agenda__tariff-note" role="note" hidden={!isTariffNoteVisible}>
+                        Le tarif normal est le prix de référence. Le tarif soutien permet de contribuer davantage aux activités du Capharnaüm.
+                    </p>
                 )}
+            </div>
+            <div className="planning-agenda__description-layout">
+                <p className="planning-agenda__modal-description">{selectedActivity.description || 'Aucune description disponible pour cet événement.'}</p>
             </div>
             {selectedActivity.intervenant && (
                 <div className="planning-agenda__speaker">

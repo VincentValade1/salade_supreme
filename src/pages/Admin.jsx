@@ -1,6 +1,7 @@
 import { useCallback, useEffect, useMemo, useState } from 'react';
-import { BsArrowLeft, BsArrowRepeat, BsBoxArrowRight, BsCheck2, BsPencil, BsPlus, BsSearch, BsTrash, BsX } from 'react-icons/bs';
+import { BsArrowLeft, BsArrowRepeat, BsBoxArrowRight, BsPencil, BsPlus, BsSearch, BsTrash } from 'react-icons/bs';
 import { Link } from 'react-router-dom';
+import AdminRecordEditorModal from '../components/AdminRecordEditorModal';
 import '../styles/Admin.css';
 
 const DIRECTUS_URL = process.env.REACT_APP_DIRECTUS_URL || 'https://directus.saladesupreme.tarrieu.fr';
@@ -24,7 +25,9 @@ async function directusRequest(path, { token, method = 'GET', body } = {}) {
 
     if (!response.ok) {
         const message = payload.errors?.map((error) => error.message).join(', ');
-        throw new Error(message || `Erreur Directus (${response.status})`);
+        const error = new Error(message || `Erreur Directus (${response.status})`);
+        error.status = response.status;
+        throw error;
     }
 
     return payload.data;
@@ -45,16 +48,6 @@ function getRecordLabel(record, fields = []) {
     return labelField ? record[labelField.field] || `#${record.id}` : `#${record.id}`;
 }
 
-function inputValue(field, value) {
-    if (value == null) return '';
-    if (field.type === 'dateTime' || field.type === 'timestamp') {
-        const date = new Date(value);
-        return Number.isNaN(date.getTime()) ? '' : new Date(date.getTime() - date.getTimezoneOffset() * 60000).toISOString().slice(0, 16);
-    }
-    if (field.type === 'date') return String(value).slice(0, 10);
-    return typeof value === 'object' ? JSON.stringify(value, null, 2) : String(value);
-}
-
 function normalizeSearchText(value) {
     return String(value || '').normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLowerCase();
 }
@@ -69,12 +62,9 @@ function Admin() {
     const [pageError, setPageError] = useState('');
     const [isLoggingIn, setIsLoggingIn] = useState(false);
     const [isLoading, setIsLoading] = useState(false);
-    const [isSaving, setIsSaving] = useState(false);
     const [isLogoutConfirmationOpen, setIsLogoutConfirmationOpen] = useState(false);
     const [isEditorOpen, setIsEditorOpen] = useState(false);
     const [editor, setEditor] = useState(null);
-    const [formValues, setFormValues] = useState({});
-    const [saveError, setSaveError] = useState('');
 
     const activeDefinition = COLLECTIONS.find((collection) => collection.name === activeCollection);
     const activeData = collectionData[activeCollection] || { fields: [], relations: [], records: [] };
@@ -93,6 +83,17 @@ function Admin() {
             record.intervenant?.name
         ].join(' ')).includes(query));
     }, [activeData.records, eventSearchQuery]);
+
+    const expireSession = useCallback(() => {
+        window.sessionStorage.removeItem(TOKEN_STORAGE_KEY);
+        setToken('');
+        setCollectionData({});
+        setPageError('');
+        setLoginError('Votre session a expiré. Veuillez vous reconnecter.');
+        setIsLogoutConfirmationOpen(false);
+        setIsEditorOpen(false);
+        setEditor(null);
+    }, []);
 
     const loadCollection = useCallback(async (collectionName, accessToken) => {
         const [fields, relations, records] = await Promise.all([
@@ -131,19 +132,19 @@ function Admin() {
 
         loadCollection(activeCollection, token)
             .catch((error) => {
-                if (isMounted) setPageError(error.message);
+                if (!isMounted) return;
+                if (error.status === 401) {
+                    expireSession();
+                } else {
+                    setPageError(error.message);
+                }
             })
             .finally(() => {
                 if (isMounted) setIsLoading(false);
             });
 
         return () => { isMounted = false; };
-    }, [activeCollection, loadCollection, token]);
-
-    const relationByField = useMemo(
-        () => Object.fromEntries(activeData.relations.map((relation) => [relation.field, relation])),
-        [activeData.relations]
-    );
+    }, [activeCollection, expireSession, loadCollection, token]);
 
     const handleLogin = async (event) => {
         event.preventDefault();
@@ -165,58 +166,13 @@ function Admin() {
     };
 
     const openEditor = (record = null) => {
-        const editableFields = activeData.fields.filter((field) => field.field !== 'id' && !field.meta?.hidden);
-        const values = Object.fromEntries(editableFields.map((field) => [field.field, record?.[field.field] ?? field.schema?.default_value ?? '']));
-        setFormValues(values);
         setEditor(record);
         setIsEditorOpen(true);
-        setSaveError('');
     };
 
     const closeEditor = () => {
         setIsEditorOpen(false);
         setEditor(null);
-        setSaveError('');
-    };
-
-    const handleSave = async (event) => {
-        event.preventDefault();
-        setIsSaving(true);
-        setSaveError('');
-        try {
-            const payload = {};
-            activeData.fields.filter((field) => field.field !== 'id' && !field.meta?.hidden).forEach((field) => {
-                const value = formValues[field.field];
-                if (value === '' || value === undefined) {
-                    payload[field.field] = null;
-                } else if (field.type === 'boolean') {
-                    payload[field.field] = value === true || value === 'true';
-                } else if (['integer', 'bigInteger', 'float', 'decimal'].includes(field.type)) {
-                    payload[field.field] = Number(value);
-                } else if (field.type === 'dateTime' || field.type === 'timestamp') {
-                    payload[field.field] = new Date(value).toISOString();
-                } else if (field.type === 'json' && typeof value === 'string') {
-                    payload[field.field] = JSON.parse(value);
-                } else {
-                    payload[field.field] = value;
-                }
-            });
-
-            const path = editor
-                ? `/items/${activeCollection}/${encodeURIComponent(editor.id)}`
-                : `/items/${activeCollection}`;
-            await directusRequest(path, {
-                token,
-                method: editor ? 'PATCH' : 'POST',
-                body: payload
-            });
-            await loadCollection(activeCollection, token);
-            closeEditor();
-        } catch (error) {
-            setSaveError(error.message);
-        } finally {
-            setIsSaving(false);
-        }
     };
 
     const handleDelete = async (record) => {
@@ -227,7 +183,8 @@ function Admin() {
             await directusRequest(`/items/${activeCollection}/${encodeURIComponent(record.id)}`, { token, method: 'DELETE' });
             await loadCollection(activeCollection, token);
         } catch (error) {
-            setPageError(error.message);
+            if (error.status === 401) expireSession();
+            else setPageError(error.message);
         }
     };
 
@@ -246,71 +203,11 @@ function Admin() {
         try {
             await loadCollection(activeCollection, token);
         } catch (error) {
-            setPageError(error.message);
+            if (error.status === 401) expireSession();
+            else setPageError(error.message);
         } finally {
             setIsLoading(false);
         }
-    };
-
-    const renderField = (field) => {
-        const relation = relationByField[field.field];
-        const choices = field.meta?.options?.choices;
-        const value = formValues[field.field] ?? '';
-        const setValue = (nextValue) => setFormValues((current) => ({ ...current, [field.field]: nextValue }));
-        const commonProps = {
-            id: `admin-field-${field.field}`,
-            name: field.field,
-            required: Boolean(field.meta?.required),
-            value: inputValue(field, value),
-            onChange: (event) => setValue(event.target.value)
-        };
-
-        let control;
-        if (relation) {
-            control = (
-                <select {...commonProps}>
-                    <option value="">Aucune valeur</option>
-                    {relation.records.map((record) => (
-                        <option key={record.id} value={record.id}>{getRecordLabel(record, relation.fields)}</option>
-                    ))}
-                </select>
-            );
-        } else if (Array.isArray(choices) && choices.length) {
-            control = (
-                <select {...commonProps}>
-                    <option value="">Choisir une valeur</option>
-                    {choices.map((choice) => (
-                        <option key={choice.value} value={choice.value}>{choice.text || choice.value}</option>
-                    ))}
-                </select>
-            );
-        } else if (field.type === 'boolean') {
-            control = (
-                <select {...commonProps}>
-                    <option value="">Non renseigné</option>
-                    <option value="true">Oui</option>
-                    <option value="false">Non</option>
-                </select>
-            );
-        } else if (field.type === 'json' || field.meta?.interface?.includes('textarea') || field.field.toLowerCase().includes('description') || field.field.toLowerCase() === 'bio') {
-            control = <textarea {...commonProps} rows={field.type === 'json' ? 5 : 4} />;
-        } else if (field.type === 'date' || field.type === 'dateTime' || field.type === 'timestamp') {
-            control = <input {...commonProps} type={field.type === 'date' ? 'date' : 'datetime-local'} />;
-        } else if (['integer', 'bigInteger', 'float', 'decimal'].includes(field.type)) {
-            control = <input {...commonProps} type="number" step={['float', 'decimal'].includes(field.type) ? 'any' : '1'} />;
-        } else if (field.type === 'text' || field.type === 'string') {
-            control = <input {...commonProps} type="text" />;
-        } else {
-            control = <textarea {...commonProps} rows={3} />;
-        }
-
-        return (
-            <label className="admin-form__field" key={field.field} htmlFor={commonProps.id}>
-                <span>{fieldLabel(field)}{field.meta?.required && <b aria-hidden="true"> *</b>}</span>
-                {control}
-                {relation?.error && <small>Options indisponibles: {relation.error}</small>}
-            </label>
-        );
     };
 
     if (!token) {
@@ -369,7 +266,7 @@ function Admin() {
                     ))}
                 </nav>
                 <div className="admin-sidebar__bottom">
-                    <Link to="/lieux/capharnaum"><BsArrowLeft aria-hidden="true" /> Voir le site</Link>
+                    <Link to="/lieux/capharnaum#cours-ateliers"><BsArrowLeft aria-hidden="true" /> Voir le site</Link>
                     <button type="button" onClick={() => setIsLogoutConfirmationOpen(true)}><BsBoxArrowRight aria-hidden="true" /> Se déconnecter</button>
                     <button type="button" onClick={refreshCollection} title="Actualiser la collection" aria-label="Actualiser la collection">
                         <BsArrowRepeat aria-hidden="true" /> Actualiser
@@ -434,24 +331,19 @@ function Admin() {
             </section>
 
             {isEditorOpen ? (
-                <div className="admin-dialog-backdrop" onMouseDown={(event) => { if (event.target === event.currentTarget) closeEditor(); }}>
-                    <section className="admin-dialog" role="dialog" aria-modal="true" aria-labelledby="admin-dialog-title">
-                        <header className="admin-dialog__header">
-                            <div><p className="admin-eyebrow">{activeCollection}</p><h2 id="admin-dialog-title">{editor ? 'Modifier' : 'Nouvel'} {activeDefinition.singular}</h2></div>
-                            <button type="button" className="admin-icon-button" aria-label="Fermer" onClick={closeEditor}><BsX aria-hidden="true" /></button>
-                        </header>
-                        <form onSubmit={handleSave}>
-                            <div className="admin-form__grid">{displayFields.map(renderField)}</div>
-                            {saveError && <p className="admin-error" role="alert">{saveError}</p>}
-                            <footer className="admin-dialog__footer">
-                                <button type="button" className="admin-button admin-button--quiet" onClick={closeEditor}>Annuler</button>
-                                <button type="submit" className="admin-button admin-button--primary" disabled={isSaving}>
-                                    <BsCheck2 aria-hidden="true" /> {isSaving ? 'Enregistrement…' : 'Enregistrer'}
-                                </button>
-                            </footer>
-                        </form>
-                    </section>
-                </div>
+                <AdminRecordEditorModal
+                    key={`${activeCollection}-${editor?.id || 'new'}`}
+                    collection={activeCollection}
+                    collectionLabel={activeDefinition.label}
+                    singular={activeDefinition.singular}
+                    token={token}
+                    record={editor}
+                    fields={activeData.fields}
+                    relations={activeData.relations}
+                    onClose={closeEditor}
+                    onSaved={() => loadCollection(activeCollection, token)}
+                    onUnauthorized={expireSession}
+                />
             ) : null}
 
             {isLogoutConfirmationOpen && (

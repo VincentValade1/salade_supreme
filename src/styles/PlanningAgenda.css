@@ -272,6 +272,10 @@
     color: #fff;
 }
 
+.planning-agenda__side-panel .planning-agenda__tariff-note {
+    color: #d9d9d9;
+}
+
 .planning-agenda__side-panel .planning-agenda__speaker {
     border-color: rgba(255, 255, 255, 0.35);
     background: rgba(255, 255, 255, 0.12);
@@ -289,6 +293,12 @@
 
 .planning-agenda__side-panel .planning-agenda__no-reservation {
     color: #F8C7CD;
+}
+
+.planning-agenda__side-panel .planning-agenda__edit-button {
+    border-color: #F8C7CD;
+    background: #F8C7CD;
+    color: #28338A;
 }
 
 .planning-agenda__legend {
@@ -623,14 +633,13 @@
     position: fixed;
     inset: 0;
     z-index: 10000;
-    display: flex;
+    display: none;
     align-items: center;
     justify-content: center;
     padding: 24px;
     overflow-y: auto;
     background: rgba(34, 24, 29, 0.48);
     backdrop-filter: blur(3px);
-    display: none;
 }
 
 .planning-agenda__modal {
@@ -708,19 +717,58 @@
     font-family: "Gotham-HTF-Book", sans-serif;
 }
 
-.planning-agenda__description-layout--with-prices {
-    display: grid;
-    grid-template-columns: minmax(0, 1fr) minmax(150px, 0.38fr);
-    align-items: start;
-    gap: 18px;
+.planning-agenda__edit-button {
+    min-height: 42px;
+    margin-top: 18px;
+    border: 1px solid #28338A;
+    padding: 10px 18px;
+    background: #28338A;
+    color: #fff;
+    font: 700 14px "Gotham-HTF-Book", sans-serif;
+    cursor: pointer;
 }
 
 .planning-agenda__tariff-note {
-    margin: 2px 0 0;
-    color: #555;
+    grid-column: 1 / -1;
+    margin: 6px 0 0;
+    padding: 0;
+    color: #777;
     font-size: 12px;
-    line-height: 1.5;
+    line-height: 1.25;
     font-family: "Gotham-HTF-Book", sans-serif;
+    font-style: italic;
+}
+
+.planning-agenda__tariff-info-toggle {
+    display: inline-flex;
+    align-items: center;
+    margin-left: 6px;
+    border: 0;
+    padding: 0;
+    background: transparent;
+    color: inherit;
+    font: inherit;
+    line-height: 1;
+    vertical-align: middle;
+    cursor: pointer;
+}
+
+.planning-agenda__tariff-info-toggle svg {
+    width: 13px;
+    height: 13px;
+}
+
+.planning-agenda__tariff-info-toggle:hover,
+.planning-agenda__tariff-info-toggle:focus-visible {
+    color: #28338A;
+    outline: 2px solid #DB6D93;
+    outline-offset: 2px;
+}
+
+.planning-agenda__side-panel .planning-agenda__tariff-info-toggle:hover,
+.planning-agenda__side-panel .planning-agenda__tariff-info-toggle:focus-visible {
+    color: #fff;
+    outline-color: #F8C7CD;
 }
 
 .planning-agenda__speaker {
@@ -949,7 +997,9 @@
     }
 
     .planning-agenda__details {
-        grid-template-columns: 1fr;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        column-gap: 12px;
+        row-gap: 8px;
     }
 
     .planning-agenda__modal-overlay {
@@ -972,8 +1022,4 @@
         font-size: 15px;
     }
 
-    .planning-agenda__description-layout--with-prices {
-        grid-template-columns: minmax(0, 1fr);
-        gap: 8px;
-    }
 }

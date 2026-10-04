@@ -510,6 +510,9 @@
 }
 
 .admin-dialog-backdrop {
+    --admin-ink: #28338a;
+    --admin-rose: #db6d93;
+    --admin-line: #ead5dc;
     position: fixed;
     inset: 0;
     z-index: 30;
@@ -519,6 +522,10 @@
     padding: 24px;
     background: rgba(20, 24, 60, 0.58);
     overscroll-behavior: contain;
+}
+
+.admin-dialog-backdrop--planning {
+    z-index: 10003;
 }
 
 .admin-dialog {
@@ -592,11 +599,17 @@
 
 .admin-dialog__footer {
     display: flex;
+    flex-direction: row;
+    width: auto;
+    height: auto;
+    align-items: center;
     justify-content: flex-end;
     gap: 9px;
     margin-top: 24px;
-    padding-top: 18px;
+    padding: 18px 0 0;
     border-top: 1px solid var(--admin-line);
+    background: transparent;
+    color: var(--admin-ink);
 }
 
 @keyframes admin-arrive {

@@ -1,5 +1,6 @@
-import { useEffect, useMemo, useState } from 'react';
-import { BsArrowUp, BsCalendar3, BsFacebook, BsInfoCircle, BsInstagram } from 'react-icons/bs';
+import { useCallback, useEffect, useMemo, useState } from 'react';
+import { BsArrowUp, BsCalendar3, BsFacebook, BsGear, BsInfoCircle, BsInstagram } from 'react-icons/bs';
+import { Link, useNavigate } from 'react-router-dom';
 import caphData from '../datas/capharnaumPage.json';
 import CapharnaumIntro from '../components/CapharnaumIntro';
 import PlanningAgenda from '../components/PlanningAgenda';
@@ -7,6 +8,7 @@ import '../styles/Capharnaum.css';
 
 const DIRECTUS_URL = process.env.REACT_APP_DIRECTUS_URL || 'https://directus.saladesupreme.tarrieu.fr';
 const DIRECTUS_EVENTS_URL = `${DIRECTUS_URL}/items/caphEvent?fields=id,title,description,startDate,endDate,canceled,link,tarifNormal,tarifSoutien,eventType.id,eventType.name,intervenant.id,intervenant.name,intervenant.instagram,intervenant.bio&sort=startDate`;
+const ADMIN_TOKEN_STORAGE_KEY = 'salade-supreme-directus-token';
 const SOCIAL_PAGES = {
     instagram: {
         name: 'Instagram',
@@ -125,13 +127,29 @@ function normalizeDirectusEvents(events = []) {
 }
 
 function Capharnaum() {
+    const navigate = useNavigate();
     const caph = caphData;
     const [planningMonths, setPlanningMonths] = useState([]);
     const [isLoading, setIsLoading] = useState(true);
     const [apiError, setApiError] = useState(false);
     const [socialDialog, setSocialDialog] = useState(null);
     const [selectedActivity, setSelectedActivity] = useState(null);
+    const [adminToken, setAdminToken] = useState(() => window.sessionStorage.getItem(ADMIN_TOKEN_STORAGE_KEY) || '');
     const handleSelectedActivityChange = (activity) => setSelectedActivity(activity);
+    const handleExpiredAdminSession = useCallback(() => {
+        window.sessionStorage.removeItem(ADMIN_TOKEN_STORAGE_KEY);
+        setAdminToken('');
+        navigate('/admin', { replace: true });
+    }, [navigate]);
+    const refreshPlanningAfterEdit = async () => {
+        const eventsResponse = await fetch(DIRECTUS_EVENTS_URL);
+        if (!eventsResponse.ok) {
+            throw new Error(`Événement enregistré, mais le planning n’a pas pu être actualisé (${eventsResponse.status}).`);
+        }
+        const eventsPayload = await eventsResponse.json();
+        setPlanningMonths(normalizeDirectusEvents(eventsPayload.data));
+        setSelectedActivity(null);
+    };
     const nextActivity = useMemo(() => {
         const today = new Date();
         const todayDateKey = [
@@ -230,22 +248,31 @@ function Capharnaum() {
                 >
                     <BsCalendar3 aria-hidden="true" />
                 </button>
-                <button
-                    type="button"
-                    aria-label="Instagram du Capharnaüm"
-                    title="Instagram du Capharnaüm"
-                    onClick={() => setSocialDialog('instagram')}
-                >
-                    <BsInstagram aria-hidden="true" />
-                </button>
-                <button
-                    type="button"
-                    aria-label="Facebook du collectif Salade Suprême"
-                    title="Facebook du collectif Salade Suprême"
-                    onClick={() => setSocialDialog('facebook')}
-                >
-                    <BsFacebook aria-hidden="true" />
-                </button>
+                {!adminToken && (
+                    <>
+                        <button
+                            type="button"
+                            aria-label="Instagram du Capharnaüm"
+                            title="Instagram du Capharnaüm"
+                            onClick={() => setSocialDialog('instagram')}
+                        >
+                            <BsInstagram aria-hidden="true" />
+                        </button>
+                        <button
+                            type="button"
+                            aria-label="Facebook du collectif Salade Suprême"
+                            title="Facebook du collectif Salade Suprême"
+                            onClick={() => setSocialDialog('facebook')}
+                        >
+                            <BsFacebook aria-hidden="true" />
+                        </button>
+                    </>
+                )}
+                {adminToken && (
+                    <Link to="/admin" aria-label="Accéder à l’administration" title="Administration">
+                        <BsGear aria-hidden="true" />
+                    </Link>
+                )}
             </nav>
             {activeSocialPage && (
                 <div className="capharnaum-social-dialog-overlay" onClick={() => setSocialDialog(null)}>
@@ -326,6 +353,10 @@ function Capharnaum() {
                 errorMessage={apiError ? 'Le calendrier est temporairement indisponible. Merci de réessayer plus tard.' : null}
                 selectedActivity={selectedActivity}
                 onSelectedActivityChange={handleSelectedActivityChange}
+                isAdmin={Boolean(adminToken)}
+                adminToken={adminToken}
+                onActivitySaved={refreshPlanningAfterEdit}
+                onUnauthorized={handleExpiredAdminSession}
                 activityDescriptions={[
                     {
                         type: 'Atelier Créatif',
