@@ -87,6 +87,7 @@ function normalizeDirectusEvents(events = []) {
             date: eventDate,
             endDate,
             time: String(event.startDate || '').slice(11, 16),
+            endTime: String(event.endDate || '').slice(11, 16),
             title: event.title,
             description: event.description,
             type: getEventTypeLabel(event),

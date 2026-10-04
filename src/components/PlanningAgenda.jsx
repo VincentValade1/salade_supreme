@@ -307,7 +307,7 @@ function PlanningAgenda({ months, activityDescriptions = [], isLoading = false, 
 
     const eventDetails = selectedActivity
         ? Object.entries(selectedActivity).filter(([key]) => (
-            !['id', 'month_id', 'month_name', 'intervenantId', 'day', 'type', 'category', 'title', 'description', 'link', 'intervenant', 'canceled', 'endDate', 'tarifNormal', 'tarifSoutien'].includes(key)
+            !['id', 'month_id', 'month_name', 'intervenantId', 'day', 'type', 'category', 'title', 'description', 'link', 'intervenant', 'canceled', 'endDate', 'endTime', 'tarifNormal', 'tarifSoutien'].includes(key)
             && !(key === 'time' && selectedActivity.endDate > selectedActivity.date)
         ))
         : [];
@@ -598,6 +598,8 @@ function ActivityDetails({ selectedActivity, eventDetails, eventFieldLabels }) {
                         <div className="planning-agenda__detail-value">
                             {key === 'date' && selectedActivity.endDate && selectedActivity.endDate !== value
                                 ? `${formatEventDetailValue('date', value)} au ${formatEventDetailValue('date', selectedActivity.endDate)}`
+                                : key === 'time' && selectedActivity.endDate === selectedActivity.date && selectedActivity.endTime
+                                    ? `${value} à ${selectedActivity.endTime}`
                                 : formatEventDetailValue(key, value)}
                         </div>
                     </div>
