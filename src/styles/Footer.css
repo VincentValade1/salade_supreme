@@ -1,4 +1,5 @@
 footer {
+    position: relative;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -26,14 +27,38 @@ footer nav a, footer nav a.active {
     font-size: 18px;
 }
 
-footer span {
-    height: 27px;
+footer .social-div {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 14px;
+    margin-top: 32px;
 }
 
 footer .social-div a {
+    display: grid;
+    width: 28px;
+    height: 28px;
+    place-items: center;
+    margin: 0;
     color: #FFFFFF;
-    margin-top: 32px;
-    margin-inline: 7.62px;
+    transition: color 160ms ease;
+}
+
+footer .social-div a:hover,
+footer .social-div a:focus-visible {
+    color: #F8C7CD;
+    outline: 2px solid #F8C7CD;
+    outline-offset: 2px;
+}
+
+footer .social-div svg {
+    width: 18px;
+    height: 18px;
+}
+
+footer span {
+    height: 27px;
 }
 
 @media only screen and (max-width: 768px) {
@@ -47,6 +72,10 @@ footer .social-div a {
     footer span {
         font-size: 12px;
         line-height: 27px;
+    }
+
+    footer .social-div--admin-only {
+        margin-top: 4px;
     }
 
     footer nav {

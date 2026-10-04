@@ -1,11 +1,12 @@
 import '../styles/Footer.css';
 import { NavLink } from 'react-router-dom';
-import { BsFacebook, BsLinkedin, BsInstagram } from 'react-icons/bs';
+import { BsFacebook, BsGear, BsLinkedin, BsInstagram } from 'react-icons/bs';
 import React, { useState, useEffect } from 'react';
 
 
 function Footer() {
     const [isMobile, setIsMobile] = useState(window.innerWidth <= 768);
+    const [isAdmin] = useState(() => Boolean(window.sessionStorage.getItem('salade-supreme-directus-token')));
 
     useEffect(() => {
         const handleResize = () => {
@@ -36,13 +37,22 @@ function Footer() {
                 <span>©2023 SALADE SUPREME</span>
                 <span>96 bis rue du général Bourbaki</span>
                 <span>Toulouse 31200</span>
-                {!isMobile && (
-                    <div className='social-div'>
+                {(!isMobile || !isAdmin) && (
+                    <div className={`social-div ${isMobile ? 'social-div--admin-only' : ''}`}>
+                        {!isMobile && (
+                            <>
                         <a tabIndex="0" aria-label="lien vers page Facebook" href="https://www.facebook.com/profile.php?id=100066533031615" target="_blank" rel="noreferrer noopener" ><BsFacebook /></a>
                         <a tabIndex="0" aria-label="lien vers page Linked in" href="https://www.linkedin.com/company/salade-supreme/" target="_blank" rel="noreferrer noopener" ><BsLinkedin /></a>
                         <a tabIndex="0" aria-label="lien vers page Instagram" href="https://www.instagram.com/saladesupreme/" target="_blank" rel="noreferrer noopener" ><BsInstagram /></a>
+                            </>
+                        )}
+                        {!isAdmin && (
+                            <NavLink tabIndex="0" aria-label="Accéder à la page admin" title="Administration" className="footer-admin-link" to="/admin">
+                                <BsGear aria-hidden="true" />
+                            </NavLink>
+                        )}
                     </div>
-                )}  
+                )}
         </footer>
     )
 }
