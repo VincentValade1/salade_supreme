@@ -266,10 +266,14 @@ function Admin() {
                     ))}
                 </nav>
                 <div className="admin-sidebar__bottom">
-                    <Link to="/lieux/capharnaum#cours-ateliers"><BsArrowLeft aria-hidden="true" /> Voir le site</Link>
-                    <button type="button" onClick={() => setIsLogoutConfirmationOpen(true)}><BsBoxArrowRight aria-hidden="true" /> Se déconnecter</button>
-                    <button type="button" onClick={refreshCollection} title="Actualiser la collection" aria-label="Actualiser la collection">
-                        <BsArrowRepeat aria-hidden="true" /> Actualiser
+                    <Link className="admin-sidebar__action" to="/lieux/capharnaum#cours-ateliers" title="Voir le planning" aria-label="Voir le planning">
+                        <BsArrowLeft aria-hidden="true" />
+                    </Link>
+                    <button className="admin-sidebar__action" type="button" onClick={() => setIsLogoutConfirmationOpen(true)} title="Se déconnecter" aria-label="Se déconnecter">
+                        <BsBoxArrowRight aria-hidden="true" />
+                    </button>
+                    <button className="admin-sidebar__action" type="button" onClick={refreshCollection} title="Actualiser la collection" aria-label="Actualiser la collection">
+                        <BsArrowRepeat aria-hidden="true" />
                     </button>
                 </div>
             </aside>
