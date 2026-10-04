@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useMemo, useState } from 'react';
-import { BsArrowLeft, BsArrowRepeat, BsBoxArrowRight, BsCheck2, BsPencil, BsPlus, BsTrash, BsX } from 'react-icons/bs';
+import { BsArrowLeft, BsArrowRepeat, BsBoxArrowRight, BsCheck2, BsPencil, BsPlus, BsSearch, BsTrash, BsX } from 'react-icons/bs';
 import { Link } from 'react-router-dom';
 import '../styles/Admin.css';
 
@@ -55,10 +55,15 @@ function inputValue(field, value) {
     return typeof value === 'object' ? JSON.stringify(value, null, 2) : String(value);
 }
 
+function normalizeSearchText(value) {
+    return String(value || '').normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLowerCase();
+}
+
 function Admin() {
     const [credentials, setCredentials] = useState({ email: '', password: '' });
     const [token, setToken] = useState(() => window.sessionStorage.getItem(TOKEN_STORAGE_KEY) || '');
     const [activeCollection, setActiveCollection] = useState(COLLECTIONS[0].name);
+    const [eventSearchQuery, setEventSearchQuery] = useState('');
     const [collectionData, setCollectionData] = useState({});
     const [loginError, setLoginError] = useState('');
     const [pageError, setPageError] = useState('');
@@ -72,6 +77,21 @@ function Admin() {
 
     const activeDefinition = COLLECTIONS.find((collection) => collection.name === activeCollection);
     const activeData = collectionData[activeCollection] || { fields: [], relations: [], records: [] };
+    const matchingEventRecords = useMemo(() => {
+        const query = normalizeSearchText(eventSearchQuery.trim());
+        if (!query) return activeData.records;
+
+        return activeData.records.filter((record) => normalizeSearchText([
+            record.id,
+            record.title,
+            record.description,
+            record.startDate,
+            record.endDate,
+            record.link,
+            record.eventType?.name,
+            record.intervenant?.name
+        ].join(' ')).includes(query));
+    }, [activeData.records, eventSearchQuery]);
 
     const loadCollection = useCallback(async (collectionName, accessToken) => {
         const [fields, relations, records] = await Promise.all([
@@ -339,7 +359,7 @@ function Admin() {
                             type="button"
                             key={collection.name}
                             className={activeCollection === collection.name ? 'is-active' : ''}
-                            onClick={() => { setActiveCollection(collection.name); setEditor(null); }}
+                            onClick={() => { setActiveCollection(collection.name); setEditor(null); setEventSearchQuery(''); }}
                         >
                             <span>{collection.label}</span>
                             <span className="admin-collections__count">{collectionData[collection.name]?.records.length ?? '—'}</span>
@@ -372,8 +392,21 @@ function Admin() {
                     {isLoading ? <p className="admin-status">Chargement des données et du modèle Directus…</p> : null}
                     {!isLoading && !pageError && activeData.fields.length === 0 && <p className="admin-status">Aucun modèle accessible pour cette collection.</p>}
 
+                    {activeCollection === 'caphEvent' && (
+                        <label className="admin-event-search">
+                            <BsSearch aria-hidden="true" />
+                            <input
+                                type="search"
+                                value={eventSearchQuery}
+                                onChange={(event) => setEventSearchQuery(event.target.value)}
+                                placeholder="Rechercher un événement…"
+                                aria-label="Rechercher un événement"
+                            />
+                        </label>
+                    )}
+
                     <div className="admin-record-list" aria-live="polite">
-                        {activeData.records.map((record) => (
+                        {(activeCollection === 'caphEvent' ? matchingEventRecords : activeData.records).map((record) => (
                             <article className="admin-record" key={record.id}>
                                 <div className="admin-record__identity">
                                     <span className="admin-record__id">#{record.id}</span>
@@ -389,6 +422,9 @@ function Admin() {
                             </article>
                         ))}
                     </div>
+                    {activeCollection === 'caphEvent' && eventSearchQuery.trim() && matchingEventRecords.length === 0 && activeData.records.length > 0 && (
+                        <p className="admin-event-search__empty" role="status">Aucun événement ne correspond à cette recherche.</p>
+                    )}
                     {!isLoading && !pageError && activeData.records.length === 0 && activeData.fields.length > 0 && (
                         <div className="admin-empty"><span>0{activeCollection === 'caphEvent' ? '1' : '2'}</span><p>Aucune entrée pour le moment.</p><button type="button" onClick={() => openEditor()}>Créer la première</button></div>
                     )}
