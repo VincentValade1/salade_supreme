@@ -48,8 +48,39 @@ function getRecordLabel(record, fields = []) {
     return labelField ? record[labelField.field] || `#${record.id}` : `#${record.id}`;
 }
 
+function getAdminRecordLabel(record, fields, collection) {
+    return collection === 'caphEvent' ? record.title || 'Événement sans titre' : getRecordLabel(record, fields);
+}
+
 function normalizeSearchText(value) {
     return String(value || '').normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLowerCase();
+}
+
+function getRelationLabel(record, field, relations) {
+    const relation = relations.find((item) => item.field === field);
+    const value = record[field];
+    if (value && typeof value === 'object') return getRecordLabel(value, relation?.fields);
+    const relatedRecord = relation?.records.find((item) => String(item.id) === String(value));
+    return relatedRecord ? getRecordLabel(relatedRecord, relation.fields) : '';
+}
+
+function getEventDateLabel(value) {
+    if (!value) return '';
+    const text = String(value);
+    const [year, month, day] = text.slice(0, 10).split('-');
+    if (!year || !month || !day) return text;
+    const time = text.slice(11, 16);
+    return `${day}/${month}/${year}${time ? ` à ${time}` : ''}`;
+}
+
+function isEventPast(record, now) {
+    const value = record.endDate || record.startDate;
+    if (!value) return false;
+    const text = String(value);
+    const date = /^\d{4}-\d{2}-\d{2}$/.test(text)
+        ? new Date(`${text}T23:59:59.999`)
+        : new Date(text);
+    return !Number.isNaN(date.getTime()) && date < now;
 }
 
 function Admin() {
@@ -57,6 +88,10 @@ function Admin() {
     const [token, setToken] = useState(() => window.sessionStorage.getItem(TOKEN_STORAGE_KEY) || '');
     const [activeCollection, setActiveCollection] = useState(COLLECTIONS[0].name);
     const [eventSearchQuery, setEventSearchQuery] = useState('');
+    const [eventTypeFilter, setEventTypeFilter] = useState('');
+    const [eventIntervenantFilter, setEventIntervenantFilter] = useState('');
+    const [showPastEvents, setShowPastEvents] = useState(false);
+    const [eventSortDirection, setEventSortDirection] = useState('asc');
     const [collectionData, setCollectionData] = useState({});
     const [loginError, setLoginError] = useState('');
     const [pageError, setPageError] = useState('');
@@ -68,21 +103,42 @@ function Admin() {
 
     const activeDefinition = COLLECTIONS.find((collection) => collection.name === activeCollection);
     const activeData = collectionData[activeCollection] || { fields: [], relations: [], records: [] };
+    const eventRelations = activeData.relations;
+    const eventTypes = eventRelations.find((relation) => relation.field === 'eventType')?.records || [];
+    const eventIntervenants = eventRelations.find((relation) => relation.field === 'intervenant')?.records || [];
     const matchingEventRecords = useMemo(() => {
         const query = normalizeSearchText(eventSearchQuery.trim());
-        if (!query) return activeData.records;
+        const now = new Date();
+        const filteredRecords = activeData.records.filter((record) => {
+            if (!showPastEvents && isEventPast(record, now)) return false;
+            const typeValue = record.eventType && typeof record.eventType === 'object' ? record.eventType.id : record.eventType;
+            const intervenantValue = record.intervenant && typeof record.intervenant === 'object' ? record.intervenant.id : record.intervenant;
+            if (eventTypeFilter && String(typeValue) !== eventTypeFilter) return false;
+            if (eventIntervenantFilter && String(intervenantValue) !== eventIntervenantFilter) return false;
+            if (!query) return true;
 
-        return activeData.records.filter((record) => normalizeSearchText([
-            record.id,
+            return normalizeSearchText([
             record.title,
             record.description,
             record.startDate,
             record.endDate,
             record.link,
-            record.eventType?.name,
-            record.intervenant?.name
-        ].join(' ')).includes(query));
-    }, [activeData.records, eventSearchQuery]);
+            getRelationLabel(record, 'eventType', eventRelations),
+            getRelationLabel(record, 'intervenant', eventRelations)
+            ].join(' ')).includes(query);
+        });
+        return filteredRecords.sort((first, second) => {
+            const firstDate = new Date(first.startDate).getTime();
+            const secondDate = new Date(second.startDate).getTime();
+            const firstHasDate = !Number.isNaN(firstDate);
+            const secondHasDate = !Number.isNaN(secondDate);
+            if (firstHasDate !== secondHasDate) return firstHasDate ? -1 : 1;
+            if (firstHasDate && firstDate !== secondDate) {
+                return eventSortDirection === 'asc' ? firstDate - secondDate : secondDate - firstDate;
+            }
+            return String(first.id).localeCompare(String(second.id), 'fr', { numeric: true });
+        });
+    }, [activeData.records, eventIntervenantFilter, eventRelations, eventSearchQuery, eventSortDirection, eventTypeFilter, showPastEvents]);
 
     const expireSession = useCallback(() => {
         window.sessionStorage.removeItem(TOKEN_STORAGE_KEY);
@@ -132,7 +188,6 @@ function Admin() {
 
         loadCollection(activeCollection, token)
             .catch((error) => {
-                if (!isMounted) return;
                 if (error.status === 401) {
                     expireSession();
                 } else {
@@ -176,7 +231,7 @@ function Admin() {
     };
 
     const handleDelete = async (record) => {
-        const label = getRecordLabel(record, activeData.fields);
+        const label = getAdminRecordLabel(record, activeData.fields, activeCollection);
         if (!window.confirm(`Supprimer « ${label} » ? Cette action est définitive.`)) return;
         setPageError('');
         try {
@@ -258,7 +313,7 @@ function Admin() {
                             type="button"
                             key={collection.name}
                             className={activeCollection === collection.name ? 'is-active' : ''}
-                            onClick={() => { setActiveCollection(collection.name); setEditor(null); setEventSearchQuery(''); }}
+                            onClick={() => { setActiveCollection(collection.name); setEditor(null); setEventSearchQuery(''); setEventTypeFilter(''); setEventIntervenantFilter(''); }}
                         >
                             <span>{collection.label}</span>
                             <span className="admin-collections__count">{collectionData[collection.name]?.records.length ?? '—'}</span>
@@ -296,37 +351,75 @@ function Admin() {
                     {!isLoading && !pageError && activeData.fields.length === 0 && <p className="admin-status">Aucun modèle accessible pour cette collection.</p>}
 
                     {activeCollection === 'caphEvent' && (
-                        <label className="admin-event-search">
-                            <BsSearch aria-hidden="true" />
-                            <input
-                                type="search"
-                                value={eventSearchQuery}
-                                onChange={(event) => setEventSearchQuery(event.target.value)}
-                                placeholder="Rechercher un événement…"
-                                aria-label="Rechercher un événement"
-                            />
-                        </label>
+                        <div className="admin-event-controls">
+                            <label className="admin-event-search">
+                                <BsSearch aria-hidden="true" />
+                                <input
+                                    type="search"
+                                    value={eventSearchQuery}
+                                    onChange={(event) => setEventSearchQuery(event.target.value)}
+                                    placeholder="Rechercher un événement…"
+                                    aria-label="Rechercher un événement"
+                                />
+                            </label>
+                            <label className="admin-event-filter">
+                                <span>Type</span>
+                                <select value={eventTypeFilter} onChange={(event) => setEventTypeFilter(event.target.value)}>
+                                    <option value="">Tous les types</option>
+                                    {eventTypes.map((type) => <option key={type.id} value={type.id}>{getRecordLabel(type, eventRelations.find((relation) => relation.field === 'eventType')?.fields)}</option>)}
+                                </select>
+                            </label>
+                            <label className="admin-event-filter">
+                                <span>Intervenant</span>
+                                <select value={eventIntervenantFilter} onChange={(event) => setEventIntervenantFilter(event.target.value)}>
+                                    <option value="">Tous les intervenants</option>
+                                    {eventIntervenants.map((intervenant) => <option key={intervenant.id} value={intervenant.id}>{getRecordLabel(intervenant, eventRelations.find((relation) => relation.field === 'intervenant')?.fields)}</option>)}
+                                </select>
+                            </label>
+                            <label className="admin-event-past-toggle">
+                                <input
+                                    type="checkbox"
+                                    role="switch"
+                                    checked={showPastEvents}
+                                    onChange={(event) => setShowPastEvents(event.target.checked)}
+                                />
+                                <span>Afficher les événements passés</span>
+                            </label>
+                            <label className="admin-event-filter">
+                                <span>Ordre chronologique</span>
+                                <select value={eventSortDirection} onChange={(event) => setEventSortDirection(event.target.value)}>
+                                    <option value="asc">Du plus ancien au plus récent</option>
+                                    <option value="desc">Du plus récent au plus ancien</option>
+                                </select>
+                            </label>
+                        </div>
                     )}
 
                     <div className="admin-record-list" aria-live="polite">
                         {(activeCollection === 'caphEvent' ? matchingEventRecords : activeData.records).map((record) => (
                             <article className="admin-record" key={record.id}>
                                 <div className="admin-record__identity">
-                                    <span className="admin-record__id">#{record.id}</span>
+                                    {activeCollection !== 'caphEvent' && <span className="admin-record__id">#{record.id}</span>}
                                     <div>
-                                        <h2>{getRecordLabel(record, activeData.fields)}</h2>
-                                        <p>{summaryFields.filter((field) => record[field.field] && field.field !== (activeData.fields.find((item) => ['title', 'name', 'label'].includes(item.field))?.field)).map((field) => `${fieldLabel(field)} · ${String(record[field.field]).slice(0, 90)}`).join('  /  ') || activeCollection}</p>
+                                        <h2>{getAdminRecordLabel(record, activeData.fields, activeCollection)}</h2>
+                                        <p>{activeCollection === 'caphEvent'
+                                            ? [getEventDateLabel(record.startDate), getRelationLabel(record, 'eventType', eventRelations), getRelationLabel(record, 'intervenant', eventRelations), record.description].filter(Boolean).join('  /  ').slice(0, 180)
+                                            : summaryFields.filter((field) => record[field.field] && field.field !== (activeData.fields.find((item) => ['title', 'name', 'label'].includes(item.field))?.field)).map((field) => `${fieldLabel(field)} · ${String(record[field.field]).slice(0, 90)}`).join('  /  ') || activeCollection}</p>
                                     </div>
                                 </div>
                                 <div className="admin-record__actions">
-                                    <button type="button" className="admin-icon-button" title="Modifier" aria-label={`Modifier ${getRecordLabel(record, activeData.fields)}`} onClick={() => openEditor(record)}><BsPencil aria-hidden="true" /></button>
-                                    <button type="button" className="admin-icon-button admin-icon-button--danger" title="Supprimer" aria-label={`Supprimer ${getRecordLabel(record, activeData.fields)}`} onClick={() => handleDelete(record)}><BsTrash aria-hidden="true" /></button>
+                                    <button type="button" className="admin-icon-button" title="Modifier" aria-label={`Modifier ${getAdminRecordLabel(record, activeData.fields, activeCollection)}`} onClick={() => openEditor(record)}><BsPencil aria-hidden="true" /></button>
+                                    <button type="button" className="admin-icon-button admin-icon-button--danger" title="Supprimer" aria-label={`Supprimer ${getAdminRecordLabel(record, activeData.fields, activeCollection)}`} onClick={() => handleDelete(record)}><BsTrash aria-hidden="true" /></button>
                                 </div>
                             </article>
                         ))}
                     </div>
-                    {activeCollection === 'caphEvent' && eventSearchQuery.trim() && matchingEventRecords.length === 0 && activeData.records.length > 0 && (
-                        <p className="admin-event-search__empty" role="status">Aucun événement ne correspond à cette recherche.</p>
+                    {activeCollection === 'caphEvent' && matchingEventRecords.length === 0 && activeData.records.length > 0 && (
+                        <p className="admin-event-search__empty" role="status">
+                            {!showPastEvents && !eventSearchQuery.trim() && !eventTypeFilter && !eventIntervenantFilter
+                                ? 'Aucun événement à venir. Activez « Afficher les événements passés » pour consulter l’historique.'
+                                : 'Aucun événement ne correspond à ces critères.'}
+                        </p>
                     )}
                     {!isLoading && !pageError && activeData.records.length === 0 && activeData.fields.length > 0 && (
                         <div className="admin-empty"><span>0{activeCollection === 'caphEvent' ? '1' : '2'}</span><p>Aucune entrée pour le moment.</p><button type="button" onClick={() => openEditor()}>Créer la première</button></div>
