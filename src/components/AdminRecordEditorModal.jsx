@@ -42,6 +42,11 @@ function getRecordLabel(record, fields = []) {
 
 function inputValue(field, value) {
     if (value == null) return '';
+    if (field.type === 'dateTime') {
+        // Directus dateTime values have no timezone; keep their local date and time intact.
+        const textValue = String(value);
+        if (!/(?:Z|[+-]\d{2}:?\d{2})$/i.test(textValue)) return textValue.slice(0, 16);
+    }
     if (field.type === 'dateTime' || field.type === 'timestamp') {
         const date = new Date(value);
         return Number.isNaN(date.getTime()) ? '' : new Date(date.getTime() - date.getTimezoneOffset() * 60000).toISOString().slice(0, 16);
@@ -135,7 +140,9 @@ function AdminRecordEditorModal({ collection, collectionLabel, singular, token, 
                     payload[field.field] = value === true || value === 'true';
                 } else if (['integer', 'bigInteger', 'float', 'decimal'].includes(field.type)) {
                     payload[field.field] = Number(value);
-                } else if (field.type === 'dateTime' || field.type === 'timestamp') {
+                } else if (field.type === 'dateTime') {
+                    payload[field.field] = value.length === 16 ? `${value}:00` : value;
+                } else if (field.type === 'timestamp') {
                     payload[field.field] = new Date(value).toISOString();
                 } else if (field.type === 'json' && typeof value === 'string') {
                     payload[field.field] = JSON.parse(value);
