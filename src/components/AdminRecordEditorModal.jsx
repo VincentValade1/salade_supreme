@@ -170,6 +170,8 @@ function AdminRecordEditorModal({ collection, collectionLabel, singular, token, 
         const relation = relationByField[field.field];
         const choices = field.meta?.options?.choices;
         const value = formValues[field.field] ?? '';
+        const isEventTypeColor = collection === 'caphEventType'
+            && ['backgroundColor', 'borderColor', 'textColor'].includes(field.field);
         const commonProps = {
             id: `admin-field-${field.field}`,
             name: field.field,
@@ -179,7 +181,14 @@ function AdminRecordEditorModal({ collection, collectionLabel, singular, token, 
         };
 
         let control;
-        if (relation) {
+        if (isEventTypeColor) {
+            control = (
+                <div className="admin-color-picker">
+                    <input {...commonProps} type="color" value={commonProps.value || '#ffffff'} />
+                    <span>{commonProps.value || 'Aucune couleur'}</span>
+                </div>
+            );
+        } else if (relation) {
             control = (
                 <select {...commonProps}>
                     <option value="">Aucune valeur</option>

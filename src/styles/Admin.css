@@ -110,6 +110,24 @@
     line-height: 1.5;
 }
 
+.admin-color-picker {
+    display: flex;
+    min-height: 44px;
+    align-items: center;
+    gap: 12px;
+    color: #5c6083;
+    font-size: 12px;
+    font-weight: 400;
+}
+
+.admin-color-picker input[type="color"] {
+    width: 56px;
+    min-height: 40px;
+    height: 40px;
+    padding: 4px;
+    cursor: pointer;
+}
+
 .admin-form__field input:focus,
 .admin-form__field select:focus,
 .admin-form__field textarea:focus {

@@ -5,11 +5,7 @@ import '../styles/PlanningAgenda.css';
 
 const weekdayLabels = ['Lun', 'Mar', 'Mer', 'Jeu', 'Ven', 'Sam', 'Dim'];
 
-const eventTypeStyles = {
-    'Stages': { background: '#fdeaf2', border: '#DB6D93', text: '#4d4d4d' },
-    'Atelier Créatif': { background: '#edf4ff', border: '#6f9ae8', text: '#2f3f5f' },
-    'Cours de couture': { background: '#fff3bf', border: '#d4a017', text: '#3f3400' }
-};
+const defaultEventTypeStyle = { background: '#edf4ff', border: '#6f9ae8', text: '#2f3f5f' };
 
 function getInstagramUsername(instagramUrl) {
     try {
@@ -112,6 +108,33 @@ function monthMatchesDate(month, date) {
 
 function PlanningAgenda({ months, activityDescriptions = [], isLoading = false, errorMessage = null, selectedActivity: selectedActivityProp, onSelectedActivityChange, isAdmin = false, adminToken, onActivitySaved, onUnauthorized }) {
     const safeMonths = useMemo(() => months || [], [months]);
+    const eventTypeStyles = useMemo(() => {
+        const styles = {};
+        safeMonths.forEach((month) => month.activities.forEach((activity) => {
+            if (!activity.type || styles[activity.type]) return;
+            const fallbackDescription = activityDescriptions.find((description) => description.type === activity.type);
+            styles[activity.type] = {
+                ...defaultEventTypeStyle,
+                background: activity.typeStyle?.background || defaultEventTypeStyle.background,
+                border: activity.typeStyle?.border || defaultEventTypeStyle.border,
+                text: activity.typeStyle?.text || defaultEventTypeStyle.text,
+                title: activity.typeDescription ? activity.type : fallbackDescription?.title || activity.type,
+                description: activity.typeDescription || fallbackDescription?.description || ''
+            };
+        }));
+        activityDescriptions.forEach((description) => {
+            if (!styles[description.type]) {
+                styles[description.type] = {
+                    ...defaultEventTypeStyle,
+                    title: description.title,
+                    description: description.description
+                };
+            } else if (!styles[description.type].description) {
+                styles[description.type].description = description.description;
+            }
+        });
+        return styles;
+    }, [safeMonths, activityDescriptions]);
     const sectionRef = useRef(null);
     const touchStartRef = useRef(null);
     const suppressTouchClickRef = useRef(false);
@@ -343,14 +366,14 @@ function PlanningAgenda({ months, activityDescriptions = [], isLoading = false, 
                 <div className="planning-agenda__board">
                     <div className="planning-agenda__legend">
                         {Object.entries(eventTypeStyles).map(([label, style]) => {
-                            const activityDescription = activityDescriptions.find((activity) => activity.type === label);
+                            const hasDescription = Boolean(style.description);
                             const descriptionId = `planning-agenda-description-${label.toLowerCase().replace(/[^a-z0-9]+/g, '-')}`;
                             const isExpanded = expandedActivityType === label;
                             const legendContent = (
                                 <>
                                     <span className="planning-agenda__legend-swatch" style={{ '--event-background': style.background, '--event-border': style.border }} />
                                     <span className="planning-agenda__legend-label">{label}</span>
-                                    {activityDescription && (
+                                    {hasDescription && (
                                         <span className="planning-agenda__legend-indicator" aria-hidden="true">
                                             {isExpanded ? '−' : <BsInfoCircle />}
                                         </span>
@@ -358,7 +381,7 @@ function PlanningAgenda({ months, activityDescriptions = [], isLoading = false, 
                                 </>
                             );
 
-                            return activityDescription ? (
+                            return hasDescription ? (
                                 <button
                                     type="button"
                                     key={label}
@@ -379,19 +402,19 @@ function PlanningAgenda({ months, activityDescriptions = [], isLoading = false, 
                             <span>{errorMessage || 'Chargement du planning…'}</span>
                         </div>
                     )}
-                    {activityDescriptions.map((activity) => {
-                        if (activity.type !== expandedActivityType) {
+                    {Object.entries(eventTypeStyles).map(([type, activity]) => {
+                        if (type !== expandedActivityType || !activity.description) {
                             return null;
                         }
 
-                        const descriptionId = `planning-agenda-description-${activity.type.toLowerCase().replace(/[^a-z0-9]+/g, '-')}`;
+                        const descriptionId = `planning-agenda-description-${type.toLowerCase().replace(/[^a-z0-9]+/g, '-')}`;
                         return (
                             <section
-                                key={activity.type}
+                                key={type}
                                 id={descriptionId}
                                 className="planning-agenda__activity-description-panel"
                                 aria-labelledby={`${descriptionId}-title`}
-                                style={{ '--event-border': eventTypeStyles[activity.type]?.border || '#DB6D93' }}
+                                style={{ '--event-border': activity.border }}
                             >
                                 <h4 id={`${descriptionId}-title`}>{activity.title}</h4>
                                 <p>{activity.description}</p>
@@ -443,7 +466,7 @@ function PlanningAgenda({ months, activityDescriptions = [], isLoading = false, 
                                             </div>
                                             <div className="planning-agenda__events">
                                                 {dayEvents.slice(0, 3).map((activity) => {
-                                                    const typeStyle = eventTypeStyles[activity.type] || eventTypeStyles.Stages;
+                                                    const typeStyle = eventTypeStyles[activity.type] || defaultEventTypeStyle;
                                                     const isCanceled = isActivityCanceled(activity);
                                                     const isMultiDay = activity.endDate > activity.date;
                                                     return (
@@ -463,7 +486,7 @@ function PlanningAgenda({ months, activityDescriptions = [], isLoading = false, 
                                             </div>
                                             <div className="planning-agenda__mobile-events">
                                                 {mobileVisibleDayEvents.slice(0, 3).map((activity) => {
-                                                    const typeStyle = eventTypeStyles[activity.type] || eventTypeStyles.Stages;
+                                                    const typeStyle = eventTypeStyles[activity.type] || defaultEventTypeStyle;
                                                     const isCanceled = isActivityCanceled(activity);
                                                     const isMultiDay = activity.endDate > activity.date;
                                                     const isEndDay = isMultiDay && dateKey === activity.endDate;
@@ -490,7 +513,7 @@ function PlanningAgenda({ months, activityDescriptions = [], isLoading = false, 
                                                 {mobileVisibleDayEvents.length > 3 && <div className="planning-agenda__more-events">+{mobileVisibleDayEvents.length - 3} de plus</div>}
                                             </div>
                                             {mobileMultiDayEvents.map((activity) => {
-                                                const typeStyle = eventTypeStyles[activity.type] || eventTypeStyles.Stages;
+                                                const typeStyle = eventTypeStyles[activity.type] || defaultEventTypeStyle;
                                                 const lane = mobileMultiDayLanes.get(activity.id) || 0;
                                                 return (
                                                     <span
@@ -506,7 +529,7 @@ function PlanningAgenda({ months, activityDescriptions = [], isLoading = false, 
                                 })}
                                 <div className="planning-agenda__span-layer" aria-label="Événements sur plusieurs jours">
                                     {multiDayEvents.map(({ activity, startColumn, endColumn, lane }) => {
-                                        const typeStyle = eventTypeStyles[activity.type] || eventTypeStyles.Stages;
+                                        const typeStyle = eventTypeStyles[activity.type] || defaultEventTypeStyle;
                                         const isCanceled = isActivityCanceled(activity);
                                         return (
                                             <button
