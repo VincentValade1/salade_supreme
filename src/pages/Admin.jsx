@@ -596,10 +596,10 @@ function Admin() {
     return (
         <main className="admin-app">
             <aside className="admin-sidebar">
-                <Link className="admin-sidebar__brand" to="/lieux/capharnaum" aria-label="Retour au site">
+                <div className="admin-sidebar__brand">
                     <span className="admin-sidebar__mark">S</span>
                     <span>Salade Suprême<small className="admin-sidebar__user"><BsPersonCircle aria-hidden="true" /><span>{userEmail || credentials.email}</span></small></span>
-                </Link>
+                </div>
                 <p className="admin-sidebar__label">CONTENUS</p>
                 <nav className="admin-collections" aria-label="Collections Directus">
                     {COLLECTIONS.map((collection) => (
