@@ -88,6 +88,26 @@
     }
 }
 
+@keyframes capharnaum-upcoming-tooltip-pop {
+    0% {
+        opacity: 0;
+        scale: 0.82;
+        translate: 0 8px;
+    }
+
+    65% {
+        opacity: 1;
+        scale: 1.05;
+        translate: 0 -2px;
+    }
+
+    100% {
+        opacity: 1;
+        scale: 1;
+        translate: 0 0;
+    }
+}
+
 .capharnaum-quick-navigation button:hover,
 .capharnaum-quick-navigation button:focus-visible,
 .capharnaum-quick-navigation a:hover,
@@ -217,10 +237,23 @@
         transition: none;
     }
 
+    .capharnaum-page--with-upcoming .capharnaum-upcoming-tooltip {
+        transition: none;
+    }
+
     .capharnaum-quick-navigation button:hover .capharnaum-quick-navigation__label,
     .capharnaum-quick-navigation button:focus-visible .capharnaum-quick-navigation__label,
     .capharnaum-quick-navigation a:hover .capharnaum-quick-navigation__label,
     .capharnaum-quick-navigation a:focus-visible .capharnaum-quick-navigation__label {
+        animation: none;
+        opacity: 1;
+        scale: 1;
+        rotate: 0deg;
+        translate: 0 0;
+    }
+
+    .capharnaum-upcoming-banner:hover + .capharnaum-upcoming-tooltip,
+    .capharnaum-upcoming-banner:focus-visible + .capharnaum-upcoming-tooltip {
         animation: none;
         opacity: 1;
         scale: 1;
@@ -247,28 +280,32 @@
     left: 50%;
     z-index: 11;
     width: max-content;
-    max-width: calc(100vw - 24px);
-    border: 1px solid var(--capharnaum-upcoming-border, #111);
-    padding: 9px 14px;
-    background: var(--capharnaum-upcoming-background, #F8C7CD);
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
-    color: var(--capharnaum-upcoming-text, #111);
+    max-width: min(190px, calc(100vw - 80px));
+    border: 1px solid #DB6D93;
+    padding: 8px 12px;
+    background: #fffafc;
+    box-shadow: 0 4px 12px rgba(31, 34, 84, 0.2);
+    color: #28338A;
     font-family: "Gotham-HTF-Book", sans-serif;
-    font-size: 14px;
-    line-height: 1.4;
+    font-size: 13px;
+    font-weight: 700;
+    line-height: 1.25;
     text-align: center;
     pointer-events: none;
     opacity: 0;
     visibility: hidden;
-    transform: translate(-50%, -4px);
-    transition: opacity 120ms ease 180ms, transform 120ms ease 180ms, visibility 0s linear 300ms;
+    transform: translate(-50%, 0);
+    scale: 0.88;
+    translate: 0 6px;
+    transform-origin: center top;
+    transition: opacity 120ms ease, scale 160ms ease, translate 160ms ease, visibility 0s linear 160ms;
 }
 
 .capharnaum-upcoming-banner:hover + .capharnaum-upcoming-tooltip,
 .capharnaum-upcoming-banner:focus-visible + .capharnaum-upcoming-tooltip {
     opacity: 1;
     visibility: visible;
-    transform: translate(-50%, 0);
+    animation: capharnaum-upcoming-tooltip-pop 320ms cubic-bezier(0.2, 1.5, 0.5, 1) both;
     transition-delay: 0s;
 }
 
