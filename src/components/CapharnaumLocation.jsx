@@ -9,6 +9,7 @@ function CapharnaumLocation({ location }) {
                     title="Carte Google Maps du Capharnaum et des transports proches"
                     src={mapUrl}
                     loading="lazy"
+                    sandbox="allow-forms allow-popups allow-popups-to-escape-sandbox allow-scripts allow-same-origin"
                 />
             </div>
             <div className="capharnaum-transports">
