@@ -30,7 +30,7 @@ function getActivityKind(activity) {
     const type = String(activity.type || '').normalize('NFD').replace(/[\u0300-\u036f]/g, '').trim().toLowerCase();
 
     if (type.includes('couture')) {
-        return null;
+        return 'cours de couture';
     }
 
     if (type.includes('atelier')) {
@@ -158,18 +158,23 @@ function Capharnaum() {
         setPlanningMonths(normalizeDirectusEvents(eventsPayload.data));
         setSelectedActivity(null);
     };
-    const nextActivity = useMemo(() => {
+    const upcomingActivities = useMemo(() => {
         const today = new Date();
         const todayDateKey = [
             today.getFullYear(),
             String(today.getMonth() + 1).padStart(2, '0'),
             String(today.getDate()).padStart(2, '0')
         ].join('-');
-
-        return planningMonths
+        const eligibleActivities = planningMonths
             .flatMap((month) => month.activities)
-            .filter((activity) => getActivityKind(activity) && !isActivityCanceled(activity) && activity.date >= todayDateKey)
-            .sort((first, second) => first.date.localeCompare(second.date) || String(first.time || '').localeCompare(String(second.time || ''), 'fr', { numeric: true }))[0] || null;
+            .filter((activity) => getActivityKind(activity) && !isActivityCanceled(activity) && activity.date >= todayDateKey);
+        const uniqueActivities = Array.from(new Map(
+            eligibleActivities.map((activity) => [activity.id ?? activity, activity])
+        ).values());
+        uniqueActivities.sort((first, second) => first.date.localeCompare(second.date) || String(first.time || '').localeCompare(String(second.time || ''), 'fr', { numeric: true }));
+        const nextDate = uniqueActivities[0]?.date;
+
+        return nextDate ? uniqueActivities.filter((activity) => activity.date === nextDate) : [];
     }, [planningMonths]);
     const activeSocialPage = socialDialog ? SOCIAL_PAGES[socialDialog] : null;
 
@@ -231,7 +236,7 @@ function Capharnaum() {
     }, [socialDialog]);
 
     return (
-        <section className={`capharnaum-page ${!apiError && nextActivity ? 'capharnaum-page--with-upcoming' : ''}`}>
+        <section className={`capharnaum-page ${!apiError && upcomingActivities.length ? 'capharnaum-page--with-upcoming' : ''}`}>
             <nav className="capharnaum-quick-navigation" aria-label="Navigation rapide dans le Capharnaüm">
                 <button
                     type="button"
@@ -300,38 +305,58 @@ function Capharnaum() {
                     </section>
                 </div>
             )}
-            {!apiError && nextActivity && (
+            {!apiError && upcomingActivities.length > 0 && (
+                <>
                 <button
                     type="button"
                     className="capharnaum-upcoming-banner"
-                    aria-label={`Afficher le planning : ${nextActivity.title}, ${formatActivityDate(nextActivity.date)}`}
-                    title="Cliquer pour afficher le planning et les détails de l’activité"
-                    onClick={() => {
-                        setSelectedActivity(nextActivity);
+                    style={{
+                        '--capharnaum-upcoming-background': upcomingActivities[0].typeStyle?.background || '#F8C7CD',
+                        '--capharnaum-upcoming-border': upcomingActivities[0].typeStyle?.border || '#111',
+                        '--capharnaum-upcoming-text': upcomingActivities[0].typeStyle?.text || '#111'
+                    }}
+                    aria-label={`Afficher le planning : ${upcomingActivities.map((activity) => `${activity.title}, ${formatActivityDate(activity.date)}${activity.time ? ` à ${activity.time}` : ''}`).join(' ; ')}`}
+                    aria-describedby="capharnaum-upcoming-tooltip"
+                    onClick={(event) => {
+                        const activityIndex = Number(event.target.closest('[data-upcoming-activity-index]')?.dataset.upcomingActivityIndex);
+                        setSelectedActivity(upcomingActivities[activityIndex] || upcomingActivities[0]);
                         window.requestAnimationFrame(() => document.getElementById('cours-ateliers')?.scrollIntoView({ behavior: 'smooth', block: 'start' }));
                     }}
                 >
                     <span className="capharnaum-upcoming-banner__entrance" aria-hidden="true">
                         <span className="capharnaum-upcoming-banner__track">
-                            {Array.from({ length: 16 }, (_, copy) => (
-                                <span className="capharnaum-upcoming-banner__message" key={copy}>
-                                    Prochain {getActivityKind(nextActivity)}
+                            {Array.from({ length: 16 }, (_, copy) => upcomingActivities.map((activity, index) => (
+                                <span
+                                    className="capharnaum-upcoming-banner__message"
+                                    key={`${copy}-${activity.id ?? index}`}
+                                    data-upcoming-activity-index={index}
+                                    style={{
+                                        '--capharnaum-upcoming-background': activity.typeStyle?.background || '#F8C7CD',
+                                        '--capharnaum-upcoming-border': activity.typeStyle?.border || '#111',
+                                        '--capharnaum-upcoming-text': activity.typeStyle?.text || '#111'
+                                    }}
+                                >
+                                    Prochain {getActivityKind(activity)}
                                     <span className="capharnaum-upcoming-banner__separator">·</span>
-                                    {formatActivityDate(nextActivity.date)}
-                                    {nextActivity.time && (
+                                    {formatActivityDate(activity.date)}
+                                    {activity.time && (
                                         <>
                                             <span className="capharnaum-upcoming-banner__separator">·</span>
-                                            {nextActivity.time}
+                                            {activity.time}
                                         </>
                                     )}
                                     <span className="capharnaum-upcoming-banner__separator">·</span>
-                                    {nextActivity.title}
+                                    {activity.title}
                                     <span className="capharnaum-upcoming-banner__separator">·</span>
                                 </span>
-                            ))}
+                            )))}
                         </span>
                     </span>
                 </button>
+                <span id="capharnaum-upcoming-tooltip" className="capharnaum-upcoming-tooltip" role="tooltip">
+                    Cliquer sur un événement pour le retrouver dans le calendrier.
+                </span>
+                </>
             )}
             <CapharnaumIntro
                 title={caph.title}
