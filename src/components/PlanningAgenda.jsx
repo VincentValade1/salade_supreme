@@ -326,6 +326,52 @@ function PlanningAgenda({ months, eventLocation = '', activityDescriptions = [],
         return safeMonths.length ? new Date(2026, currentMonthIndex, 1) : new Date();
     }, [currentMonth, currentMonthIndex, safeMonths.length]);
 
+    useLayoutEffect(() => {
+        const section = sectionRef.current;
+        if (!section) {
+            return undefined;
+        }
+
+        const updateMobileRailBounds = () => {
+            section.querySelectorAll('.planning-agenda__day').forEach((day) => {
+                const dayBounds = day.getBoundingClientRect();
+                const eventsById = new Map(
+                    Array.from(day.querySelectorAll('.planning-agenda__mobile-event'))
+                        .map((event) => [event.dataset.mobileActivityId, event])
+                );
+
+                day.querySelectorAll('.planning-agenda__mobile-event-rail').forEach((rail) => {
+                    const linkedEvent = eventsById.get(rail.dataset.mobileActivityId);
+                    if (!linkedEvent) {
+                        return;
+                    }
+
+                    const eventBounds = linkedEvent.getBoundingClientRect();
+                    rail.style.top = rail.dataset.startDay === 'true'
+                        ? `${Math.max(0, eventBounds.top - dayBounds.top)}px`
+                        : '';
+                    rail.style.bottom = rail.dataset.endDay === 'true'
+                        ? `${Math.max(0, dayBounds.bottom - eventBounds.bottom)}px`
+                        : '';
+                });
+            });
+        };
+
+        updateMobileRailBounds();
+
+        if (typeof ResizeObserver === 'undefined') {
+            return undefined;
+        }
+
+        const resizeObserver = new ResizeObserver(updateMobileRailBounds);
+        resizeObserver.observe(section);
+        section.querySelectorAll('.planning-agenda__day, .planning-agenda__mobile-event').forEach((element) => {
+            resizeObserver.observe(element);
+        });
+
+        return () => resizeObserver.disconnect();
+    }, [currentMonth]);
+
     useEffect(() => {
         if (!safeMonths.length || selectedActivity) {
             return;
@@ -610,12 +656,15 @@ function PlanningAgenda({ months, eventLocation = '', activityDescriptions = [],
                                         activity.endDate <= activity.date || dateKey === activity.date || dateKey === activity.endDate
                                     ));
                                     const mobileMultiDayEvents = mobileDayEvents.filter((activity) => activity.endDate > activity.date);
+                                    const mobileRailOffset = mobileMultiDayEvents.length
+                                        ? 15 + Math.max(...mobileMultiDayEvents.map((activity) => mobileMultiDayLanes.get(activity.id) || 0)) * 12
+                                        : 0;
                                     const isCurrentMonth = date.getFullYear() === currentMonthDate.getFullYear() && date.getMonth() === currentMonthDate.getMonth();
                                     const isToday = dateKey === todayDateKey;
                                     const isPastDate = dateKey < todayDateKey;
                                     const weekdayLabel = weekdayLabels[(date.getDay() + 6) % 7];
                                     return (
-                                        <div key={dateKey} className={`planning-agenda__day ${isCurrentMonth ? '' : 'planning-agenda__day--outside'} ${mobileVisibleDayEvents.length === 0 ? 'planning-agenda__day--empty' : ''} ${isToday ? 'planning-agenda__day--today' : ''} ${isPastDate ? 'planning-agenda__day--past' : ''}`}>
+                                        <div key={dateKey} className={`planning-agenda__day ${isCurrentMonth ? '' : 'planning-agenda__day--outside'} ${mobileVisibleDayEvents.length === 0 ? 'planning-agenda__day--empty' : ''} ${mobileMultiDayEvents.length ? 'planning-agenda__day--has-mobile-rails' : ''} ${isToday ? 'planning-agenda__day--today' : ''} ${isPastDate ? 'planning-agenda__day--past' : ''}`}>
                                             <div className="planning-agenda__day-heading">
                                                 <span className="planning-agenda__day-name">{weekdayLabel}</span>
                                                 <span className="planning-agenda__day-number">{date.getDate()}</span>
@@ -640,7 +689,7 @@ function PlanningAgenda({ months, eventLocation = '', activityDescriptions = [],
                                                 })}
                                                 {dayEvents.length > 3 && <div className="planning-agenda__more-events">+{dayEvents.length - 3} de plus</div>}
                                             </div>
-                                            <div className="planning-agenda__mobile-events">
+                                            <div className="planning-agenda__mobile-events" style={{ '--mobile-rail-offset': `${mobileRailOffset}px` }}>
                                                 {mobileVisibleDayEvents.slice(0, 3).map((activity) => {
                                                     const typeStyle = eventTypeStyles[activity.type] || defaultEventTypeStyle;
                                                     const isCanceled = isActivityCanceled(activity);
@@ -652,6 +701,7 @@ function PlanningAgenda({ months, eventLocation = '', activityDescriptions = [],
                                                         <button
                                                             type="button"
                                                             key={`mobile-${activity.id}`}
+                                                            data-mobile-activity-id={activity.id}
                                                             className={`planning-agenda__event planning-agenda__mobile-event ${isMultiDay ? 'planning-agenda__mobile-event--multi-day' : ''} ${isEndDay ? 'planning-agenda__mobile-event--continuation' : ''} ${isLinkedHover ? 'planning-agenda__span-event--linked-hover' : ''} ${selectedActivity?.id === activity.id ? 'planning-agenda__event--selected' : ''} ${isCanceled ? 'planning-agenda__event--canceled' : ''}`}
                                                             style={{ '--event-background': typeStyle.background, '--event-border': typeStyle.border, '--event-text': typeStyle.text, '--rail-offset': `${15 + Math.max(railIndex, 0) * 12}px` }}
                                                             aria-label={`${isEndDay ? `Fin de ${activity.title}` : activity.title}, ${formatEventDetailValue('date', dateKey)}`}
@@ -675,6 +725,9 @@ function PlanningAgenda({ months, eventLocation = '', activityDescriptions = [],
                                                     <span
                                                         key={`rail-${activity.id}`}
                                                         className="planning-agenda__mobile-event-rail"
+                                                        data-mobile-activity-id={activity.id}
+                                                        data-start-day={String(dateKey === activity.date)}
+                                                        data-end-day={String(dateKey === activity.endDate)}
                                                         style={{ '--event-border': typeStyle.border, '--rail-offset': `${15 + lane * 12}px` }}
                                                         aria-hidden="true"
                                                     />

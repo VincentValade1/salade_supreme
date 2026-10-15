@@ -1173,6 +1173,10 @@
         padding-right: calc(var(--rail-offset, 15px) + 4px);
     }
 
+    .planning-agenda__day--has-mobile-rails .planning-agenda__mobile-event:not(.planning-agenda__mobile-event--multi-day) .planning-agenda__event-price {
+        margin-right: calc(var(--mobile-rail-offset) + 9px);
+    }
+
     .planning-agenda__mobile-event--multi-day::before {
         position: absolute;
         z-index: 1;
