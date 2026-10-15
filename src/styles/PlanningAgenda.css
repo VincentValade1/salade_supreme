@@ -728,15 +728,31 @@
     cursor: pointer;
 }
 
-.planning-agenda__tariff-note {
-    grid-column: 1 / -1;
-    margin: 6px 0 0;
-    padding: 0;
-    color: #777;
+.planning-agenda__tariff-label {
+    display: flex;
+    align-items: center;
+    width: fit-content;
+}
+
+.planning-agenda__tariff-toast {
+    position: fixed;
+    z-index: 10002;
+    width: max-content;
+    max-width: min(260px, calc(100vw - 24px));
+    max-height: calc(100vh - 24px);
+    overflow-y: auto;
+    padding: 9px 12px;
+    border: 1px solid #DB6D93;
+    background: #fffafc;
+    color: #28338A;
     font-size: 12px;
-    line-height: 1.25;
+    line-height: 1.4;
+    font-weight: 400;
     font-family: "Gotham-HTF-Book", sans-serif;
-    font-style: italic;
+    letter-spacing: normal;
+    text-align: left;
+    text-transform: none;
+    box-shadow: 0 4px 12px rgba(40, 51, 138, 0.18);
 }
 
 .planning-agenda__tariff-info-toggle {

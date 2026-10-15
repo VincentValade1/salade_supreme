@@ -1,4 +1,5 @@
-import { useEffect, useId, useMemo, useRef, useState } from 'react';
+import { useEffect, useId, useLayoutEffect, useMemo, useRef, useState } from 'react';
+import { createPortal } from 'react-dom';
 import { BsInfoCircle, BsInstagram } from 'react-icons/bs';
 import AdminRecordEditorModal from './AdminRecordEditorModal';
 import '../styles/PlanningAgenda.css';
@@ -22,6 +23,18 @@ function isActivityCanceled(activity) {
 
 function hasPrice(value) {
     return value !== null && value !== undefined;
+}
+
+function getTariffToastPosition(anchor) {
+    const bounds = anchor.getBoundingClientRect();
+    const margin = 12;
+    const maxToastWidth = Math.min(260, window.innerWidth - margin * 2);
+    const maxLeft = Math.max(margin, window.innerWidth - margin - maxToastWidth);
+
+    return {
+        left: Math.min(Math.max(margin, bounds.left), maxLeft),
+        top: bounds.bottom + 8
+    };
 }
 
 function EventHeading({ activity, title = activity.title }) {
@@ -330,7 +343,7 @@ function PlanningAgenda({ months, activityDescriptions = [], isLoading = false, 
 
     const eventDetails = selectedActivity
         ? Object.entries(selectedActivity).filter(([key]) => (
-            !['id', 'month_id', 'month_name', 'intervenantId', 'day', 'type', 'typeDescription', 'typeStyle', 'category', 'title', 'description', 'link', 'intervenant', 'canceled', 'endDate', 'endTime', 'tarifNormal', 'tarifSoutien'].includes(key)
+            !['id', 'month_id', 'month_name', 'intervenantId', 'day', 'type', 'typeDescription', 'typeStyle', 'category', 'title', 'description', 'link', 'intervenant', 'canceled', 'endDate', 'endTime', 'tarifNormal', 'tarifSoutien', 'tarifSolidaire'].includes(key)
             && !(key === 'time' && selectedActivity.endDate > selectedActivity.date)
         ))
         : [];
@@ -606,10 +619,54 @@ function PlanningAgenda({ months, activityDescriptions = [], isLoading = false, 
 
 function ActivityDetails({ selectedActivity, eventDetails, eventFieldLabels }) {
     const tariffNoteId = useId();
-    const [isTariffNoteVisible, setIsTariffNoteVisible] = useState(false);
+    const solidarityTariffNoteId = useId();
+    const [visibleTariffNote, setVisibleTariffNote] = useState(null);
+    const tariffNoteTimeoutRef = useRef(null);
+    const tariffAnchorRef = useRef(null);
+    const tariffToastRef = useRef(null);
     const eventDate = selectedActivity?.date;
     const isPastEvent = eventDate ? new Date(`${eventDate}T23:59:59`) < new Date() : false;
     const isCanceled = isActivityCanceled(selectedActivity);
+
+    useEffect(() => {
+        const repositionTariffToast = () => {
+            if (tariffAnchorRef.current) {
+                setVisibleTariffNote((current) => current
+                    ? { ...current, ...getTariffToastPosition(tariffAnchorRef.current) }
+                    : current);
+            }
+        };
+
+        window.addEventListener('resize', repositionTariffToast);
+        return () => {
+            window.clearTimeout(tariffNoteTimeoutRef.current);
+            window.removeEventListener('resize', repositionTariffToast);
+        };
+    }, []);
+
+    useLayoutEffect(() => {
+        const toast = tariffToastRef.current;
+        if (!toast || !visibleTariffNote) {
+            return;
+        }
+
+        const bounds = toast.getBoundingClientRect();
+        const left = Math.min(Math.max(12, visibleTariffNote.left), window.innerWidth - bounds.width - 12);
+        const top = Math.min(Math.max(12, visibleTariffNote.top), window.innerHeight - bounds.height - 12);
+        if (left !== visibleTariffNote.left || top !== visibleTariffNote.top) {
+            setVisibleTariffNote((current) => current ? { ...current, left, top } : current);
+        }
+    }, [visibleTariffNote]);
+
+    const showTariffNote = (tariff, anchor) => {
+        window.clearTimeout(tariffNoteTimeoutRef.current);
+        tariffAnchorRef.current = anchor;
+        setVisibleTariffNote({ tariff, ...getTariffToastPosition(anchor) });
+        tariffNoteTimeoutRef.current = window.setTimeout(() => {
+            setVisibleTariffNote(null);
+            tariffAnchorRef.current = null;
+        }, 3000);
+    };
 
     return (
         <>
@@ -635,15 +692,15 @@ function ActivityDetails({ selectedActivity, eventDetails, eventFieldLabels }) {
                 )}
                 {hasPrice(selectedActivity.tarifSoutien) && (
                     <div className="planning-agenda__detail">
-                        <div className="planning-agenda__detail-label">
+                        <div className="planning-agenda__detail-label planning-agenda__tariff-label">
                             Tarif soutien
                             <button
                                 type="button"
                                 className="planning-agenda__tariff-info-toggle"
                                 aria-label="Afficher l’explication du tarif soutien"
-                                aria-expanded={isTariffNoteVisible}
+                                aria-expanded={visibleTariffNote === 'soutien'}
                                 aria-controls={tariffNoteId}
-                                onClick={() => setIsTariffNoteVisible((visible) => !visible)}
+                                onClick={(event) => showTariffNote('soutien', event.currentTarget)}
                             >
                                 <BsInfoCircle aria-hidden="true" />
                             </button>
@@ -651,12 +708,39 @@ function ActivityDetails({ selectedActivity, eventDetails, eventFieldLabels }) {
                         <div className="planning-agenda__detail-value">{selectedActivity.tarifSoutien} €</div>
                     </div>
                 )}
-                {hasPrice(selectedActivity.tarifSoutien) && (
-                    <p id={tariffNoteId} className="planning-agenda__tariff-note" role="note" hidden={!isTariffNoteVisible}>
-                        Le tarif normal est le prix de référence. Le tarif soutien permet de contribuer davantage aux activités du Capharnaüm.
-                    </p>
+                {hasPrice(selectedActivity.tarifSolidaire) && (
+                    <div className="planning-agenda__detail">
+                        <div className="planning-agenda__detail-label planning-agenda__tariff-label">
+                            Tarif solidaire
+                            <button
+                                type="button"
+                                className="planning-agenda__tariff-info-toggle"
+                                aria-label="Afficher l’explication du tarif solidaire"
+                                aria-expanded={visibleTariffNote === 'solidaire'}
+                                aria-controls={solidarityTariffNoteId}
+                                onClick={(event) => showTariffNote('solidaire', event.currentTarget)}
+                            >
+                                <BsInfoCircle aria-hidden="true" />
+                            </button>
+                        </div>
+                        <div className="planning-agenda__detail-value">{selectedActivity.tarifSolidaire} €</div>
+                    </div>
                 )}
             </div>
+            {visibleTariffNote && createPortal(
+                <div
+                    ref={tariffToastRef}
+                    id={visibleTariffNote.tariff === 'soutien' ? tariffNoteId : solidarityTariffNoteId}
+                    className="planning-agenda__tariff-toast"
+                    role="status"
+                    style={{ left: `${visibleTariffNote.left}px`, top: `${visibleTariffNote.top}px` }}
+                >
+                    {visibleTariffNote.tariff === 'soutien'
+                        ? 'Le tarif normal est le prix de référence. Le tarif soutien permet de contribuer davantage aux activités du Capharnaüm.'
+                        : 'Le tarif solidaire permet de participer aux activités à un tarif adapté à ses moyens.'}
+                </div>,
+                document.body
+            )}
             <div className="planning-agenda__description-layout">
                 <p className="planning-agenda__modal-description">{selectedActivity.description || 'Aucune description disponible pour cet événement.'}</p>
             </div>
