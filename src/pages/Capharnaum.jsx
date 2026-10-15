@@ -366,7 +366,6 @@ function Capharnaum() {
                 bannerImg={caph.bannerImg}
                 bannerImgM={caph.bannerImgM}
                 altBannerImg={caph.altBannerImg}
-                openingDate={caph.openingDate}
                 activities={caph.activities}
                 atelierLabel={caph.atelierLabel}
                 atelierUrl={caph.atelierUrl}

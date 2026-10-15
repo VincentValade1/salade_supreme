@@ -1,18 +1,15 @@
-import CountdownBanner from './CountdownBanner';
 import CapharnaumLocation from './CapharnaumLocation';
 import '../styles/ProjetModel.css';
 
-function CapharnaumIntro({ className, title, theme, description, bannerImg, bannerImgM, altBannerImg, extraDescription, openingDate, activities, atelierLabel, atelierUrl, hours, location, img1, img2, img3, img4, alt1, alt2, alt3, alt4 }) {
+function CapharnaumIntro({ className, title, theme, description, bannerImg, bannerImgM, altBannerImg, extraDescription, activities, atelierLabel, atelierUrl, hours, location, img1, img2, img3, img4, alt1, alt2, alt3, alt4 }) {
     const descriptionWithLineBreaks = description.replace(/(Crédits|Au programme|Chez Salade)/g, '\n$1');
 
     return (
         <section className={className}>
-            <CountdownBanner
-                bannerImg={bannerImg}
-                bannerImgM={bannerImgM}
-                altBannerImg={altBannerImg}
-                openingDate={openingDate}
-            />
+            <picture>
+                <source media="(max-width: 767px)" srcSet={process.env.PUBLIC_URL + bannerImgM} />
+                <img tabIndex="0" className="projet-bannerImg" src={process.env.PUBLIC_URL + bannerImg} alt={altBannerImg} />
+            </picture>
             <section className="projet-content residence">
                 <h1 tabIndex="0" className="pink-titles">
                     {title}

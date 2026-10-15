@@ -418,73 +418,6 @@
     }
 }
 
-.capharnaum-banner {
-    position: relative;
-    overflow: hidden;
-}
-
-.capharnaum-banner .projet-bannerImg {
-    display: block;
-    filter: blur(15px);
-    transform: scale(1.02);
-}
-
-.capharnaum-countdown {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    z-index: 1;
-    width: min(90%, 700px);
-    padding: 28px 32px;
-    border: 2px solid #fff;
-    background: rgba(40, 51, 138, 0.88);
-    color: #fff;
-    text-align: center;
-    transform: translate(-50%, -50%);
-}
-
-.capharnaum-countdown__label,
-.capharnaum-countdown__open {
-    margin: 0 0 18px;
-    font-family: "Mango-Black", sans-serif;
-    font-size: clamp(24px, 4vw, 44px);
-}
-
-.capharnaum-countdown__date {
-    margin: 0 0 8px;
-    font-family: "Gotham-HTF-Book", sans-serif;
-    font-size: 13px;
-    line-height: 1.4;
-}
-
-.capharnaum-countdown__open {
-    margin: 0;
-}
-
-.capharnaum-countdown__values {
-    display: grid;
-    grid-template-columns: repeat(4, 1fr);
-    gap: 12px;
-}
-
-.capharnaum-countdown__value {
-    display: flex;
-    flex-direction: column;
-    gap: 4px;
-}
-
-.capharnaum-countdown__value strong {
-    font-family: "Mango-Black", sans-serif;
-    font-size: clamp(30px, 5vw, 56px);
-    line-height: 1;
-}
-
-.capharnaum-countdown__value small {
-    font-family: "Gotham-HTF-Book", sans-serif;
-    font-size: 12px;
-    text-transform: uppercase;
-}
-
 .capharnaum-page .projet-content.residence {
     position: relative;
     z-index: 1;
@@ -897,18 +830,6 @@
 }
 
 @media (max-width: 600px) {
-    .capharnaum-countdown {
-        padding: 20px 12px;
-    }
-
-    .capharnaum-countdown__values {
-        gap: 4px;
-    }
-
-    .capharnaum-countdown__value small {
-        font-size: 9px;
-    }
-
     .capharnaum-intervenants {
         margin-bottom: 56px;
         padding: 0 16px;
