@@ -335,6 +335,8 @@ function PlanningAgenda({ months, eventLocation = '', activityDescriptions = [],
         const updateMobileRailBounds = () => {
             section.querySelectorAll('.planning-agenda__day').forEach((day) => {
                 const dayBounds = day.getBoundingClientRect();
+                const dayContentTop = dayBounds.top + day.clientTop;
+                const dayContentBottom = dayContentTop + day.clientHeight;
                 const eventsById = new Map(
                     Array.from(day.querySelectorAll('.planning-agenda__mobile-event'))
                         .map((event) => [event.dataset.mobileActivityId, event])
@@ -347,11 +349,12 @@ function PlanningAgenda({ months, eventLocation = '', activityDescriptions = [],
                     }
 
                     const eventBounds = linkedEvent.getBoundingClientRect();
+                    const anchorCenter = (eventBounds.top + eventBounds.bottom) / 2;
                     rail.style.top = rail.dataset.startDay === 'true'
-                        ? `${Math.max(0, eventBounds.top - dayBounds.top)}px`
+                        ? `${Math.max(0, anchorCenter - dayContentTop)}px`
                         : '';
                     rail.style.bottom = rail.dataset.endDay === 'true'
-                        ? `${Math.max(0, dayBounds.bottom - eventBounds.bottom)}px`
+                        ? `${Math.max(0, dayContentBottom - anchorCenter)}px`
                         : '';
                 });
             });
@@ -728,7 +731,7 @@ function PlanningAgenda({ months, eventLocation = '', activityDescriptions = [],
                                                         data-mobile-activity-id={activity.id}
                                                         data-start-day={String(dateKey === activity.date)}
                                                         data-end-day={String(dateKey === activity.endDate)}
-                                                        style={{ '--event-border': typeStyle.border, '--rail-offset': `${15 + lane * 12}px` }}
+                                                        style={{ '--event-background': typeStyle.background, '--event-border': typeStyle.border, '--rail-offset': `${15 + lane * 12}px` }}
                                                         aria-hidden="true"
                                                     />
                                                 );
