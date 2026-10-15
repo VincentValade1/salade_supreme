@@ -295,6 +295,10 @@
     gap: 4px;
 }
 
+.admin-heading__menu {
+    display: none;
+}
+
 .admin-collections button {
     display: flex;
     min-height: 44px;
@@ -429,7 +433,7 @@
 .admin-content {
     width: min(100%, 1120px);
     margin: 0 auto;
-    padding: 54px 7.2% 80px;
+    padding: 32px 7.2% 80px;
 }
 
 .admin-heading {
@@ -668,7 +672,7 @@
     min-height: 44px;
     align-items: center;
     gap: 10px;
-    margin: 0;
+    margin: 0 0 12px;
     border-bottom: 1px solid var(--admin-line);
     color: #77798f;
 }
@@ -694,7 +698,45 @@
     flex-wrap: wrap;
     align-items: center;
     gap: 12px 20px;
-    margin: -12px 0 24px;
+    margin: 0;
+}
+
+.admin-event-filter-panel {
+    margin: 0 0 24px;
+}
+
+.admin-event-filter-panel > summary {
+    display: flex;
+    width: max-content;
+    min-height: 36px;
+    align-items: center;
+    gap: 8px;
+    color: var(--admin-ink);
+    font-size: 12px;
+    font-weight: 700;
+    cursor: pointer;
+    list-style: none;
+}
+
+.admin-event-filter-panel > summary::-webkit-details-marker {
+    display: none;
+}
+
+.admin-event-filter-panel > summary:focus-visible {
+    outline: 2px solid var(--admin-rose);
+    outline-offset: 3px;
+}
+
+.admin-event-filter-panel > summary svg {
+    transition: transform 160ms ease;
+}
+
+.admin-event-filter-panel[open] > summary {
+    margin-bottom: 12px;
+}
+
+.admin-event-filter-panel[open] > summary svg {
+    transform: rotate(180deg);
 }
 
 .admin-event-filter {
@@ -1084,26 +1126,97 @@
     }
 
     .admin-collections {
-        display: flex;
-        overflow-x: auto;
-        gap: 4px;
-        margin: 0 -4px;
+        display: none;
     }
 
-    .admin-collections button {
-        min-height: 38px;
-        flex: 0 0 auto;
-        gap: 10px;
-        padding-inline: 9px;
-        border-left: 0;
-        border-bottom: 2px solid transparent;
-        font-size: 11px;
+    .admin-heading__menu {
+        position: relative;
+        display: block;
+        width: max-content;
+        max-width: 100%;
     }
 
-    .admin-collections button:hover,
-    .admin-collections button.is-active {
-        border-bottom-color: var(--admin-pink);
-        border-left-color: transparent;
+    .admin-heading__menu-trigger {
+        display: inline-flex;
+        max-width: 100%;
+        min-height: 32px;
+        align-items: center;
+        gap: 8px;
+        padding: 0;
+        border: 0;
+        background: transparent;
+        color: #fff;
+        font: 400 24px "Mango-Black", sans-serif;
+        line-height: 1.2;
+        text-align: left;
+        cursor: pointer;
+    }
+
+    .admin-heading__menu-trigger span {
+        color: #fff;
+    }
+
+    .admin-heading__menu-trigger svg {
+        width: 16px;
+        height: 16px;
+        flex: 0 0 16px;
+        color: var(--admin-rose);
+    }
+
+    .admin-heading__menu-trigger:focus-visible {
+        outline: 2px solid var(--admin-rose);
+        outline-offset: 4px;
+    }
+
+    .admin-heading__menu-options {
+        position: absolute;
+        top: calc(100% + 8px);
+        left: 0;
+        z-index: 30;
+        display: grid;
+        width: max-content;
+        min-width: min(240px, calc(100vw - 40px));
+        max-width: calc(100vw - 40px);
+        gap: 2px;
+        padding: 5px;
+        border: 1px solid rgba(248, 199, 205, 0.36);
+        background: var(--admin-ink);
+        box-shadow: 0 10px 26px rgba(40, 51, 138, 0.2);
+    }
+
+    .admin-heading__menu-options button {
+        display: block;
+        width: 100%;
+        min-height: 40px;
+        padding: 8px 11px;
+        border: 0;
+        border-left: 2px solid transparent;
+        background: transparent;
+        color: #f4f3fa;
+        font: 12px "Gotham-HTF-Book", sans-serif;
+        text-align: left;
+        cursor: pointer;
+    }
+
+    .admin-heading__menu-options button:hover,
+    .admin-heading__menu-options button:focus-visible,
+    .admin-heading__menu-options button.is-active {
+        border-left-color: var(--admin-pink);
+        background: rgba(255, 255, 255, 0.1);
+        color: #fff;
+    }
+
+    .admin-heading h1 {
+        position: absolute;
+        width: 1px;
+        height: 1px;
+        overflow: hidden;
+        clip: rect(0, 0, 0, 0);
+        white-space: nowrap;
+    }
+
+    .admin-heading .admin-eyebrow {
+        display: none;
     }
 
     .admin-sidebar__action {
@@ -1123,18 +1236,57 @@
     }
 
     .admin-content {
-        padding: 32px 20px 56px;
+        padding: 3px 20px 56px;
     }
 
     .admin-heading {
         align-items: flex-start;
         flex-direction: column;
-        gap: 18px;
-        margin-bottom: 24px;
+        gap: 8px;
+        margin-bottom: 12px;
     }
 
     .admin-heading__actions {
         justify-content: flex-start;
+    }
+
+    .admin-heading__actions:has(.admin-button--event-add) {
+        width: 100%;
+    }
+
+    .admin-button--event-add {
+        width: 100%;
+        min-height: 32px;
+        padding: 0 8px;
+        font-size: 11px;
+    }
+
+    .admin-event-controls {
+        width: 100%;
+        gap: 8px 12px;
+    }
+
+    .admin-event-search {
+        width: 100%;
+        min-width: 0;
+        min-height: 38px;
+        flex-basis: 100%;
+    }
+
+    .admin-event-search input {
+        padding: 7px 0;
+    }
+
+    .admin-event-filter-panel {
+        margin-bottom: 14px;
+    }
+
+    .admin-event-filter-panel > summary {
+        min-height: 32px;
+    }
+
+    .admin-event-filter-panel[open] > summary {
+        margin-bottom: 8px;
     }
 
     .admin-user-row {

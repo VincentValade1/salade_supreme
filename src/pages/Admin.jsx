@@ -1,5 +1,5 @@
-import { useCallback, useEffect, useMemo, useState } from 'react';
-import { BsArrowLeft, BsArrowRepeat, BsBoxArrowRight, BsDash, BsKey, BsPencil, BsPersonCircle, BsPlus, BsSearch, BsTrash } from 'react-icons/bs';
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
+import { BsArrowLeft, BsArrowRepeat, BsBoxArrowRight, BsChevronDown, BsDash, BsKey, BsPencil, BsPersonCircle, BsPlus, BsSearch, BsTrash } from 'react-icons/bs';
 import { Link } from 'react-router-dom';
 import AdminRecordEditorModal from '../components/AdminRecordEditorModal';
 import '../styles/Admin.css';
@@ -146,6 +146,9 @@ function Admin() {
     const [eventIntervenantFilter, setEventIntervenantFilter] = useState('');
     const [showPastEvents, setShowPastEvents] = useState(false);
     const [eventSortDirection, setEventSortDirection] = useState('asc');
+    const [isEventFilterPanelOpen, setIsEventFilterPanelOpen] = useState(
+        () => typeof window === 'undefined' || !window.matchMedia?.('(max-width: 760px)').matches
+    );
     const [collectionData, setCollectionData] = useState({});
     const [loginError, setLoginError] = useState('');
     const [pageError, setPageError] = useState('');
@@ -156,6 +159,31 @@ function Admin() {
     const [isLogoutConfirmationOpen, setIsLogoutConfirmationOpen] = useState(false);
     const [isEditorOpen, setIsEditorOpen] = useState(false);
     const [editor, setEditor] = useState(null);
+    const [isCollectionMenuOpen, setIsCollectionMenuOpen] = useState(false);
+    const collectionMenuRef = useRef(null);
+
+    useEffect(() => {
+        if (!isCollectionMenuOpen) return undefined;
+
+        const closeOnOutsideClick = (event) => {
+            if (!collectionMenuRef.current?.contains(event.target)) {
+                setIsCollectionMenuOpen(false);
+            }
+        };
+        const closeOnEscape = (event) => {
+            if (event.key === 'Escape') {
+                setIsCollectionMenuOpen(false);
+                collectionMenuRef.current?.querySelector('.admin-heading__menu-trigger')?.focus();
+            }
+        };
+
+        document.addEventListener('pointerdown', closeOnOutsideClick);
+        window.addEventListener('keydown', closeOnEscape);
+        return () => {
+            document.removeEventListener('pointerdown', closeOnOutsideClick);
+            window.removeEventListener('keydown', closeOnEscape);
+        };
+    }, [isCollectionMenuOpen]);
 
     const activeDefinition = COLLECTIONS.find((collection) => collection.name === activeCollection);
     const activeData = collectionData[activeCollection] || { fields: [], relations: [], records: [] };
@@ -592,6 +620,24 @@ function Admin() {
         { name: 'Utilisateurs Edition', users: adminUsers.filter((user) => getUserRoleLabel(user) === 'Edition') },
         { name: 'Administrateurs', users: adminUsers.filter((user) => getUserRoleLabel(user) === 'Administrateur') }
     ];
+    const selectAdminSection = (section) => {
+        setIsCollectionMenuOpen(false);
+        collectionMenuRef.current?.querySelector('.admin-heading__menu-trigger')?.focus();
+
+        if (section === 'users') {
+            setActiveAdminSection('users');
+            setEditor(null);
+            clearPageError();
+            return;
+        }
+
+        setActiveAdminSection('content');
+        setActiveCollection(section);
+        setEditor(null);
+        setEventSearchQuery('');
+        setEventTypeFilter('');
+        setEventIntervenantFilter('');
+    };
 
     return (
         <main className="admin-app">
@@ -600,6 +646,44 @@ function Admin() {
                     <span className="admin-sidebar__mark">S</span>
                     <span>Salade Suprême<small className="admin-sidebar__user"><BsPersonCircle aria-hidden="true" /><span>{userEmail || credentials.email}</span></small></span>
                 </div>
+                <div className="admin-heading__menu" ref={collectionMenuRef}>
+                    <button
+                        className="admin-heading__menu-trigger"
+                        type="button"
+                        aria-label={`Rubrique : ${activeAdminSection === 'users' ? 'Utilisateurs' : activeDefinition.label}`}
+                        aria-expanded={isCollectionMenuOpen}
+                        aria-controls="admin-heading-menu-options"
+                        onClick={() => setIsCollectionMenuOpen((isOpen) => !isOpen)}
+                    >
+                        <span>{activeAdminSection === 'users' ? 'Utilisateurs' : activeDefinition.label}</span>
+                        <BsChevronDown aria-hidden="true" />
+                    </button>
+                    {isCollectionMenuOpen && (
+                        <div className="admin-heading__menu-options" id="admin-heading-menu-options" role="group" aria-label="Rubriques d’administration">
+                            {COLLECTIONS.map((collection) => (
+                                <button
+                                    key={collection.name}
+                                    type="button"
+                                    className={activeAdminSection === 'content' && activeCollection === collection.name ? 'is-active' : ''}
+                                    aria-pressed={activeAdminSection === 'content' && activeCollection === collection.name}
+                                    onClick={() => selectAdminSection(collection.name)}
+                                >
+                                    {collection.label}
+                                </button>
+                            ))}
+                            {['Administrator', 'Edition'].includes(userRoleName) && (
+                                <button
+                                    type="button"
+                                    className={activeAdminSection === 'users' ? 'is-active' : ''}
+                                    aria-pressed={activeAdminSection === 'users'}
+                                    onClick={() => selectAdminSection('users')}
+                                >
+                                    Utilisateurs
+                                </button>
+                            )}
+                        </div>
+                    )}
+                </div>
                 <p className="admin-sidebar__label">CONTENUS</p>
                 <nav className="admin-collections" aria-label="Collections Directus">
                     {COLLECTIONS.map((collection) => (
@@ -607,7 +691,7 @@ function Admin() {
                             type="button"
                             key={collection.name}
                             className={activeAdminSection === 'content' && activeCollection === collection.name ? 'is-active' : ''}
-                            onClick={() => { setActiveAdminSection('content'); setActiveCollection(collection.name); setEditor(null); setEventSearchQuery(''); setEventTypeFilter(''); setEventIntervenantFilter(''); }}
+                            onClick={() => selectAdminSection(collection.name)}
                         >
                             <span>{collection.label}</span>
                             <span className="admin-collections__count">{collectionData[collection.name]?.records.length ?? '—'}</span>
@@ -617,7 +701,7 @@ function Admin() {
                         <button
                             type="button"
                             className={activeAdminSection === 'users' ? 'is-active' : ''}
-                            onClick={() => { setActiveAdminSection('users'); setEditor(null); clearPageError(); }}
+                            onClick={() => selectAdminSection('users')}
                         >
                             <span>Utilisateurs</span>
                         </button>
@@ -644,9 +728,9 @@ function Admin() {
                         <div>
                             <p className="admin-eyebrow">{activeAdminSection === 'users' ? 'CONTENUS · UTILISATEURS' : `COLLECTION · ${activeCollection}`}</p>
                             <h1>{activeAdminSection === 'users' ? 'Utilisateurs' : activeDefinition.label}</h1>
-                            <p>{activeAdminSection === 'users'
-                                ? userRoleName === 'Administrator' ? 'Gestion des comptes' : 'Mon compte'
-                                : `${activeData.records.length} entrée${activeData.records.length !== 1 ? 's' : ''} chargée${activeData.records.length !== 1 ? 's' : ''}`}</p>
+                            {activeAdminSection === 'users' && (
+                                <p>{userRoleName === 'Administrator' ? 'Gestion des comptes' : 'Mon compte'}</p>
+                            )}
                         </div>
                         <div className="admin-heading__actions">
                             {activeAdminSection === 'users' && userRoleName === 'Administrator' && (
@@ -677,7 +761,11 @@ function Admin() {
                                 </button>
                             )}
                             {activeAdminSection === 'content' && (
-                                <button type="button" className="admin-button admin-button--primary" onClick={() => openEditor()}>
+                                <button
+                                    type="button"
+                                    className={`admin-button admin-button--primary${activeCollection === 'caphEvent' ? ' admin-button--event-add' : ''}`}
+                                    onClick={() => openEditor()}
+                                >
                                     <BsPlus aria-hidden="true" /> Ajouter {activeDefinition.singular}
                                 </button>
                             )}
@@ -758,7 +846,7 @@ function Admin() {
                             {!isLoading && !pageError && activeData.fields.length === 0 && <p className="admin-status">Aucun modèle accessible pour cette collection.</p>}
 
                             {activeCollection === 'caphEvent' && (
-                                <div className="admin-event-controls">
+                                <>
                                     <label className="admin-event-search">
                                         <BsSearch aria-hidden="true" />
                                         <input
@@ -769,37 +857,46 @@ function Admin() {
                                             aria-label="Rechercher un événement"
                                         />
                                     </label>
-                                    <label className="admin-event-filter">
-                                        <span>Type</span>
-                                        <select value={eventTypeFilter} onChange={(event) => setEventTypeFilter(event.target.value)}>
-                                            <option value="">Tous les types</option>
-                                            {eventTypes.map((type) => <option key={type.id} value={type.id}>{getRecordLabel(type, eventRelations.find((relation) => relation.field === 'eventType')?.fields)}</option>)}
-                                        </select>
-                                    </label>
-                                    <label className="admin-event-filter">
-                                        <span>Intervenant</span>
-                                        <select value={eventIntervenantFilter} onChange={(event) => setEventIntervenantFilter(event.target.value)}>
-                                            <option value="">Tous les intervenants</option>
-                                            {eventIntervenants.map((intervenant) => <option key={intervenant.id} value={intervenant.id}>{getRecordLabel(intervenant, eventRelations.find((relation) => relation.field === 'intervenant')?.fields)}</option>)}
-                                        </select>
-                                    </label>
-                                    <label className="admin-event-past-toggle">
-                                        <input
-                                            type="checkbox"
-                                            role="switch"
-                                            checked={showPastEvents}
-                                            onChange={(event) => setShowPastEvents(event.target.checked)}
-                                        />
-                                        <span>Afficher les événements passés</span>
-                                    </label>
-                                    <label className="admin-event-filter">
-                                        <span>Ordre chronologique</span>
-                                        <select value={eventSortDirection} onChange={(event) => setEventSortDirection(event.target.value)}>
-                                            <option value="asc">Du plus ancien au plus récent</option>
-                                            <option value="desc">Du plus récent au plus ancien</option>
-                                        </select>
-                                    </label>
-                                </div>
+                                    <details
+                                        className="admin-event-filter-panel"
+                                        open={isEventFilterPanelOpen}
+                                        onToggle={(event) => setIsEventFilterPanelOpen(event.currentTarget.open)}
+                                    >
+                                        <summary>Filtres <BsChevronDown aria-hidden="true" /></summary>
+                                        <div className="admin-event-controls">
+                                        <label className="admin-event-filter">
+                                            <span>Type</span>
+                                            <select value={eventTypeFilter} onChange={(event) => setEventTypeFilter(event.target.value)}>
+                                                <option value="">Tous les types</option>
+                                                {eventTypes.map((type) => <option key={type.id} value={type.id}>{getRecordLabel(type, eventRelations.find((relation) => relation.field === 'eventType')?.fields)}</option>)}
+                                            </select>
+                                        </label>
+                                        <label className="admin-event-filter">
+                                            <span>Intervenant</span>
+                                            <select value={eventIntervenantFilter} onChange={(event) => setEventIntervenantFilter(event.target.value)}>
+                                                <option value="">Tous les intervenants</option>
+                                                {eventIntervenants.map((intervenant) => <option key={intervenant.id} value={intervenant.id}>{getRecordLabel(intervenant, eventRelations.find((relation) => relation.field === 'intervenant')?.fields)}</option>)}
+                                            </select>
+                                        </label>
+                                        <label className="admin-event-past-toggle">
+                                            <input
+                                                type="checkbox"
+                                                role="switch"
+                                                checked={showPastEvents}
+                                                onChange={(event) => setShowPastEvents(event.target.checked)}
+                                            />
+                                            <span>Afficher les événements passés</span>
+                                        </label>
+                                        <label className="admin-event-filter">
+                                            <span>Ordre chronologique</span>
+                                            <select value={eventSortDirection} onChange={(event) => setEventSortDirection(event.target.value)}>
+                                                <option value="asc">Du plus ancien au plus récent</option>
+                                                <option value="desc">Du plus récent au plus ancien</option>
+                                            </select>
+                                        </label>
+                                        </div>
+                                    </details>
+                                </>
                             )}
 
                             <div className="admin-record-list" aria-live="polite">
