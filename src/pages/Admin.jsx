@@ -585,7 +585,6 @@ function Admin() {
                 <section className="admin-login">
                     <p className="admin-eyebrow">SALade SUPRÊME · ESPACE PRIVÉ</p>
                     <h1>Administration</h1>
-                    <p className="admin-login__intro">Connectez-vous avec votre compte Directus pour gérer les contenus du Capharnaüm.</p>
                     <form onSubmit={handleLogin}>
                         <label className="admin-form__field" htmlFor="admin-email">
                             <span>Adresse e-mail</span>
@@ -600,7 +599,6 @@ function Admin() {
                             {isLoggingIn ? 'Connexion…' : 'Se connecter'}
                         </button>
                     </form>
-                    <span className="admin-login__footnote">Authentification sécurisée par Directus</span>
                 </section>
             </main>
         );

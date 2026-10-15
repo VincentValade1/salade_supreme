@@ -63,13 +63,6 @@
     font-weight: 400;
 }
 
-.admin-login__intro {
-    margin: 14px 0 28px;
-    color: #5c6083;
-    font-size: 14px;
-    line-height: 1.65;
-}
-
 .admin-form__field {
     display: flex;
     min-width: 0;
@@ -144,14 +137,6 @@
     width: 100%;
     justify-content: center;
     margin-top: 4px;
-}
-
-.admin-login__footnote {
-    display: block;
-    margin-top: 24px;
-    color: #77798f;
-    font-size: 11px;
-    text-align: center;
 }
 
 .admin-button {
@@ -1335,12 +1320,26 @@
 }
 
 @media (max-width: 520px) {
+    .admin-login-page {
+        grid-template-columns: minmax(0, 1fr);
+        padding-inline: 16px;
+    }
+
     .admin-login {
-        padding: 30px 24px;
+        width: 100%;
+        min-width: 0;
+        padding: 30px 20px;
+    }
+
+    .admin-login h1 {
+        max-width: 100%;
+        font-size: 28px;
+        overflow-wrap: anywhere;
     }
 
     .admin-back-link {
-        left: 20px;
+        left: 16px;
+        max-width: calc(100% - 32px);
     }
 
     .admin-form__grid {
