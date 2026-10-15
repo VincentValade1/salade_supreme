@@ -5,6 +5,7 @@ import AdminRecordEditorModal from './AdminRecordEditorModal';
 import '../styles/PlanningAgenda.css';
 
 const weekdayLabels = ['Lun', 'Mar', 'Mer', 'Jeu', 'Ven', 'Sam', 'Dim'];
+const monthNameFormatter = new Intl.DateTimeFormat('fr-FR', { month: 'long', year: 'numeric' });
 
 const defaultEventTypeStyle = { background: '#edf4ff', border: '#6f9ae8', text: '#2f3f5f' };
 
@@ -532,6 +533,10 @@ function PlanningAgenda({ months, eventLocation = '', activityDescriptions = [],
 
     const hasPreviousMonth = currentMonthIndex > 0;
     const hasNextMonth = currentMonthIndex < safeMonths.length - 1;
+    const previousMonth = safeMonths[currentMonthIndex - 1];
+    const nextMonth = safeMonths[currentMonthIndex + 1];
+    const previousUnavailableMonthName = monthNameFormatter.format(new Date(currentMonthDate.getFullYear(), currentMonthDate.getMonth() - 1, 1));
+    const nextUnavailableMonthName = monthNameFormatter.format(new Date(currentMonthDate.getFullYear(), currentMonthDate.getMonth() + 1, 1));
 
     const eventDetails = selectedActivity
         ? Object.entries(selectedActivity).filter(([key]) => (
@@ -559,13 +564,29 @@ function PlanningAgenda({ months, eventLocation = '', activityDescriptions = [],
             )}
 
             <div className="planning-agenda__month-controls">
-                {hasPreviousMonth && (
-                    <button type="button" className="planning-agenda__month-button" onClick={() => moveMonth(-1)} aria-label="Mois précédent">‹</button>
-                )}
+                <button
+                    type="button"
+                    className="planning-agenda__month-button planning-agenda__month-button--previous"
+                    onClick={() => hasPreviousMonth && moveMonth(-1)}
+                    aria-label={previousMonth ? `Aller en ${previousMonth.name}` : `Aucun événement en ${previousUnavailableMonthName}`}
+                    aria-disabled={!hasPreviousMonth}
+                >
+                    ‹<span className={`planning-agenda__month-tip ${previousMonth ? '' : 'planning-agenda__month-tip--unavailable'}`} aria-hidden="true">
+                        {previousMonth ? `Aller en ${previousMonth.name}` : `Aucun événement en ${previousUnavailableMonthName}`}
+                    </span>
+                </button>
                 <h4 className="planning-agenda__month-name">{currentMonth.name}</h4>
-                {hasNextMonth && (
-                    <button type="button" className="planning-agenda__month-button" onClick={() => moveMonth(1)} aria-label="Mois suivant">›</button>
-                )}
+                <button
+                    type="button"
+                    className="planning-agenda__month-button planning-agenda__month-button--next"
+                    onClick={() => hasNextMonth && moveMonth(1)}
+                    aria-label={nextMonth ? `Aller en ${nextMonth.name}` : `Aucun événement en ${nextUnavailableMonthName}`}
+                    aria-disabled={!hasNextMonth}
+                >
+                    ›<span className={`planning-agenda__month-tip ${nextMonth ? '' : 'planning-agenda__month-tip--unavailable'}`} aria-hidden="true">
+                        {nextMonth ? `Aller en ${nextMonth.name}` : `Aucun événement en ${nextUnavailableMonthName}`}
+                    </span>
+                </button>
             </div>
             <div className={`planning-agenda__desktop-layout ${selectedActivity ? 'planning-agenda__desktop-layout--selected' : ''}`}>
                 <div className="planning-agenda__board">

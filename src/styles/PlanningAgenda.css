@@ -63,11 +63,12 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    gap: 8px;
+    gap: 16px;
     margin-bottom: 16px;
 }
 
 .planning-agenda__month-button {
+    position: relative;
     width: 42px;
     height: 42px;
     border: 1px solid #DB6D93;
@@ -78,13 +79,115 @@
     cursor: pointer;
 }
 
+.planning-agenda__month-button:hover,
+.planning-agenda__month-button:focus-visible {
+    background: #28338A;
+    color: #fff;
+    outline: 2px solid #F8C7CD;
+    outline-offset: 2px;
+}
+
+.planning-agenda__month-button[aria-disabled="true"] {
+    border-color: #c8c8c8;
+    background: #e8e8e8;
+    color: #929292;
+    cursor: help;
+}
+
+.planning-agenda__month-button[aria-disabled="true"]:hover,
+.planning-agenda__month-button[aria-disabled="true"]:focus-visible {
+    background: #e8e8e8;
+    color: #929292;
+    outline: 2px solid #c8c8c8;
+    outline-offset: 2px;
+}
+
+.planning-agenda__month-tip.planning-agenda__month-tip--unavailable {
+    border-color: #c8c8c8;
+    background: #e8e8e8;
+    box-shadow: 0 4px 12px rgba(90, 90, 90, 0.18);
+    color: #777;
+}
+
+.planning-agenda__month-tip {
+    position: absolute;
+    top: 50%;
+    z-index: 5;
+    width: max-content;
+    max-width: min(190px, calc(100vw - 80px));
+    border: 1px solid #DB6D93;
+    padding: 8px 12px;
+    background: #fffafc;
+    box-shadow: 0 4px 12px rgba(31, 34, 84, 0.2);
+    color: #28338A;
+    font-family: "Gotham-HTF-Book", sans-serif;
+    font-size: 13px;
+    font-weight: 700;
+    line-height: 1.25;
+    text-align: center;
+    white-space: normal;
+    pointer-events: none;
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(-50%);
+    scale: 0.88;
+    rotate: 2deg;
+    translate: 10px 0;
+    transform-origin: right center;
+    transition: opacity 120ms ease, scale 160ms ease, rotate 160ms ease, translate 160ms ease, visibility 0s linear 160ms;
+}
+
+.planning-agenda__month-button--previous .planning-agenda__month-tip {
+    right: calc(100% + 10px);
+}
+
+.planning-agenda__month-button--next .planning-agenda__month-tip {
+    left: calc(100% + 10px);
+    transform-origin: left center;
+    translate: -10px 0;
+}
+
+.planning-agenda__month-button:hover .planning-agenda__month-tip,
+.planning-agenda__month-button:focus-visible .planning-agenda__month-tip {
+    visibility: visible;
+    animation: planning-agenda-month-tip-pop 320ms cubic-bezier(0.2, 1.5, 0.5, 1) both;
+    transition-delay: 0s;
+}
+
+@keyframes planning-agenda-month-tip-pop {
+    0% {
+        opacity: 0;
+        scale: 0.72;
+        rotate: 5deg;
+        translate: 14px 0;
+    }
+
+    62% {
+        opacity: 1;
+        scale: 1.08;
+        rotate: -2deg;
+        translate: -3px 0;
+    }
+
+    100% {
+        opacity: 1;
+        scale: 1;
+        rotate: 0deg;
+        translate: 0 0;
+    }
+}
+
 .planning-agenda__month-name {
-    min-width: 180px;
+    box-sizing: border-box;
+    width: 280px;
+    min-width: 280px;
+    flex: 0 0 280px;
     margin: 0;
     color: #28338A;
     font-size: 28px;
     font-family: "Mango-Black", sans-serif;
     text-align: center;
+    white-space: nowrap;
 }
 
 .planning-agenda__loading {
@@ -151,8 +254,17 @@
 @media (prefers-reduced-motion: reduce) {
     .planning-agenda__loading span,
     .planning-agenda__calendar-scroll--slide-next,
-    .planning-agenda__calendar-scroll--slide-previous {
+    .planning-agenda__calendar-scroll--slide-previous,
+    .planning-agenda__month-tip {
         animation: none;
+    }
+
+    .planning-agenda__month-button:hover .planning-agenda__month-tip,
+    .planning-agenda__month-button:focus-visible .planning-agenda__month-tip {
+        opacity: 1;
+        scale: 1;
+        rotate: 0deg;
+        translate: 0 0;
     }
 }
 
@@ -1083,11 +1195,36 @@
     .planning-agenda__month-controls {
         width: 100%;
         justify-content: space-between;
+        gap: 8px;
+    }
+
+    .planning-agenda__month-tip {
+        top: auto;
+        right: auto;
+        bottom: calc(100% + 8px);
+        left: 50%;
+        transform: translateX(-50%);
+        transform-origin: center bottom;
+    }
+
+    .planning-agenda__month-button--previous .planning-agenda__month-tip {
+        left: 0;
+        transform: none;
+        transform-origin: left bottom;
+    }
+
+    .planning-agenda__month-button--next .planning-agenda__month-tip {
+        right: 0;
+        left: auto;
+        transform: none;
+        transform-origin: right bottom;
     }
 
     .planning-agenda__month-name {
+        width: min(220px, calc(100% - 100px));
         min-width: 0;
-        font-size: 24px;
+        flex: 0 1 min(220px, calc(100% - 100px));
+        font-size: 20px;
     }
 
     .planning-agenda__board {
