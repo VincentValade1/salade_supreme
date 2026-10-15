@@ -1,6 +1,6 @@
 import { useEffect, useId, useLayoutEffect, useMemo, useRef, useState } from 'react';
 import { createPortal } from 'react-dom';
-import { BsInfoCircle, BsInstagram } from 'react-icons/bs';
+import { BsCalendarPlus, BsInfoCircle, BsInstagram } from 'react-icons/bs';
 import AdminRecordEditorModal from './AdminRecordEditorModal';
 import '../styles/PlanningAgenda.css';
 
@@ -23,6 +23,149 @@ function isActivityCanceled(activity) {
 
 function hasPrice(value) {
     return value !== null && value !== undefined;
+}
+
+function escapeICalendarText(value) {
+    return String(value || '')
+        .replace(/\\/g, '\\\\')
+        .replace(/\r?\n/g, '\\n')
+        .replace(/,/g, '\\,')
+        .replace(/;/g, '\\;');
+}
+
+function formatICalendarDate(date) {
+    return String(date || '').replace(/-/g, '');
+}
+
+function addOneDay(date) {
+    const nextDay = new Date(`${date}T00:00:00`);
+    nextDay.setDate(nextDay.getDate() + 1);
+    return getDateKey(nextDay);
+}
+
+function downloadCalendarEvent(activity) {
+    const isMultiDay = activity.endDate > activity.date;
+    const hasStartTime = /^\d{1,2}:\d{2}$/.test(activity.time || '');
+    const formatTime = (time) => `${String(time).split(':')[0].padStart(2, '0')}${String(time).split(':')[1]}00`;
+    const lines = [
+        'BEGIN:VCALENDAR',
+        'VERSION:2.0',
+        'PRODID:-//Salade Supreme//Agenda//FR',
+        'CALSCALE:GREGORIAN',
+        'BEGIN:VEVENT',
+        `UID:${activity.id}@${window.location.hostname}`,
+        `DTSTAMP:${new Date().toISOString().replace(/[-:]/g, '').replace(/\.\d{3}/, '')}`,
+        `SUMMARY:${escapeICalendarText(activity.title)}`
+    ];
+
+    if (isMultiDay || !hasStartTime) {
+        lines.push(`DTSTART;VALUE=DATE:${formatICalendarDate(activity.date)}`);
+        lines.push(`DTEND;VALUE=DATE:${formatICalendarDate(addOneDay(isMultiDay ? activity.endDate : activity.date))}`);
+    } else {
+        lines.push(`DTSTART:${formatICalendarDate(activity.date)}T${formatTime(activity.time)}`);
+        if (/^\d{1,2}:\d{2}$/.test(activity.endTime || '')) {
+            lines.push(`DTEND:${formatICalendarDate(activity.endDate || activity.date)}T${formatTime(activity.endTime)}`);
+        }
+    }
+
+    if (activity.description) {
+        lines.push(`DESCRIPTION:${escapeICalendarText(activity.description)}`);
+    }
+    if (activity.location) {
+        lines.push(`LOCATION:${escapeICalendarText(activity.location)}`);
+    }
+    if (activity.link) {
+        lines.push(`URL:${activity.link}`);
+    }
+    lines.push('END:VEVENT', 'END:VCALENDAR');
+
+    const calendarFile = new Blob([`${lines.join('\r\n')}\r\n`], { type: 'text/calendar;charset=utf-8' });
+    const downloadUrl = URL.createObjectURL(calendarFile);
+    const downloadLink = document.createElement('a');
+    const filename = String(activity.title || 'evenement').normalize('NFD').replace(/[\u0300-\u036f]/g, '').replace(/[^a-zA-Z0-9_-]+/g, '-').replace(/^-|-$/g, '');
+    downloadLink.href = downloadUrl;
+    downloadLink.download = `${filename || 'evenement'}.ics`;
+    document.body.appendChild(downloadLink);
+    downloadLink.click();
+    downloadLink.remove();
+    window.setTimeout(() => URL.revokeObjectURL(downloadUrl), 1000);
+}
+
+function getCalendarEventTiming(activity) {
+    const isMultiDay = activity.endDate > activity.date;
+    const hasStartTime = /^\d{1,2}:\d{2}$/.test(activity.time || '');
+    if (isMultiDay || !hasStartTime) {
+        return {
+            allDay: true,
+            startDate: activity.date,
+            endDate: addOneDay(isMultiDay ? activity.endDate : activity.date)
+        };
+    }
+
+    const normalizeTime = (time) => {
+        const [hours, minutes] = String(time).split(':');
+        return `${hours.padStart(2, '0')}:${minutes}:00`;
+    };
+    const startDateTime = `${activity.date}T${normalizeTime(activity.time)}`;
+    let endDate = activity.endDate || activity.date;
+    let endTime = activity.endTime;
+
+    if (!/^\d{1,2}:\d{2}$/.test(endTime || '')) {
+        const fallbackEnd = new Date(startDateTime);
+        fallbackEnd.setHours(fallbackEnd.getHours() + 1);
+        endDate = getDateKey(fallbackEnd);
+        endTime = `${String(fallbackEnd.getHours()).padStart(2, '0')}:${String(fallbackEnd.getMinutes()).padStart(2, '0')}`;
+    }
+
+    return {
+        allDay: false,
+        startDate: activity.date,
+        endDate,
+        startDateTime,
+        endDateTime: `${endDate}T${normalizeTime(endTime)}`
+    };
+}
+
+function getGoogleCalendarUrl(activity) {
+    const timing = getCalendarEventTiming(activity);
+    const dates = timing.allDay
+        ? `${formatICalendarDate(timing.startDate)}/${formatICalendarDate(timing.endDate)}`
+        : `${timing.startDateTime}/${timing.endDateTime}`.replace(/[-:]/g, '');
+    const parameters = new URLSearchParams({
+        action: 'TEMPLATE',
+        text: activity.title || '',
+        dates,
+        details: activity.description || ''
+    });
+    if (!timing.allDay) {
+        parameters.set('ctz', 'Europe/Paris');
+    }
+    if (activity.location) {
+        parameters.set('location', activity.location);
+    }
+    if (activity.link) {
+        parameters.set('details', [activity.description, `Réservation : ${activity.link}`].filter(Boolean).join('\n\n'));
+    }
+    return `https://calendar.google.com/calendar/render?${parameters.toString()}`;
+}
+
+function getOutlookCalendarUrl(activity) {
+    const timing = getCalendarEventTiming(activity);
+    const startDateTime = timing.allDay ? `${timing.startDate}T00:00:00` : timing.startDateTime;
+    const endDateTime = timing.allDay ? `${timing.endDate}T00:00:00` : timing.endDateTime;
+    const parameters = new URLSearchParams({
+        subject: activity.title || '',
+        startdt: startDateTime,
+        enddt: endDateTime,
+        body: activity.description || ''
+    });
+    if (activity.location) {
+        parameters.set('location', activity.location);
+    }
+    if (activity.link) {
+        parameters.set('body', [activity.description, `Réservation : ${activity.link}`].filter(Boolean).join('\n\n'));
+    }
+    return `https://outlook.live.com/calendar/0/deeplink/compose?${parameters.toString()}`;
 }
 
 function getTariffToastPosition(anchor) {
@@ -119,7 +262,7 @@ function monthMatchesDate(month, date) {
     return String(month?.name || '').trim().toLowerCase() === monthLabel.toLowerCase();
 }
 
-function PlanningAgenda({ months, activityDescriptions = [], isLoading = false, errorMessage = null, selectedActivity: selectedActivityProp, onSelectedActivityChange, isAdmin = false, adminToken, onActivitySaved, onUnauthorized }) {
+function PlanningAgenda({ months, eventLocation = '', activityDescriptions = [], isLoading = false, errorMessage = null, selectedActivity: selectedActivityProp, onSelectedActivityChange, isAdmin = false, adminToken, onActivitySaved, onUnauthorized }) {
     const safeMonths = useMemo(() => months || [], [months]);
     const eventTypeStyles = useMemo(() => {
         const styles = {};
@@ -571,7 +714,7 @@ function PlanningAgenda({ months, activityDescriptions = [], isLoading = false, 
                 {selectedActivity && (
                     <aside className="planning-agenda__side-panel" aria-label="Détail de l’activité sélectionnée">
                         <button type="button" className="planning-agenda__side-panel-close" onClick={closeActivityDetails} aria-label="Fermer le détail de l’activité">×</button>
-                        <ActivityDetails selectedActivity={selectedActivity} eventDetails={eventDetails} eventFieldLabels={eventFieldLabels} />
+                        <ActivityDetails selectedActivity={selectedActivity} eventDetails={eventDetails} eventFieldLabels={eventFieldLabels} eventLocation={eventLocation} />
                         {isAdmin && <button type="button" className="planning-agenda__edit-button" onClick={startEditingActivity}>Modifier</button>}
                     </aside>
                 )}
@@ -581,7 +724,7 @@ function PlanningAgenda({ months, activityDescriptions = [], isLoading = false, 
                 <div className="planning-agenda__modal-overlay" onClick={closeActivityDetails}>
                     <div className="planning-agenda__modal" onClick={(event) => event.stopPropagation()}>
                         <button type="button" className="planning-agenda__modal-close" onClick={closeActivityDetails} aria-label="Fermer le détail">×</button>
-                        <ActivityDetails selectedActivity={selectedActivity} eventDetails={eventDetails} eventFieldLabels={eventFieldLabels} />
+                        <ActivityDetails selectedActivity={selectedActivity} eventDetails={eventDetails} eventFieldLabels={eventFieldLabels} eventLocation={eventLocation} />
                         {isAdmin && <button type="button" className="planning-agenda__edit-button" onClick={startEditingActivity}>Modifier</button>}
                     </div>
                 </div>
@@ -617,16 +760,19 @@ function PlanningAgenda({ months, activityDescriptions = [], isLoading = false, 
     );
 }
 
-function ActivityDetails({ selectedActivity, eventDetails, eventFieldLabels }) {
+function ActivityDetails({ selectedActivity, eventDetails, eventFieldLabels, eventLocation }) {
     const tariffNoteId = useId();
     const solidarityTariffNoteId = useId();
     const [visibleTariffNote, setVisibleTariffNote] = useState(null);
+    const [isCalendarOptionsOpen, setIsCalendarOptionsOpen] = useState(false);
+    const calendarOptionsTitleId = useId();
     const tariffNoteTimeoutRef = useRef(null);
     const tariffAnchorRef = useRef(null);
     const tariffToastRef = useRef(null);
     const eventDate = selectedActivity?.date;
     const isPastEvent = eventDate ? new Date(`${eventDate}T23:59:59`) < new Date() : false;
     const isCanceled = isActivityCanceled(selectedActivity);
+    const calendarActivity = { ...selectedActivity, location: selectedActivity.location || eventLocation };
 
     useEffect(() => {
         const repositionTariffToast = () => {
@@ -643,6 +789,26 @@ function ActivityDetails({ selectedActivity, eventDetails, eventFieldLabels }) {
             window.removeEventListener('resize', repositionTariffToast);
         };
     }, []);
+
+    useEffect(() => {
+        if (!isCalendarOptionsOpen) {
+            return undefined;
+        }
+
+        const previousOverflow = document.body.style.overflow;
+        const closeOnEscape = (event) => {
+            if (event.key === 'Escape') {
+                setIsCalendarOptionsOpen(false);
+            }
+        };
+        document.body.style.overflow = 'hidden';
+        window.addEventListener('keydown', closeOnEscape);
+
+        return () => {
+            document.body.style.overflow = previousOverflow;
+            window.removeEventListener('keydown', closeOnEscape);
+        };
+    }, [isCalendarOptionsOpen]);
 
     useLayoutEffect(() => {
         const toast = tariffToastRef.current;
@@ -765,14 +931,51 @@ function ActivityDetails({ selectedActivity, eventDetails, eventFieldLabels }) {
                     )}
                 </div>
             )}
-            {isCanceled ? (
-                <div className="planning-agenda__no-reservation" aria-disabled="true">Événement annulé</div>
-            ) : isPastEvent ? (
-                <div className="planning-agenda__no-reservation" aria-disabled="true">Événement terminé</div>
-            ) : selectedActivity.link ? (
-                <a className="planning-agenda__reservation-link" href={selectedActivity.link} target="_blank" rel="noreferrer noopener">Réserver</a>
-            ) : (
-                <div className="planning-agenda__no-reservation">Aucun lien de réservation disponible.</div>
+            <div className="planning-agenda__event-actions">
+                {isCanceled ? (
+                    <div className="planning-agenda__no-reservation" aria-disabled="true">Événement annulé</div>
+                ) : isPastEvent ? (
+                    <div className="planning-agenda__no-reservation" aria-disabled="true">Événement terminé</div>
+                ) : selectedActivity.link ? (
+                    <a className="planning-agenda__reservation-link" href={selectedActivity.link} target="_blank" rel="noreferrer noopener">Réserver</a>
+                ) : (
+                    <div className="planning-agenda__no-reservation">Aucun lien de réservation disponible.</div>
+                )}
+                <button type="button" className="planning-agenda__calendar-download" onClick={() => setIsCalendarOptionsOpen(true)} aria-label="Ajouter l’événement à mon calendrier">
+                    <BsCalendarPlus aria-hidden="true" />
+                    <span>Ajouter au calendrier</span>
+                </button>
+            </div>
+            {isCalendarOptionsOpen && createPortal(
+                <div
+                    className="planning-agenda__calendar-options-overlay"
+                    onClick={(event) => {
+                        event.stopPropagation();
+                        if (event.target === event.currentTarget) {
+                            setIsCalendarOptionsOpen(false);
+                        }
+                    }}
+                >
+                    <section className="planning-agenda__calendar-options" role="dialog" aria-modal="true" aria-labelledby={calendarOptionsTitleId}>
+                        <div className="planning-agenda__calendar-options-heading">
+                            <h4 id={calendarOptionsTitleId}>Ajouter à mon calendrier</h4>
+                            <button type="button" className="planning-agenda__calendar-options-close" onClick={() => setIsCalendarOptionsOpen(false)} aria-label="Fermer les options calendrier">×</button>
+                        </div>
+                        <p className="planning-agenda__calendar-options-event">{selectedActivity.title}</p>
+                        <div className="planning-agenda__calendar-options-list">
+                            <a className="planning-agenda__calendar-option" href={getGoogleCalendarUrl(calendarActivity)} target="_blank" rel="noreferrer noopener" onClick={() => setIsCalendarOptionsOpen(false)}>
+                                Google Calendar
+                            </a>
+                            <a className="planning-agenda__calendar-option" href={getOutlookCalendarUrl(calendarActivity)} target="_blank" rel="noreferrer noopener" onClick={() => setIsCalendarOptionsOpen(false)}>
+                                Outlook Calendar
+                            </a>
+                            <button type="button" className="planning-agenda__calendar-option planning-agenda__calendar-option--download" onClick={() => downloadCalendarEvent(calendarActivity)}>
+                                Apple Calendar et autres (.ics)
+                            </button>
+                        </div>
+                    </section>
+                </div>,
+                document.body
             )}
         </>
     );

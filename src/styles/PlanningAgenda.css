@@ -291,6 +291,27 @@
     color: #28338A;
 }
 
+.planning-agenda__side-panel .planning-agenda__reservation-link:hover,
+.planning-agenda__side-panel .planning-agenda__reservation-link:focus-visible {
+    background: #fff;
+    color: #28338A;
+    outline: 2px solid #F8C7CD;
+    outline-offset: 2px;
+}
+
+.planning-agenda__side-panel .planning-agenda__calendar-download {
+    border-color: #F8C7CD;
+    background: #F8C7CD;
+    color: #28338A;
+}
+
+.planning-agenda__side-panel .planning-agenda__calendar-download:hover,
+.planning-agenda__side-panel .planning-agenda__calendar-download:focus-visible {
+    border-color: #fff;
+    background: #fff;
+    outline-color: #F8C7CD;
+}
+
 .planning-agenda__side-panel .planning-agenda__no-reservation {
     color: #F8C7CD;
 }
@@ -841,8 +862,8 @@
 .planning-agenda__reservation-link {
     display: block;
     width: 100%;
-    margin: 28px auto 0;
-    padding: 15px 28px;
+    margin: 0;
+    padding: 12px 20px;
     background: #DB6D93;
     color: #fff;
     font-size: 16px;
@@ -853,11 +874,183 @@
 }
 
 .planning-agenda__no-reservation {
-    margin-top: 24px;
+    margin: 0;
     color: #8A6473;
     font-size: 14px;
     font-weight: 600;
     font-family: "Gotham-HTF-Book", sans-serif;
+}
+
+.planning-agenda__event-actions {
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    gap: 8px;
+    margin-top: 24px;
+}
+
+.planning-agenda__calendar-download {
+    align-self: stretch;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    width: 100%;
+    border: 0;
+    padding: 12px 20px;
+    background: #DB6D93;
+    color: #fff;
+    font: 700 16px "Gotham-HTF-Book", sans-serif;
+    text-align: center;
+    cursor: pointer;
+}
+
+.planning-agenda__calendar-download svg {
+    width: 16px;
+    height: 16px;
+}
+
+.planning-agenda__calendar-download span {
+    color: #fff;
+}
+
+.planning-agenda__calendar-download:hover,
+.planning-agenda__calendar-download:focus-visible {
+    background: #fff;
+    color: #28338A;
+    outline: 2px solid #28338A;
+    outline-offset: 2px;
+}
+
+.planning-agenda__side-panel .planning-agenda__calendar-download {
+    border-color: #F8C7CD;
+    background: #F8C7CD;
+    color: #28338A;
+}
+
+.planning-agenda__side-panel .planning-agenda__calendar-download span {
+    color: #28338A;
+}
+
+.planning-agenda__side-panel .planning-agenda__calendar-download:hover,
+.planning-agenda__side-panel .planning-agenda__calendar-download:focus-visible {
+    background: #fff;
+    color: #28338A;
+}
+
+.planning-agenda__side-panel .planning-agenda__calendar-download:hover span,
+.planning-agenda__side-panel .planning-agenda__calendar-download:focus-visible span {
+    color: #28338A;
+}
+
+.planning-agenda__calendar-options-overlay {
+    position: fixed;
+    inset: 0;
+    z-index: 10003;
+    display: grid;
+    place-items: center;
+    padding: 16px;
+    background: rgba(34, 24, 29, 0.6);
+}
+
+.planning-agenda__calendar-options {
+    width: min(440px, 100%);
+    max-height: calc(100vh - 32px);
+    overflow-y: auto;
+    padding: 24px;
+    border: 1px solid #ead5dc;
+    background: #fff;
+    box-shadow: 0 24px 60px rgba(23, 19, 21, 0.22);
+}
+
+.planning-agenda__calendar-options-heading {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+}
+
+.planning-agenda__calendar-options-heading h4 {
+    margin: 0;
+    color: #28338A;
+    font-size: 22px;
+    font-family: "Mango-Black", sans-serif;
+}
+
+.planning-agenda__calendar-options-close {
+    flex: 0 0 auto;
+    width: 36px;
+    height: 36px;
+    border: 1px solid #28338A;
+    background: #28338A;
+    color: #fff;
+    font-size: 20px;
+    cursor: pointer;
+}
+
+.planning-agenda__calendar-options-event {
+    margin: 12px 0 20px;
+    color: #4d4d4d;
+    font-size: 14px;
+    font-weight: 700;
+    font-family: "Gotham-HTF-Book", sans-serif;
+    overflow-wrap: anywhere;
+}
+
+.planning-agenda__calendar-options-list {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.planning-agenda__calendar-option {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+    min-height: 48px;
+    border: 1px solid #28338A;
+    padding: 12px 14px;
+    background: #28338A;
+    color: #fff;
+    font: 700 14px "Gotham-HTF-Book", sans-serif;
+    text-align: left;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+.planning-agenda__calendar-option--download {
+    border-color: #F8C7CD;
+    background: #F8C7CD;
+    color: #28338A;
+}
+
+.planning-agenda__calendar-option:hover,
+.planning-agenda__calendar-option:focus-visible,
+.planning-agenda__calendar-options-close:hover,
+.planning-agenda__calendar-options-close:focus-visible {
+    outline: 2px solid #DB6D93;
+    outline-offset: 2px;
+}
+
+.planning-agenda__calendar-option--download:hover,
+.planning-agenda__calendar-option--download:focus-visible {
+    background: #fff;
+}
+
+@media (max-width: 480px) {
+    .planning-agenda__calendar-options-overlay {
+        padding: 12px;
+    }
+
+    .planning-agenda__calendar-options {
+        max-height: calc(100vh - 24px);
+        padding: 18px;
+    }
+
+    .planning-agenda__calendar-options-heading h4 {
+        font-size: 19px;
+    }
 }
 
 

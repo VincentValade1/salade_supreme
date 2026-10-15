@@ -357,6 +357,7 @@ function Capharnaum() {
             />
             <PlanningAgenda
                 months={planningMonths}
+                eventLocation={`${caph.location.address}, Toulouse, France`}
                 isLoading={isLoading}
                 errorMessage={apiError ? 'Le calendrier est temporairement indisponible. Merci de réessayer plus tard.' : null}
                 selectedActivity={selectedActivity}
