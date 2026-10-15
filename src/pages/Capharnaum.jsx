@@ -241,49 +241,50 @@ function Capharnaum() {
                 <button
                     type="button"
                     aria-label="Remonter en haut de page"
-                    title="Haut de page"
                     onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
                 >
                     <BsArrowUp aria-hidden="true" />
+                    <span className="capharnaum-quick-navigation__label" aria-hidden="true">Haut de page</span>
                 </button><button
                     type="button"
                     aria-label="Aller aux informations"
-                    title="Informations"
                     onClick={() => document.getElementById('capharnaum-info')?.scrollIntoView({ behavior: 'smooth', block: 'start' })}
                 >
                     <BsInfoCircle aria-hidden="true" />
+                    <span className="capharnaum-quick-navigation__label" aria-hidden="true">Infos pratiques</span>
                 </button>
                 <button
                     type="button"
                     aria-label="Aller au calendrier"
-                    title="Calendrier"
                     onClick={() => document.getElementById('cours-ateliers')?.scrollIntoView({ behavior: 'smooth', block: 'start' })}
                 >
                     <BsCalendar3 aria-hidden="true" />
+                    <span className="capharnaum-quick-navigation__label" aria-hidden="true">Calendrier</span>
                 </button>
                 {!adminToken && (
                     <>
                         <button
                             type="button"
                             aria-label="Instagram du Capharnaüm"
-                            title="Instagram du Capharnaüm"
                             onClick={() => setSocialDialog('instagram')}
                         >
                             <BsInstagram aria-hidden="true" />
+                            <span className="capharnaum-quick-navigation__label" aria-hidden="true">Instagram du Capharnaüm</span>
                         </button>
                         <button
                             type="button"
                             aria-label="Facebook du collectif Salade Suprême"
-                            title="Facebook du collectif Salade Suprême"
                             onClick={() => setSocialDialog('facebook')}
                         >
                             <BsFacebook aria-hidden="true" />
+                            <span className="capharnaum-quick-navigation__label" aria-hidden="true">Facebook du collectif</span>
                         </button>
                     </>
                 )}
                 {adminToken && (
-                    <Link to="/admin" aria-label="Accéder à l’administration" title="Administration">
+                    <Link to="/admin" aria-label="Accéder à l’administration">
                         <BsGear aria-hidden="true" />
+                        <span className="capharnaum-quick-navigation__label" aria-hidden="true">Administration</span>
                     </Link>
                 )}
             </nav>
