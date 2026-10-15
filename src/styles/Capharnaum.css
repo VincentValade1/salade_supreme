@@ -197,7 +197,7 @@
     background: #1f2254;
 }
 
-@media (max-width: 600px) {
+@media (max-width: 1024px) {
     .capharnaum-quick-navigation {
         left: 12px;
         right: 12px;

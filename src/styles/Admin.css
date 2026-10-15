@@ -362,6 +362,17 @@
     outline-offset: 2px;
 }
 
+@media (max-width: 1024px) {
+    .admin-sidebar__bottom {
+        right: auto;
+        bottom: calc(12px + env(safe-area-inset-bottom));
+        left: 50%;
+        flex-direction: row;
+        gap: 6px;
+        transform: translateX(-50%);
+    }
+}
+
 .admin-main {
     min-width: 0;
     min-height: 100vh;
@@ -1093,11 +1104,6 @@
     .admin-collections button.is-active {
         border-bottom-color: var(--admin-pink);
         border-left-color: transparent;
-    }
-
-    .admin-sidebar__bottom {
-        right: 20px;
-        bottom: calc(20px + env(safe-area-inset-bottom));
     }
 
     .admin-sidebar__action {
