@@ -1,11 +1,12 @@
 import { useCallback, useEffect, useMemo, useState } from 'react';
-import { BsArrowLeft, BsArrowRepeat, BsBoxArrowRight, BsPencil, BsPlus, BsSearch, BsTrash } from 'react-icons/bs';
+import { BsArrowLeft, BsArrowRepeat, BsBoxArrowRight, BsDash, BsPencil, BsPersonCircle, BsPlus, BsSearch, BsTrash } from 'react-icons/bs';
 import { Link } from 'react-router-dom';
 import AdminRecordEditorModal from '../components/AdminRecordEditorModal';
 import '../styles/Admin.css';
 
 const DIRECTUS_URL = process.env.REACT_APP_DIRECTUS_URL || 'https://directus.saladesupreme.tarrieu.fr';
 const TOKEN_STORAGE_KEY = 'salade-supreme-directus-token';
+const EMAIL_STORAGE_KEY = 'salade-supreme-directus-email';
 const COLLECTIONS = [
     { name: 'caphEvent', label: 'Événements', singular: 'événement' },
     { name: 'caphIntervenant', label: 'Intervenants', singular: 'intervenant' },
@@ -31,6 +32,18 @@ async function directusRequest(path, { token, method = 'GET', body } = {}) {
     }
 
     return payload.data;
+}
+
+function getAdminErrorMessage(error) {
+    if (error.status === 403) {
+        return 'Vous n’avez pas accès à ces ressources. Demandez à l’administrateur de vous accorder les autorisations nécessaires.';
+    }
+    return error.message || 'Une erreur est survenue lors de la récupération des ressources.';
+}
+
+function getAdminErrorDetails(error) {
+    const status = error.status ? `HTTP ${error.status} · ` : '';
+    return `${status}${error.message || 'Erreur Directus sans détail.'}`;
 }
 
 function fieldLabel(field) {
@@ -86,6 +99,7 @@ function isEventPast(record, now) {
 function Admin() {
     const [credentials, setCredentials] = useState({ email: '', password: '' });
     const [token, setToken] = useState(() => window.sessionStorage.getItem(TOKEN_STORAGE_KEY) || '');
+    const [userEmail, setUserEmail] = useState(() => window.sessionStorage.getItem(EMAIL_STORAGE_KEY) || '');
     const [activeCollection, setActiveCollection] = useState(COLLECTIONS[0].name);
     const [eventSearchQuery, setEventSearchQuery] = useState('');
     const [eventTypeFilter, setEventTypeFilter] = useState('');
@@ -95,6 +109,8 @@ function Admin() {
     const [collectionData, setCollectionData] = useState({});
     const [loginError, setLoginError] = useState('');
     const [pageError, setPageError] = useState('');
+    const [pageErrorDetails, setPageErrorDetails] = useState('');
+    const [isPageErrorDetailsOpen, setIsPageErrorDetailsOpen] = useState(false);
     const [isLoggingIn, setIsLoggingIn] = useState(false);
     const [isLoading, setIsLoading] = useState(false);
     const [isLogoutConfirmationOpen, setIsLogoutConfirmationOpen] = useState(false);
@@ -106,6 +122,16 @@ function Admin() {
     const eventRelations = activeData.relations;
     const eventTypes = eventRelations.find((relation) => relation.field === 'eventType')?.records || [];
     const eventIntervenants = eventRelations.find((relation) => relation.field === 'intervenant')?.records || [];
+    const clearPageError = useCallback(() => {
+        setPageError('');
+        setPageErrorDetails('');
+        setIsPageErrorDetailsOpen(false);
+    }, []);
+    const showPageError = useCallback((error) => {
+        setPageError(getAdminErrorMessage(error));
+        setPageErrorDetails(getAdminErrorDetails(error));
+        setIsPageErrorDetailsOpen(false);
+    }, []);
     const matchingEventRecords = useMemo(() => {
         const query = normalizeSearchText(eventSearchQuery.trim());
         const now = new Date();
@@ -142,14 +168,33 @@ function Admin() {
 
     const expireSession = useCallback(() => {
         window.sessionStorage.removeItem(TOKEN_STORAGE_KEY);
+        window.sessionStorage.removeItem(EMAIL_STORAGE_KEY);
         setToken('');
+        setUserEmail('');
         setCollectionData({});
-        setPageError('');
+        clearPageError();
         setLoginError('Votre session a expiré. Veuillez vous reconnecter.');
         setIsLogoutConfirmationOpen(false);
         setIsEditorOpen(false);
         setEditor(null);
-    }, []);
+    }, [clearPageError]);
+
+    useEffect(() => {
+        if (!token) return undefined;
+        let isMounted = true;
+        directusRequest('/users/me?fields=email', { token })
+            .then((user) => {
+                if (isMounted && user?.email) {
+                    setUserEmail(user.email);
+                    window.sessionStorage.setItem(EMAIL_STORAGE_KEY, user.email);
+                }
+            })
+            .catch((error) => {
+                if (isMounted && error.status === 401) expireSession();
+            });
+
+        return () => { isMounted = false; };
+    }, [expireSession, token]);
 
     const loadCollection = useCallback(async (collectionName, accessToken) => {
         const [fields, relations, records] = await Promise.all([
@@ -170,7 +215,7 @@ function Admin() {
                     records: relatedRecords
                 };
             } catch (error) {
-                return { field: relation.field, collection: relation.related_collection, fields: [], records: [], error: error.message };
+                return { field: relation.field, collection: relation.related_collection, fields: [], records: [], error: getAdminErrorMessage(error) };
             }
         }));
 
@@ -184,14 +229,14 @@ function Admin() {
         if (!token) return undefined;
         let isMounted = true;
         setIsLoading(true);
-        setPageError('');
+        clearPageError();
 
         loadCollection(activeCollection, token)
             .catch((error) => {
                 if (error.status === 401) {
                     expireSession();
                 } else {
-                    setPageError(error.message);
+                    showPageError(error);
                 }
             })
             .finally(() => {
@@ -199,7 +244,7 @@ function Admin() {
             });
 
         return () => { isMounted = false; };
-    }, [activeCollection, expireSession, loadCollection, token]);
+    }, [activeCollection, clearPageError, expireSession, loadCollection, showPageError, token]);
 
     const handleLogin = async (event) => {
         event.preventDefault();
@@ -211,7 +256,9 @@ function Admin() {
                 body: { email: credentials.email, password: credentials.password }
             });
             window.sessionStorage.setItem(TOKEN_STORAGE_KEY, session.access_token);
+            window.sessionStorage.setItem(EMAIL_STORAGE_KEY, session.user?.email || credentials.email);
             setToken(session.access_token);
+            setUserEmail(session.user?.email || credentials.email);
             setCredentials((current) => ({ ...current, password: '' }));
         } catch (error) {
             setLoginError(error.message || 'Connexion impossible. Vérifiez vos identifiants.');
@@ -233,33 +280,35 @@ function Admin() {
     const handleDelete = async (record) => {
         const label = getAdminRecordLabel(record, activeData.fields, activeCollection);
         if (!window.confirm(`Supprimer « ${label} » ? Cette action est définitive.`)) return;
-        setPageError('');
+        clearPageError();
         try {
             await directusRequest(`/items/${activeCollection}/${encodeURIComponent(record.id)}`, { token, method: 'DELETE' });
             await loadCollection(activeCollection, token);
         } catch (error) {
             if (error.status === 401) expireSession();
-            else setPageError(error.message);
+            else showPageError(error);
         }
     };
 
     const logout = () => {
         window.sessionStorage.removeItem(TOKEN_STORAGE_KEY);
+        window.sessionStorage.removeItem(EMAIL_STORAGE_KEY);
         setToken('');
+        setUserEmail('');
         setCollectionData({});
-        setPageError('');
+        clearPageError();
         setIsLogoutConfirmationOpen(false);
         closeEditor();
     };
 
     const refreshCollection = async () => {
         setIsLoading(true);
-        setPageError('');
+        clearPageError();
         try {
             await loadCollection(activeCollection, token);
         } catch (error) {
             if (error.status === 401) expireSession();
-            else setPageError(error.message);
+            else showPageError(error);
         } finally {
             setIsLoading(false);
         }
@@ -304,7 +353,7 @@ function Admin() {
             <aside className="admin-sidebar">
                 <Link className="admin-sidebar__brand" to="/lieux/capharnaum" aria-label="Retour au site">
                     <span className="admin-sidebar__mark">S</span>
-                    <span>Salade Suprême<small>Administration</small></span>
+                    <span>Salade Suprême<small className="admin-sidebar__user"><BsPersonCircle aria-hidden="true" /><span>{userEmail || credentials.email}</span></small></span>
                 </Link>
                 <p className="admin-sidebar__label">CONTENUS</p>
                 <nav className="admin-collections" aria-label="Collections Directus">
@@ -346,7 +395,25 @@ function Admin() {
                         </button>
                     </div>
 
-                    {pageError && <p className="admin-error admin-error--panel" role="alert">{pageError}</p>}
+                    {pageError && (
+                        <div className="admin-error admin-error--panel" role="alert">
+                            <p>{pageError}</p>
+                            {pageErrorDetails && (
+                                <>
+                                    <button
+                                        type="button"
+                                        className="admin-error__toggle"
+                                        aria-expanded={isPageErrorDetailsOpen}
+                                        onClick={() => setIsPageErrorDetailsOpen((isOpen) => !isOpen)}
+                                    >
+                                        {isPageErrorDetailsOpen ? <BsDash aria-hidden="true" /> : <BsPlus aria-hidden="true" />}
+                                        Détails
+                                    </button>
+                                    {isPageErrorDetailsOpen && <pre className="admin-error__details">{pageErrorDetails}</pre>}
+                                </>
+                            )}
+                        </div>
+                    )}
                     {isLoading ? <p className="admin-status">Chargement des données et du modèle Directus…</p> : null}
                     {!isLoading && !pageError && activeData.fields.length === 0 && <p className="admin-status">Aucun modèle accessible pour cette collection.</p>}
 

@@ -240,6 +240,37 @@
     font: 11px "Gotham-HTF-Book", sans-serif;
 }
 
+.admin-sidebar__brand .admin-sidebar__user {
+    display: flex !important;
+    width: 100%;
+    max-width: 100%;
+    min-width: 0;
+    align-items: center;
+    gap: 5px;
+}
+
+.admin-sidebar__user svg {
+    width: 12px;
+    height: 12px;
+    flex: 0 0 12px;
+    color: #f4b8c4;
+}
+
+.admin-sidebar__brand .admin-sidebar__user > span {
+    overflow: hidden;
+    flex: 1 1 0;
+    min-width: 0;
+    color: #f4b8c4;
+    font-size: 10px;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.admin-sidebar__brand > span:last-child {
+    flex: 1 1 auto;
+    min-width: 0;
+}
+
 .admin-sidebar__mark {
     display: grid;
     width: 38px;
@@ -591,6 +622,48 @@
 
 .admin-error--panel {
     margin-bottom: 20px;
+}
+
+.admin-error--panel > p {
+    margin: 0;
+    color: #8e2438;
+}
+
+.admin-error__toggle {
+    display: inline-flex;
+    align-items: center;
+    gap: 3px;
+    margin-top: 8px;
+    padding: 0;
+    border: 0;
+    background: transparent;
+    color: rgba(142, 36, 56, 0.68);
+    font: inherit;
+    font-weight: 700;
+    cursor: pointer;
+    transition: color 160ms ease;
+}
+
+.admin-error__toggle:hover,
+.admin-error__toggle:focus-visible {
+    color: #bc344b;
+}
+
+.admin-error__toggle:focus-visible {
+    outline: 2px solid #bc344b;
+    outline-offset: 3px;
+}
+
+.admin-error__toggle svg {
+    width: 15px;
+    height: 15px;
+}
+
+.admin-error__details {
+    overflow-wrap: anywhere;
+    margin: 8px 0 0;
+    font: inherit;
+    white-space: pre-wrap;
 }
 
 .admin-empty {
