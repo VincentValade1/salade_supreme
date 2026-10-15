@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useMemo, useState } from 'react';
-import { BsArrowLeft, BsArrowRepeat, BsBoxArrowRight, BsDash, BsPencil, BsPersonCircle, BsPlus, BsSearch, BsTrash } from 'react-icons/bs';
+import { BsArrowLeft, BsArrowRepeat, BsBoxArrowRight, BsDash, BsKey, BsPencil, BsPersonCircle, BsPlus, BsSearch, BsTrash } from 'react-icons/bs';
 import { Link } from 'react-router-dom';
 import AdminRecordEditorModal from '../components/AdminRecordEditorModal';
 import '../styles/Admin.css';
@@ -25,9 +25,12 @@ async function directusRequest(path, { token, method = 'GET', body } = {}) {
     const payload = await response.json().catch(() => ({}));
 
     if (!response.ok) {
-        const message = payload.errors?.map((error) => error.message).join(', ');
+        const directusErrors = payload.errors || [];
+        const message = directusErrors.map((error) => error.message).join(', ');
         const error = new Error(message || `Erreur Directus (${response.status})`);
         error.status = response.status;
+        error.code = directusErrors[0]?.extensions?.code;
+        error.category = directusErrors[0]?.extensions?.category;
         throw error;
     }
 
@@ -44,6 +47,18 @@ function getAdminErrorMessage(error) {
 function getAdminErrorDetails(error) {
     const status = error.status ? `HTTP ${error.status} · ` : '';
     return `${status}${error.message || 'Erreur Directus sans détail.'}`;
+}
+
+async function loadAdminUsers(token) {
+    const users = await directusRequest('/users?fields=id,email,status,role.name&limit=-1&sort=email', { token });
+    return users.filter((user) => ['Administrator', 'Edition'].includes(user.role?.name));
+}
+
+function getUserRoleLabel(user) {
+    const roleName = typeof user.role === 'object' ? user.role?.name : user.role;
+    if (roleName === 'Administrator') return 'Administrateur';
+    if (roleName === 'Edition') return 'Edition';
+    return roleName || 'Rôle inconnu';
 }
 
 function fieldLabel(field) {
@@ -100,6 +115,31 @@ function Admin() {
     const [credentials, setCredentials] = useState({ email: '', password: '' });
     const [token, setToken] = useState(() => window.sessionStorage.getItem(TOKEN_STORAGE_KEY) || '');
     const [userEmail, setUserEmail] = useState(() => window.sessionStorage.getItem(EMAIL_STORAGE_KEY) || '');
+    const [userRoleName, setUserRoleName] = useState('');
+    const [currentUserId, setCurrentUserId] = useState('');
+    const [adminUsers, setAdminUsers] = useState([]);
+    const [isLoadingUsers, setIsLoadingUsers] = useState(false);
+    const [usersError, setUsersError] = useState('');
+    const [usersSuccess, setUsersSuccess] = useState('');
+    const [userListVersion, setUserListVersion] = useState(0);
+    const [selectedUser, setSelectedUser] = useState(null);
+    const [isUpdatingUserAccess, setIsUpdatingUserAccess] = useState(false);
+    const [accessUpdateError, setAccessUpdateError] = useState('');
+    const [isDeleteUserConfirmOpen, setIsDeleteUserConfirmOpen] = useState(false);
+    const [deleteUserEmail, setDeleteUserEmail] = useState('');
+    const [deleteUserError, setDeleteUserError] = useState('');
+    const [isDeletingUser, setIsDeletingUser] = useState(false);
+    const [isCreateUserOpen, setIsCreateUserOpen] = useState(false);
+    const [newUser, setNewUser] = useState({ email: '', password: '' });
+    const [createUserError, setCreateUserError] = useState('');
+    const [createUserSuccess, setCreateUserSuccess] = useState('');
+    const [isCreatingUser, setIsCreatingUser] = useState(false);
+    const [isOwnPasswordModalOpen, setIsOwnPasswordModalOpen] = useState(false);
+    const [ownPassword, setOwnPassword] = useState({ password: '', confirmation: '' });
+    const [ownPasswordError, setOwnPasswordError] = useState('');
+    const [ownPasswordSuccess, setOwnPasswordSuccess] = useState('');
+    const [isChangingOwnPassword, setIsChangingOwnPassword] = useState(false);
+    const [activeAdminSection, setActiveAdminSection] = useState('content');
     const [activeCollection, setActiveCollection] = useState(COLLECTIONS[0].name);
     const [eventSearchQuery, setEventSearchQuery] = useState('');
     const [eventTypeFilter, setEventTypeFilter] = useState('');
@@ -144,13 +184,13 @@ function Admin() {
             if (!query) return true;
 
             return normalizeSearchText([
-            record.title,
-            record.description,
-            record.startDate,
-            record.endDate,
-            record.link,
-            getRelationLabel(record, 'eventType', eventRelations),
-            getRelationLabel(record, 'intervenant', eventRelations)
+                record.title,
+                record.description,
+                record.startDate,
+                record.endDate,
+                record.link,
+                getRelationLabel(record, 'eventType', eventRelations),
+                getRelationLabel(record, 'intervenant', eventRelations)
             ].join(' ')).includes(query);
         });
         return filteredRecords.sort((first, second) => {
@@ -171,6 +211,17 @@ function Admin() {
         window.sessionStorage.removeItem(EMAIL_STORAGE_KEY);
         setToken('');
         setUserEmail('');
+        setUserRoleName('');
+        setCurrentUserId('');
+        setAdminUsers([]);
+        setUsersSuccess('');
+        setIsOwnPasswordModalOpen(false);
+        setOwnPassword({ password: '', confirmation: '' });
+        setOwnPasswordError('');
+        setSelectedUser(null);
+        setIsDeleteUserConfirmOpen(false);
+        setIsCreateUserOpen(false);
+        setNewUser({ email: '', password: '' });
         setCollectionData({});
         clearPageError();
         setLoginError('Votre session a expiré. Veuillez vous reconnecter.');
@@ -182,11 +233,15 @@ function Admin() {
     useEffect(() => {
         if (!token) return undefined;
         let isMounted = true;
-        directusRequest('/users/me?fields=email', { token })
+        directusRequest('/users/me?fields=id,email,role.name', { token })
             .then((user) => {
-                if (isMounted && user?.email) {
-                    setUserEmail(user.email);
-                    window.sessionStorage.setItem(EMAIL_STORAGE_KEY, user.email);
+                if (isMounted) {
+                    setCurrentUserId(user?.id || '');
+                    if (user?.email) {
+                        setUserEmail(user.email);
+                        window.sessionStorage.setItem(EMAIL_STORAGE_KEY, user.email);
+                    }
+                    setUserRoleName(user?.role?.name || '');
                 }
             })
             .catch((error) => {
@@ -195,6 +250,24 @@ function Admin() {
 
         return () => { isMounted = false; };
     }, [expireSession, token]);
+
+    useEffect(() => {
+        if (!token || activeAdminSection !== 'users' || userRoleName !== 'Administrator') return undefined;
+        let isMounted = true;
+        setIsLoadingUsers(true);
+        setUsersError('');
+        setUsersSuccess('');
+        loadAdminUsers(token)
+            .then((users) => { if (isMounted) setAdminUsers(users); })
+            .catch((error) => {
+                if (!isMounted) return;
+                if (error.status === 401) expireSession();
+                else setUsersError(getAdminErrorMessage(error));
+            })
+            .finally(() => { if (isMounted) setIsLoadingUsers(false); });
+
+        return () => { isMounted = false; };
+    }, [activeAdminSection, expireSession, token, userListVersion, userRoleName]);
 
     const loadCollection = useCallback(async (collectionName, accessToken) => {
         const [fields, relations, records] = await Promise.all([
@@ -226,7 +299,7 @@ function Admin() {
     }, []);
 
     useEffect(() => {
-        if (!token) return undefined;
+        if (!token || activeAdminSection === 'users') return undefined;
         let isMounted = true;
         setIsLoading(true);
         clearPageError();
@@ -244,7 +317,7 @@ function Admin() {
             });
 
         return () => { isMounted = false; };
-    }, [activeCollection, clearPageError, expireSession, loadCollection, showPageError, token]);
+    }, [activeAdminSection, activeCollection, clearPageError, expireSession, loadCollection, showPageError, token]);
 
     const handleLogin = async (event) => {
         event.preventDefault();
@@ -259,11 +332,167 @@ function Admin() {
             window.sessionStorage.setItem(EMAIL_STORAGE_KEY, session.user?.email || credentials.email);
             setToken(session.access_token);
             setUserEmail(session.user?.email || credentials.email);
+            setUserRoleName(session.user?.role?.name || '');
+            setCurrentUserId(session.user?.id || '');
             setCredentials((current) => ({ ...current, password: '' }));
         } catch (error) {
             setLoginError(error.message || 'Connexion impossible. Vérifiez vos identifiants.');
         } finally {
             setIsLoggingIn(false);
+        }
+    };
+
+    const handleOwnPasswordChange = async (event) => {
+        event.preventDefault();
+        if (userRoleName !== 'Edition') return;
+        if (ownPassword.password !== ownPassword.confirmation) {
+            setOwnPasswordError('Les deux mots de passe ne correspondent pas.');
+            return;
+        }
+
+        setOwnPasswordError('');
+        setOwnPasswordSuccess('');
+        setIsChangingOwnPassword(true);
+        try {
+            await directusRequest('/users/me', {
+                token,
+                method: 'PATCH',
+                body: { password: ownPassword.password }
+            });
+            setOwnPassword({ password: '', confirmation: '' });
+            setIsOwnPasswordModalOpen(false);
+            setOwnPasswordSuccess('Votre mot de passe a été modifié.');
+        } catch (error) {
+            if (error.status === 401) expireSession();
+            else setOwnPasswordError(error.status === 403
+                ? 'Vous n’avez pas l’autorisation de modifier votre mot de passe.'
+                : error.message || 'La modification du mot de passe a échoué.');
+        } finally {
+            setIsChangingOwnPassword(false);
+        }
+    };
+
+    const closeOwnPasswordModal = () => {
+        setIsOwnPasswordModalOpen(false);
+        setOwnPassword({ password: '', confirmation: '' });
+        setOwnPasswordError('');
+    };
+
+    const handleCreateUser = async (event) => {
+        event.preventDefault();
+        if (userRoleName !== 'Administrator') {
+            setCreateUserError('Seuls les utilisateurs avec le rôle Administrator peuvent créer des comptes.');
+            return;
+        }
+        setCreateUserError('');
+        setCreateUserSuccess('');
+        setIsCreatingUser(true);
+        try {
+            const roleQuery = new URLSearchParams({
+                'filter[name][_eq]': 'Edition',
+                fields: 'id',
+                limit: '1'
+            });
+            const roles = await directusRequest(`/roles?${roleQuery}`, { token });
+            if (!roles?.[0]?.id) throw new Error('Le rôle « Edition » est introuvable dans Directus.');
+
+            const email = newUser.email.trim();
+            await directusRequest('/users', {
+                token,
+                method: 'POST',
+                body: { email, password: newUser.password, role: roles[0].id }
+            });
+            setCreateUserSuccess(`Le compte ${email} a été créé avec le rôle Edition.`);
+            setNewUser({ email: '', password: '' });
+            setUserListVersion((version) => version + 1);
+        } catch (error) {
+            if (error.status === 401) {
+                expireSession();
+            } else if (error.category === 'seats' && error.code === 'LIMIT_EXCEEDED') {
+                setCreateUserError('La limite de comptes Directus est atteinte. Libérez un siège ou augmentez le quota avant de créer un nouvel utilisateur.');
+            } else if (error.status === 403) {
+                setCreateUserError('Vous n’avez pas les autorisations Directus nécessaires pour créer un utilisateur.');
+            } else {
+                setCreateUserError(error.message || 'La création du compte a échoué.');
+            }
+        } finally {
+            setIsCreatingUser(false);
+        }
+    };
+
+    const closeCreateUser = () => {
+        setIsCreateUserOpen(false);
+        setNewUser({ email: '', password: '' });
+        setCreateUserError('');
+        setCreateUserSuccess('');
+    };
+
+    const handleUserAccessToggle = async () => {
+        if (!selectedUser
+            || getUserRoleLabel(selectedUser) !== 'Edition'
+            || selectedUser.id === currentUserId
+            || selectedUser.email.toLowerCase() === userEmail.toLowerCase()
+            || userRoleName !== 'Administrator') return;
+        setAccessUpdateError('');
+        setIsUpdatingUserAccess(true);
+        const status = selectedUser.status === 'active' ? 'suspended' : 'active';
+        try {
+            await directusRequest(`/users/${encodeURIComponent(selectedUser.id)}`, {
+                token,
+                method: 'PATCH',
+                body: { status }
+            });
+            const updatedUser = { ...selectedUser, status };
+            setSelectedUser(updatedUser);
+            setAdminUsers((users) => users.map((user) => user.id === updatedUser.id ? updatedUser : user));
+        } catch (error) {
+            if (error.status === 401) expireSession();
+            else setAccessUpdateError(error.status === 403
+                ? 'Vous n’avez pas l’autorisation de modifier cet accès.'
+                : error.message || 'La modification des droits a échoué.');
+        } finally {
+            setIsUpdatingUserAccess(false);
+        }
+    };
+
+    const closeUserAccess = () => {
+        setSelectedUser(null);
+        setAccessUpdateError('');
+    };
+
+    const closeDeleteUserConfirmation = () => {
+        setIsDeleteUserConfirmOpen(false);
+        setDeleteUserEmail('');
+        setDeleteUserError('');
+    };
+
+    const handleDeleteUser = async (event) => {
+        event.preventDefault();
+        if (!selectedUser
+            || getUserRoleLabel(selectedUser) !== 'Edition'
+            || selectedUser.id === currentUserId
+            || userRoleName !== 'Administrator') return;
+        if (deleteUserEmail.trim().toLowerCase() !== selectedUser.email.toLowerCase()) {
+            setDeleteUserError('L’adresse saisie ne correspond pas à celle de cet utilisateur.');
+            return;
+        }
+
+        setDeleteUserError('');
+        setIsDeletingUser(true);
+        try {
+            await directusRequest(`/users/${encodeURIComponent(selectedUser.id)}`, { token, method: 'DELETE' });
+            setAdminUsers((users) => users.filter((user) => user.id !== selectedUser.id));
+            setUsersSuccess(`Le compte ${selectedUser.email} a été supprimé.`);
+            setUserListVersion((version) => version + 1);
+            setSelectedUser(null);
+            closeDeleteUserConfirmation();
+        } catch (error) {
+            if (error.status === 401) expireSession();
+            else setDeleteUserError(error.status === 403
+                ? 'Vous n’avez pas l’autorisation de supprimer cet utilisateur.'
+                : error.message || 'La suppression du compte a échoué.');
+        } finally {
+            setIsDeletingUser(false);
         }
     };
 
@@ -295,6 +524,13 @@ function Admin() {
         window.sessionStorage.removeItem(EMAIL_STORAGE_KEY);
         setToken('');
         setUserEmail('');
+        setUserRoleName('');
+        setCurrentUserId('');
+        setSelectedUser(null);
+        setIsOwnPasswordModalOpen(false);
+        setOwnPassword({ password: '', confirmation: '' });
+        setIsCreateUserOpen(false);
+        setNewUser({ email: '', password: '' });
         setCollectionData({});
         clearPageError();
         setIsLogoutConfirmationOpen(false);
@@ -347,6 +583,15 @@ function Admin() {
     const summaryFields = displayFields
         .filter((field) => primaryFields.includes(field.field))
         .slice(0, 3);
+    const selectedUserIsAdministrator = selectedUser && getUserRoleLabel(selectedUser) === 'Administrateur';
+    const selectedUserIsCurrent = selectedUser && (
+        selectedUser.id === currentUserId
+        || selectedUser.email.toLowerCase() === userEmail.toLowerCase()
+    );
+    const userGroups = [
+        { name: 'Utilisateurs Edition', users: adminUsers.filter((user) => getUserRoleLabel(user) === 'Edition') },
+        { name: 'Administrateurs', users: adminUsers.filter((user) => getUserRoleLabel(user) === 'Administrateur') }
+    ];
 
     return (
         <main className="admin-app">
@@ -361,13 +606,22 @@ function Admin() {
                         <button
                             type="button"
                             key={collection.name}
-                            className={activeCollection === collection.name ? 'is-active' : ''}
-                            onClick={() => { setActiveCollection(collection.name); setEditor(null); setEventSearchQuery(''); setEventTypeFilter(''); setEventIntervenantFilter(''); }}
+                            className={activeAdminSection === 'content' && activeCollection === collection.name ? 'is-active' : ''}
+                            onClick={() => { setActiveAdminSection('content'); setActiveCollection(collection.name); setEditor(null); setEventSearchQuery(''); setEventTypeFilter(''); setEventIntervenantFilter(''); }}
                         >
                             <span>{collection.label}</span>
                             <span className="admin-collections__count">{collectionData[collection.name]?.records.length ?? '—'}</span>
                         </button>
                     ))}
+                    {['Administrator', 'Edition'].includes(userRoleName) && (
+                        <button
+                            type="button"
+                            className={activeAdminSection === 'users' ? 'is-active' : ''}
+                            onClick={() => { setActiveAdminSection('users'); setEditor(null); clearPageError(); }}
+                        >
+                            <span>Utilisateurs</span>
+                        </button>
+                    )}
                 </nav>
                 <div className="admin-sidebar__bottom">
                     <Link className="admin-sidebar__action" to="/lieux/capharnaum#cours-ateliers" title="Voir le planning" aria-label="Voir le planning">
@@ -376,9 +630,11 @@ function Admin() {
                     <button className="admin-sidebar__action" type="button" onClick={() => setIsLogoutConfirmationOpen(true)} title="Se déconnecter" aria-label="Se déconnecter">
                         <BsBoxArrowRight aria-hidden="true" />
                     </button>
-                    <button className="admin-sidebar__action" type="button" onClick={refreshCollection} title="Actualiser la collection" aria-label="Actualiser la collection">
-                        <BsArrowRepeat aria-hidden="true" />
-                    </button>
+                    {activeAdminSection === 'content' && (
+                        <button className="admin-sidebar__action" type="button" onClick={refreshCollection} title="Actualiser la collection" aria-label="Actualiser la collection">
+                            <BsArrowRepeat aria-hidden="true" />
+                        </button>
+                    )}
                 </div>
             </aside>
 
@@ -386,113 +642,357 @@ function Admin() {
                 <div className="admin-content">
                     <div className="admin-heading">
                         <div>
-                            <p className="admin-eyebrow">COLLECTION · {activeCollection}</p>
-                            <h1>{activeDefinition.label}</h1>
-                            <p>{activeData.records.length} entrée{activeData.records.length !== 1 ? 's' : ''} chargée{activeData.records.length !== 1 ? 's' : ''}</p>
+                            <p className="admin-eyebrow">{activeAdminSection === 'users' ? 'CONTENUS · UTILISATEURS' : `COLLECTION · ${activeCollection}`}</p>
+                            <h1>{activeAdminSection === 'users' ? 'Utilisateurs' : activeDefinition.label}</h1>
+                            <p>{activeAdminSection === 'users'
+                                ? userRoleName === 'Administrator' ? 'Gestion des comptes' : 'Mon compte'
+                                : `${activeData.records.length} entrée${activeData.records.length !== 1 ? 's' : ''} chargée${activeData.records.length !== 1 ? 's' : ''}`}</p>
                         </div>
-                        <button type="button" className="admin-button admin-button--primary" onClick={() => openEditor()}>
-                            <BsPlus aria-hidden="true" /> Ajouter {activeDefinition.singular}
-                        </button>
-                    </div>
-
-                    {pageError && (
-                        <div className="admin-error admin-error--panel" role="alert">
-                            <p>{pageError}</p>
-                            {pageErrorDetails && (
-                                <>
-                                    <button
-                                        type="button"
-                                        className="admin-error__toggle"
-                                        aria-expanded={isPageErrorDetailsOpen}
-                                        onClick={() => setIsPageErrorDetailsOpen((isOpen) => !isOpen)}
-                                    >
-                                        {isPageErrorDetailsOpen ? <BsDash aria-hidden="true" /> : <BsPlus aria-hidden="true" />}
-                                        Détails
-                                    </button>
-                                    {isPageErrorDetailsOpen && <pre className="admin-error__details">{pageErrorDetails}</pre>}
-                                </>
+                        <div className="admin-heading__actions">
+                            {activeAdminSection === 'users' && userRoleName === 'Administrator' && (
+                                <button
+                                    type="button"
+                                    className="admin-button admin-button--quiet"
+                                    onClick={() => {
+                                        setCreateUserError('');
+                                        setCreateUserSuccess('');
+                                        setIsCreateUserOpen(true);
+                                    }}
+                                >
+                                    <BsPlus aria-hidden="true" /> Créer un utilisateur
+                                </button>
+                            )}
+                            {activeAdminSection === 'users' && userRoleName === 'Edition' && (
+                                <button
+                                    type="button"
+                                    className="admin-button admin-button--primary"
+                                    onClick={() => {
+                                        setOwnPasswordError('');
+                                        setOwnPasswordSuccess('');
+                                        setOwnPassword({ password: '', confirmation: '' });
+                                        setIsOwnPasswordModalOpen(true);
+                                    }}
+                                >
+                                    <BsKey aria-hidden="true" /> Modifier mon mot de passe
+                                </button>
+                            )}
+                            {activeAdminSection === 'content' && (
+                                <button type="button" className="admin-button admin-button--primary" onClick={() => openEditor()}>
+                                    <BsPlus aria-hidden="true" /> Ajouter {activeDefinition.singular}
+                                </button>
                             )}
                         </div>
-                    )}
-                    {isLoading ? <p className="admin-status">Chargement des données et du modèle Directus…</p> : null}
-                    {!isLoading && !pageError && activeData.fields.length === 0 && <p className="admin-status">Aucun modèle accessible pour cette collection.</p>}
-
-                    {activeCollection === 'caphEvent' && (
-                        <div className="admin-event-controls">
-                            <label className="admin-event-search">
-                                <BsSearch aria-hidden="true" />
-                                <input
-                                    type="search"
-                                    value={eventSearchQuery}
-                                    onChange={(event) => setEventSearchQuery(event.target.value)}
-                                    placeholder="Rechercher un événement…"
-                                    aria-label="Rechercher un événement"
-                                />
-                            </label>
-                            <label className="admin-event-filter">
-                                <span>Type</span>
-                                <select value={eventTypeFilter} onChange={(event) => setEventTypeFilter(event.target.value)}>
-                                    <option value="">Tous les types</option>
-                                    {eventTypes.map((type) => <option key={type.id} value={type.id}>{getRecordLabel(type, eventRelations.find((relation) => relation.field === 'eventType')?.fields)}</option>)}
-                                </select>
-                            </label>
-                            <label className="admin-event-filter">
-                                <span>Intervenant</span>
-                                <select value={eventIntervenantFilter} onChange={(event) => setEventIntervenantFilter(event.target.value)}>
-                                    <option value="">Tous les intervenants</option>
-                                    {eventIntervenants.map((intervenant) => <option key={intervenant.id} value={intervenant.id}>{getRecordLabel(intervenant, eventRelations.find((relation) => relation.field === 'intervenant')?.fields)}</option>)}
-                                </select>
-                            </label>
-                            <label className="admin-event-past-toggle">
-                                <input
-                                    type="checkbox"
-                                    role="switch"
-                                    checked={showPastEvents}
-                                    onChange={(event) => setShowPastEvents(event.target.checked)}
-                                />
-                                <span>Afficher les événements passés</span>
-                            </label>
-                            <label className="admin-event-filter">
-                                <span>Ordre chronologique</span>
-                                <select value={eventSortDirection} onChange={(event) => setEventSortDirection(event.target.value)}>
-                                    <option value="asc">Du plus ancien au plus récent</option>
-                                    <option value="desc">Du plus récent au plus ancien</option>
-                                </select>
-                            </label>
-                        </div>
-                    )}
-
-                    <div className="admin-record-list" aria-live="polite">
-                        {(activeCollection === 'caphEvent' ? matchingEventRecords : activeData.records).map((record) => (
-                            <article className="admin-record" key={record.id}>
-                                <div className="admin-record__identity">
-                                    {activeCollection !== 'caphEvent' && <span className="admin-record__id">#{record.id}</span>}
-                                    <div>
-                                        <h2>{getAdminRecordLabel(record, activeData.fields, activeCollection)}</h2>
-                                        <p>{activeCollection === 'caphEvent'
-                                            ? [getEventDateLabel(record.startDate), getRelationLabel(record, 'eventType', eventRelations), getRelationLabel(record, 'intervenant', eventRelations), record.description].filter(Boolean).join('  /  ').slice(0, 180)
-                                            : summaryFields.filter((field) => record[field.field] && field.field !== (activeData.fields.find((item) => ['title', 'name', 'label'].includes(item.field))?.field)).map((field) => `${fieldLabel(field)} · ${String(record[field.field]).slice(0, 90)}`).join('  /  ') || activeCollection}</p>
-                                    </div>
-                                </div>
-                                <div className="admin-record__actions">
-                                    <button type="button" className="admin-icon-button" title="Modifier" aria-label={`Modifier ${getAdminRecordLabel(record, activeData.fields, activeCollection)}`} onClick={() => openEditor(record)}><BsPencil aria-hidden="true" /></button>
-                                    <button type="button" className="admin-icon-button admin-icon-button--danger" title="Supprimer" aria-label={`Supprimer ${getAdminRecordLabel(record, activeData.fields, activeCollection)}`} onClick={() => handleDelete(record)}><BsTrash aria-hidden="true" /></button>
-                                </div>
-                            </article>
-                        ))}
                     </div>
-                    {activeCollection === 'caphEvent' && matchingEventRecords.length === 0 && activeData.records.length > 0 && (
-                        <p className="admin-event-search__empty" role="status">
-                            {!showPastEvents && !eventSearchQuery.trim() && !eventTypeFilter && !eventIntervenantFilter
-                                ? 'Aucun événement à venir. Activez « Afficher les événements passés » pour consulter l’historique.'
-                                : 'Aucun événement ne correspond à ces critères.'}
-                        </p>
-                    )}
-                    {!isLoading && !pageError && activeData.records.length === 0 && activeData.fields.length > 0 && (
-                        <div className="admin-empty"><span>0{activeCollection === 'caphEvent' ? '1' : '2'}</span><p>Aucune entrée pour le moment.</p><button type="button" onClick={() => openEditor()}>Créer la première</button></div>
+
+                    {activeAdminSection === 'users' ? (
+                        <>
+                            <div className="admin-users-guidance">
+                                {userRoleName === 'Administrator' ? (
+                                    <p>
+                                        Le rôle Administrateur permet de créer des comptes Edition.
+                                        Ces comptes peuvent modifier les informations du planning, mais pas créer d’autres utilisateurs.
+                                        Pour des raisons de sécurité, utilisez toujours un compte personnel, jamais
+                                        <strong>mediation@saladesupreme.fr</strong>.
+                                    </p>
+                                ) : (
+                                    <p>Votre compte vous permet de modifier les informations du planning.</p>
+                                )}
+                                {userRoleName === 'Administrator' && <p>Cliquez sur un utilisateur pour autoriser ou retirer son accès.</p>}
+                            </div>
+                            {ownPasswordSuccess && userRoleName === 'Edition' && <p className="admin-user-form__success" role="status">{ownPasswordSuccess}</p>}
+                            {userRoleName === 'Administrator' && usersError && <p className="admin-error admin-error--panel" role="alert">{usersError}</p>}
+                            {userRoleName === 'Administrator' && usersSuccess && <p className="admin-user-form__success" role="status">{usersSuccess}</p>}
+                            {userRoleName === 'Administrator' && isLoadingUsers && <p className="admin-status" role="status">Chargement des utilisateurs…</p>}
+                            {userRoleName === 'Administrator' && !isLoadingUsers && !usersError && adminUsers.length === 0 && <p className="admin-status">Aucun utilisateur à afficher.</p>}
+                            {userRoleName === 'Administrator' && !isLoadingUsers && adminUsers.length > 0 && (
+                                <div className="admin-user-list" aria-label="Utilisateurs et rôles">
+                                    <div className="admin-user-list__header" aria-hidden="true">
+                                        <span>Utilisateur</span>
+                                        <span>Rôle</span>
+                                        <span>Accès</span>
+                                    </div>
+                                    {userGroups.map((group) => group.users.length > 0 && (
+                                        <section className="admin-user-group" key={group.name}>
+                                            {group.users.map((user) => (
+                                                <button
+                                                    type="button"
+                                                    className="admin-user-row"
+                                                    key={user.id}
+                                                    onClick={() => { setSelectedUser(user); setAccessUpdateError(''); }}
+                                                    aria-label={`Gérer l’accès de ${user.email}, rôle ${getUserRoleLabel(user)}`}
+                                                >
+                                                    <span className="admin-user-row__email">{user.email}</span>
+                                                    <span className={`admin-user-row__role${getUserRoleLabel(user) === 'Administrateur' ? ' is-administrator' : ' is-edition'}`}>{getUserRoleLabel(user)}</span>
+                                                    <span className={`admin-user-row__status${user.status === 'active' ? ' is-active' : ''}`}>
+                                                        {user.status === 'active' ? 'Accès actif' : 'Accès suspendu'}
+                                                    </span>
+                                                </button>
+                                            ))}
+                                        </section>
+                                    ))}
+                                </div>
+                            )}
+                        </>
+                    ) : (
+                        <>
+                            {pageError && (
+                                <div className="admin-error admin-error--panel" role="alert">
+                                    <p>{pageError}</p>
+                                    {pageErrorDetails && (
+                                        <>
+                                            <button
+                                                type="button"
+                                                className="admin-error__toggle"
+                                                aria-expanded={isPageErrorDetailsOpen}
+                                                onClick={() => setIsPageErrorDetailsOpen((isOpen) => !isOpen)}
+                                            >
+                                                {isPageErrorDetailsOpen ? <BsDash aria-hidden="true" /> : <BsPlus aria-hidden="true" />}
+                                                Détails
+                                            </button>
+                                            {isPageErrorDetailsOpen && <pre className="admin-error__details">{pageErrorDetails}</pre>}
+                                        </>
+                                    )}
+                                </div>
+                            )}
+                            {isLoading ? <p className="admin-status">Chargement des données et du modèle Directus…</p> : null}
+                            {!isLoading && !pageError && activeData.fields.length === 0 && <p className="admin-status">Aucun modèle accessible pour cette collection.</p>}
+
+                            {activeCollection === 'caphEvent' && (
+                                <div className="admin-event-controls">
+                                    <label className="admin-event-search">
+                                        <BsSearch aria-hidden="true" />
+                                        <input
+                                            type="search"
+                                            value={eventSearchQuery}
+                                            onChange={(event) => setEventSearchQuery(event.target.value)}
+                                            placeholder="Rechercher un événement…"
+                                            aria-label="Rechercher un événement"
+                                        />
+                                    </label>
+                                    <label className="admin-event-filter">
+                                        <span>Type</span>
+                                        <select value={eventTypeFilter} onChange={(event) => setEventTypeFilter(event.target.value)}>
+                                            <option value="">Tous les types</option>
+                                            {eventTypes.map((type) => <option key={type.id} value={type.id}>{getRecordLabel(type, eventRelations.find((relation) => relation.field === 'eventType')?.fields)}</option>)}
+                                        </select>
+                                    </label>
+                                    <label className="admin-event-filter">
+                                        <span>Intervenant</span>
+                                        <select value={eventIntervenantFilter} onChange={(event) => setEventIntervenantFilter(event.target.value)}>
+                                            <option value="">Tous les intervenants</option>
+                                            {eventIntervenants.map((intervenant) => <option key={intervenant.id} value={intervenant.id}>{getRecordLabel(intervenant, eventRelations.find((relation) => relation.field === 'intervenant')?.fields)}</option>)}
+                                        </select>
+                                    </label>
+                                    <label className="admin-event-past-toggle">
+                                        <input
+                                            type="checkbox"
+                                            role="switch"
+                                            checked={showPastEvents}
+                                            onChange={(event) => setShowPastEvents(event.target.checked)}
+                                        />
+                                        <span>Afficher les événements passés</span>
+                                    </label>
+                                    <label className="admin-event-filter">
+                                        <span>Ordre chronologique</span>
+                                        <select value={eventSortDirection} onChange={(event) => setEventSortDirection(event.target.value)}>
+                                            <option value="asc">Du plus ancien au plus récent</option>
+                                            <option value="desc">Du plus récent au plus ancien</option>
+                                        </select>
+                                    </label>
+                                </div>
+                            )}
+
+                            <div className="admin-record-list" aria-live="polite">
+                                {(activeCollection === 'caphEvent' ? matchingEventRecords : activeData.records).map((record) => (
+                                    <article className="admin-record" key={record.id}>
+                                        <div className="admin-record__identity">
+                                            {activeCollection !== 'caphEvent' && <span className="admin-record__id">#{record.id}</span>}
+                                            <div>
+                                                <h2>{getAdminRecordLabel(record, activeData.fields, activeCollection)}</h2>
+                                                <p>{activeCollection === 'caphEvent'
+                                                    ? [getEventDateLabel(record.startDate), getRelationLabel(record, 'eventType', eventRelations), getRelationLabel(record, 'intervenant', eventRelations), record.description].filter(Boolean).join('  /  ').slice(0, 180)
+                                                    : summaryFields.filter((field) => record[field.field] && field.field !== (activeData.fields.find((item) => ['title', 'name', 'label'].includes(item.field))?.field)).map((field) => `${fieldLabel(field)} · ${String(record[field.field]).slice(0, 90)}`).join('  /  ') || activeCollection}</p>
+                                            </div>
+                                        </div>
+                                        <div className="admin-record__actions">
+                                            <button type="button" className="admin-icon-button" title="Modifier" aria-label={`Modifier ${getAdminRecordLabel(record, activeData.fields, activeCollection)}`} onClick={() => openEditor(record)}><BsPencil aria-hidden="true" /></button>
+                                            <button type="button" className="admin-icon-button admin-icon-button--danger" title="Supprimer" aria-label={`Supprimer ${getAdminRecordLabel(record, activeData.fields, activeCollection)}`} onClick={() => handleDelete(record)}><BsTrash aria-hidden="true" /></button>
+                                        </div>
+                                    </article>
+                                ))}
+                            </div>
+                            {activeCollection === 'caphEvent' && matchingEventRecords.length === 0 && activeData.records.length > 0 && (
+                                <p className="admin-event-search__empty" role="status">
+                                    {!showPastEvents && !eventSearchQuery.trim() && !eventTypeFilter && !eventIntervenantFilter
+                                        ? 'Aucun événement à venir. Activez « Afficher les événements passés » pour consulter l’historique.'
+                                        : 'Aucun événement ne correspond à ces critères.'}
+                                </p>
+                            )}
+                            {!isLoading && !pageError && activeData.records.length === 0 && activeData.fields.length > 0 && (
+                                <div className="admin-empty"><span>0{activeCollection === 'caphEvent' ? '1' : '2'}</span><p>Aucune entrée pour le moment.</p><button type="button" onClick={() => openEditor()}>Créer la première</button></div>
+                            )}
+                        </>
                     )}
                 </div>
             </section>
+
+            {isOwnPasswordModalOpen && userRoleName === 'Edition' && (
+                <div className="admin-dialog-backdrop" onMouseDown={(event) => { if (event.target === event.currentTarget && !isChangingOwnPassword) closeOwnPasswordModal(); }}>
+                    <section className="admin-dialog admin-dialog--logout admin-dialog--user-create" role="dialog" aria-modal="true" aria-labelledby="admin-own-password-title">
+                        <h2 id="admin-own-password-title">Modifier mon mot de passe</h2>
+                        <p>Compte : <strong>{userEmail}</strong></p>
+                        <form className="admin-user-form" onSubmit={handleOwnPasswordChange}>
+                            <label className="admin-form__field" htmlFor="admin-own-new-password">
+                                <span>Nouveau mot de passe</span>
+                                <input
+                                    id="admin-own-new-password"
+                                    type="password"
+                                    autoComplete="new-password"
+                                    required
+                                    value={ownPassword.password}
+                                    onChange={(event) => setOwnPassword((current) => ({ ...current, password: event.target.value }))}
+                                />
+                            </label>
+                            <label className="admin-form__field" htmlFor="admin-own-new-password-confirmation">
+                                <span>Confirmer le mot de passe</span>
+                                <input
+                                    id="admin-own-new-password-confirmation"
+                                    type="password"
+                                    autoComplete="new-password"
+                                    required
+                                    value={ownPassword.confirmation}
+                                    onChange={(event) => setOwnPassword((current) => ({ ...current, confirmation: event.target.value }))}
+                                />
+                            </label>
+                            {ownPasswordError && <p className="admin-error" role="alert">{ownPasswordError}</p>}
+                            <footer className="admin-dialog__footer">
+                                <button type="button" className="admin-button admin-button--quiet" onClick={closeOwnPasswordModal} disabled={isChangingOwnPassword}>Annuler</button>
+                                <button type="submit" className="admin-button admin-button--primary" disabled={isChangingOwnPassword}>
+                                    {isChangingOwnPassword ? 'Modification…' : 'Enregistrer le mot de passe'}
+                                </button>
+                            </footer>
+                        </form>
+                    </section>
+                </div>
+            )}
+
+            {isCreateUserOpen && (
+                <div className="admin-dialog-backdrop" onMouseDown={(event) => { if (event.target === event.currentTarget && !isCreatingUser) closeCreateUser(); }}>
+                    <section className="admin-dialog admin-dialog--logout admin-dialog--user-create" role="dialog" aria-modal="true" aria-labelledby="admin-create-user-title">
+                        <h2 id="admin-create-user-title">Créer un utilisateur</h2>
+                        <p className="admin-user-form__note">Le compte sera associé au rôle « Edition ».</p>
+                        <form className="admin-user-form" onSubmit={handleCreateUser}>
+                            <label className="admin-form__field" htmlFor="admin-new-user-email">
+                                <span>Adresse e-mail</span>
+                                <input
+                                    id="admin-new-user-email"
+                                    type="email"
+                                    autoComplete="email"
+                                    required
+                                    value={newUser.email}
+                                    onChange={(event) => setNewUser((current) => ({ ...current, email: event.target.value }))}
+                                />
+                            </label>
+                            <label className="admin-form__field" htmlFor="admin-new-user-password">
+                                <span>Mot de passe</span>
+                                <input
+                                    id="admin-new-user-password"
+                                    type="password"
+                                    autoComplete="new-password"
+                                    required
+                                    value={newUser.password}
+                                    onChange={(event) => setNewUser((current) => ({ ...current, password: event.target.value }))}
+                                />
+                            </label>
+                            {createUserError && <p className="admin-error" role="alert">{createUserError}</p>}
+                            {createUserSuccess && <p className="admin-user-form__success" role="status">{createUserSuccess}</p>}
+                            <footer className="admin-dialog__footer">
+                                <button type="button" className="admin-button admin-button--quiet" onClick={closeCreateUser} disabled={isCreatingUser}>Annuler</button>
+                                <button type="submit" className="admin-button admin-button--primary" disabled={isCreatingUser}>
+                                    {isCreatingUser ? 'Création…' : 'Créer le compte'}
+                                </button>
+                            </footer>
+                        </form>
+                    </section>
+                </div>
+            )}
+
+            {selectedUser && (
+                <div className="admin-dialog-backdrop" onMouseDown={(event) => { if (event.target === event.currentTarget && !isUpdatingUserAccess) closeUserAccess(); }}>
+                    <section className="admin-dialog admin-dialog--logout admin-dialog--user-create" role="dialog" aria-modal="true" aria-labelledby="admin-user-access-title">
+                        <h2 id="admin-user-access-title">Accès utilisateur</h2>
+                        <p>{selectedUser.email}</p>
+                        <p className="admin-user-access__role">Rôle : {getUserRoleLabel(selectedUser)}</p>
+                        {selectedUserIsAdministrator ? (
+                            <p className="admin-user-access__note">Les accès des comptes Administrateur ne peuvent pas être retirés.</p>
+                        ) : selectedUserIsCurrent ? (
+                            <p className="admin-user-access__note">Vous ne pouvez pas retirer l’accès du compte utilisé actuellement.</p>
+                        ) : (
+                            <label className="admin-user-access-toggle">
+                                <span>Accès autorisé</span>
+                                <input
+                                    type="checkbox"
+                                    role="switch"
+                                    checked={selectedUser.status === 'active'}
+                                    disabled={isUpdatingUserAccess}
+                                    onChange={handleUserAccessToggle}
+                                />
+                            </label>
+                        )}
+                        {accessUpdateError && <p className="admin-error" role="alert">{accessUpdateError}</p>}
+                        <footer className="admin-dialog__footer">
+                            {!selectedUserIsAdministrator && !selectedUserIsCurrent && (
+                                <button
+                                    type="button"
+                                    className="admin-button admin-button--quiet admin-user-access__delete"
+                                    onClick={() => {
+                                        setDeleteUserEmail('');
+                                        setDeleteUserError('');
+                                        setIsDeleteUserConfirmOpen(true);
+                                    }}
+                                    disabled={isUpdatingUserAccess}
+                                >
+                                    Supprimer l’utilisateur
+                                </button>
+                            )}
+                            <button type="button" className="admin-button admin-button--quiet" onClick={closeUserAccess} disabled={isUpdatingUserAccess}>Fermer</button>
+                        </footer>
+                    </section>
+                </div>
+            )}
+
+            {isDeleteUserConfirmOpen && selectedUser && (
+                <div className="admin-dialog-backdrop" onMouseDown={(event) => { if (event.target === event.currentTarget && !isDeletingUser) closeDeleteUserConfirmation(); }}>
+                    <section className="admin-dialog admin-dialog--logout admin-dialog--user-create" role="dialog" aria-modal="true" aria-labelledby="admin-delete-user-title">
+                        <h2 id="admin-delete-user-title">Confirmer la suppression</h2>
+                        <p>Cette action est définitive. Saisissez l’adresse e-mail de <strong>{selectedUser.email}</strong> pour confirmer.</p>
+                        <form className="admin-user-form" onSubmit={handleDeleteUser}>
+                            <label className="admin-form__field" htmlFor="admin-delete-user-email">
+                                <span>Adresse e-mail à confirmer</span>
+                                <input
+                                    id="admin-delete-user-email"
+                                    type="email"
+                                    autoComplete="off"
+                                    required
+                                    value={deleteUserEmail}
+                                    onChange={(event) => setDeleteUserEmail(event.target.value)}
+                                />
+                            </label>
+                            {deleteUserError && <p className="admin-error" role="alert">{deleteUserError}</p>}
+                            <footer className="admin-dialog__footer">
+                                <button type="button" className="admin-button admin-button--quiet" onClick={closeDeleteUserConfirmation} disabled={isDeletingUser}>Annuler</button>
+                                <button
+                                    type="submit"
+                                    className="admin-button admin-button--primary admin-user-delete-button"
+                                    disabled={isDeletingUser || deleteUserEmail.trim().toLowerCase() !== selectedUser.email.toLowerCase()}
+                                >
+                                    {isDeletingUser ? 'Suppression…' : 'Supprimer définitivement'}
+                                </button>
+                            </footer>
+                        </form>
+                    </section>
+                </div>
+            )}
 
             {isEditorOpen ? (
                 <AdminRecordEditorModal
